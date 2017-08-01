@@ -3,12 +3,14 @@ apply plugin: 'me.tatarka.retrolambda'
 
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
     defaultConfig {
         applicationId "olog.dev.leeto"
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -21,14 +23,11 @@ android {
         }
 
         debug {
-            minifyEnabled false
+            minifyEnabled true
+            useProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //            debuggable false
         }
-    }
-
-    dexOptions {
-        preDexLibraries true
-        maxProcessCount 8
     }
 
     compileOptions {
@@ -40,17 +39,6 @@ android {
     defaultConfig.vectorDrawables.useSupportLibrary = true
 }
 
-ext {
-    support = '26.0.0-beta1'
-    microArchitecture = '1.0.0-alpha3'
-    constraintLayout = '1.0.2'
-
-    rxJavaVersion = '2.1.0'
-    rxAndroidVersion = '2.0.1'
-
-    playServices = '11.0.1'
-}
-
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -58,26 +46,38 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
+    // test
     testImplementation 'junit:junit:4.12'
 
-    implementation "com.android.support:appcompat-v7:$support"
-    implementation "com.android.support:design:$support"
-    implementation "com.android.support.constraint:constraint-layout:$constraintLayout"
+    // support
+    implementation "com.android.support:appcompat-v7:$rootProject.support_library"
+    implementation "com.android.support:design:$rootProject.support_library"
+    implementation "com.android.support.constraint:constraint-layout:$rootProject.constraint_layout"
 
-    implementation "android.arch.lifecycle:runtime:$microArchitecture"
-    implementation "android.arch.lifecycle:extensions:$microArchitecture"
-    annotationProcessor "android.arch.lifecycle:compiler:$microArchitecture"
+    // lifecycle
+    implementation "android.arch.lifecycle:runtime:$rootProject.micro_architecture"
+    implementation "android.arch.lifecycle:extensions:$rootProject.micro_architecture"
+    annotationProcessor "android.arch.lifecycle:compiler:$rootProject.micro_architecture"
 
-    implementation "com.google.android.gms:play-services-maps:$playServices"
-    implementation "com.google.android.gms:play-services-location:$playServices"
+    // maps
+    implementation "com.google.android.gms:play-services-maps:$rootProject.play_services"
+    implementation "com.google.android.gms:play-services-location:$rootProject.play_services"
 
+    // json parser
+    implementation "com.google.code.gson:gson:$rootProject.gson"
 
-    implementation 'com.google.code.gson:gson:2.8.0'
+    // reactive stream
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
 
-    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+    // dependecy injection
+    implementation "com.google.dagger:dagger:$rootProject.dagger"
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger"
 
-//    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    implementation "com.jakewharton.timber:timber:$rootProject.timber"
 
+    // view binding
+    implementation "com.jakewharton:butterknife:$rootProject.butterknife"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterknife"
 
 }

@@ -1,48 +1,53 @@
 package olog.dev.leeto.activity_main;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
-import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import olog.dev.leeto.BR;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import olog.dev.leeto.R;
 import olog.dev.leeto.activity_detail.DetailActivity;
-import olog.dev.leeto.databinding.ItemJourneyBinding;
+import olog.dev.leeto.dagger.annotation.PerActivity;
 import olog.dev.leeto.model.pojo.Journey;
-import olog.dev.leeto.utility.recycler_view.JourneyAdapterTouchHelper;
+import olog.dev.leeto.model.pojo.Stop;
+import olog.dev.leeto.utility.DateUtils;
 
+@PerActivity
 public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.Holder>
-    implements JourneyAdapterTouchHelper {
+    /*implements JourneyAdapterTouchHelper*/ {
 
-    private List<Journey> dataSet = new ArrayList<>();
+    private List<Journey> dataSet;
     private Pair<Integer, Journey> lastDeleted = null;
 
-    private Callback callback;
+//    private Callback callback;
+//    public void setCallback(Callback callback){
+//        this.callback = callback;
+//    }
 
-    public void setCallback(Callback callback){
-        this.callback = callback;
+    private LayoutInflater inflater;
+
+    public JourneyAdapter(LayoutInflater inflater){
+        this.inflater = inflater;
+        this.dataSet = new ArrayList<>();
     }
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new Holder(ItemJourneyBinding.inflate(
-                LayoutInflater.from(parent.getContext()), parent, false));
+        return new Holder(inflater.inflate(viewType, parent, false));
     }
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        holder.bind(dataSet.get(position), position);
+        holder.bind(position);
     }
 
     @Override
@@ -51,43 +56,57 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.Holder>
     }
 
 
-    public void updateDataSet(List<Journey> dataSet){
-        if(dataSet == null) return;
-
+    public void updateDataSet(@NonNull List<Journey> dataSet){
         this.dataSet = dataSet;
         notifyDataSetChanged();
     }
 
     @Override
-    public void onItemDismiss(int position) {
-        lastDeleted = new Pair<>(position, dataSet.get(position));
-        dataSet.remove(dataSet.get(position));
-        notifyItemRemoved(position);
-        callback.showDeleteConfirmSnackBar();
+    public int getItemViewType(int position) {
+        return R.layout.item_journey;
     }
 
-    public void restoreLastDismissedItem(){
-        if(lastDeleted == null) return;
-        dataSet.add(lastDeleted.first, lastDeleted.second);
-        notifyItemInserted(lastDeleted.first);
-        lastDeleted = null;
-    }
+    //    @Override
+//    public void onItemDismiss(int position) {
+//        lastDeleted = new Pair<>(position, dataSet.get(position));
+//        dataSet.remove(dataSet.get(position));
+//        notifyItemRemoved(position);
+//        callback.showDeleteConfirmSnackBar();
+//    }
+
+//    public void restoreLastDismissedItem(){
+//        if(lastDeleted == null) return;
+//        dataSet.add(lastDeleted.first, lastDeleted.second);
+//        notifyItemInserted(lastDeleted.first);
+//        lastDeleted = null;
+//    }
 
     class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private ItemJourneyBinding binding;
+        @BindView(R.id.scrim) View scrim;
+        @BindView(R.id.journeyName) TextView journeyName;
+        @BindView(R.id.journeyDate) TextView journeyDate;
+        @BindView(R.id.location) TextView location;
+        @BindView(R.id.journeyDescription) TextView journeyDescription;
 
-        public Holder(ItemJourneyBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-            binding.getRoot().setOnClickListener(this);
+        public Holder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+//            view.setOnClickListener(this);
         }
 
-        private void bind(Journey journey, int position){
-            binding.scrim.setTransitionName(DetailActivity.SHARED_ROOT + position);
-            binding.journeyName.setTransitionName(DetailActivity.SHARED_JOURNEY_NAME + position);
-            binding.setVariable(BR.journey, journey);
-            binding.executePendingBindings();
+        private void bind(int position){
+            Journey journey = dataSet.get(position);
+            Stop firstStop = journey.getFirstStop();
+            String date = DateUtils.toString(firstStop.getDate());
+
+            journeyName.setText(journey.getName());
+            journeyDate.setText(date);
+            location.setText(firstStop.getLocation().getName());
+            journeyDescription.setText(journey.getShortDescription());
+
+            scrim.setTransitionName(DetailActivity.SHARED_ROOT + position);
+            journeyName.setTransitionName(DetailActivity.SHARED_JOURNEY_NAME + position);
         }
 
         @Override
@@ -104,46 +123,46 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.Holder>
 
             List<View> transitionViews = new ArrayList<>();
 
-            transitionViews.add(binding.scrim);
-            transitionViews.add(binding.journeyName);
-            transitionViews.add(activity.binding.addJourney);
-            transitionViews.add(activity.binding.root);
-            transitionViews.add(activity.binding.scrim);
-            transitionViews.add(activity.binding.toolbar);
-            transitionViews.add(activity.binding.back);
+//            transitionViews.add(binding.scrim);
+//            transitionViews.add(binding.journeyName);
+//            transitionViews.add(activity.binding.addJourney);
+//            transitionViews.add(activity.binding.root);
+//            transitionViews.add(activity.binding.scrim);
+//            transitionViews.add(activity.binding.toolbar);
+//            transitionViews.add(activity.binding.back);
 
-            LinearLayoutManager layoutManager = activity.getLayoutManager();
+//            LinearLayoutManager layoutManager = activity.getLayoutManager();
 
-            for(int i=layoutManager.findFirstVisibleItemPosition(); i<=layoutManager.findLastVisibleItemPosition();i++){
-
-                View viewHolder = layoutManager.findViewByPosition(i);
-
-                if(i < currentPosition){
-                    viewHolder.setTransitionName("above" + above++);
-                    transitionViews.add(viewHolder);
-                } else if(i > currentPosition){
-                    viewHolder.setTransitionName("bottom" + bottom++);
-                    transitionViews.add(viewHolder);
-                }
-            }
-
-            // try to add navigation bar to hero transition
-            if(decorView != null){
-                View navigationBar = decorView.findViewById(android.R.id.navigationBarBackground);
-                if(navigationBar != null){
-                    navigationBar.setTransitionName(Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME);
-                    transitionViews.add(navigationBar);
-                }
-            }
-
-            Intent intent = new Intent(ctx, DetailActivity.class);
-            intent.putExtra(DetailActivity.BUNDLE_JOURNEY, dataSet.get(currentPosition));
-            intent.putExtra(DetailActivity.BUNDLE_POSITION, currentPosition);
-
-            @SuppressWarnings("unchecked")
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity)ctx,
-                    getPairs(transitionViews));
-            ctx.startActivity(intent, options.toBundle());
+//            for(int i=layoutManager.findFirstVisibleItemPosition(); i<=layoutManager.findLastVisibleItemPosition();i++){
+//
+//                View viewHolder = layoutManager.findViewByPosition(i);
+//
+//                if(i < currentPosition){
+//                    viewHolder.setTransitionName("above" + above++);
+//                    transitionViews.add(viewHolder);
+//                } else if(i > currentPosition){
+//                    viewHolder.setTransitionName("bottom" + bottom++);
+//                    transitionViews.add(viewHolder);
+//                }
+//            }
+//
+//            // try to add navigation bar to hero transition
+//            if(decorView != null){
+//                View navigationBar = decorView.findViewById(android.R.id.navigationBarBackground);
+//                if(navigationBar != null){
+//                    navigationBar.setTransitionName(Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME);
+//                    transitionViews.add(navigationBar);
+//                }
+//            }
+//
+//            Intent intent = new Intent(ctx, DetailActivity.class);
+//            intent.putExtra(DetailActivity.BUNDLE_JOURNEY, dataSet.get(currentPosition));
+//            intent.putExtra(DetailActivity.BUNDLE_POSITION, currentPosition);
+//
+//            @SuppressWarnings("unchecked")
+//            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity)ctx,
+//                    getPairs(transitionViews));
+//            ctx.startActivity(intent, options.toBundle());
 
         }
 

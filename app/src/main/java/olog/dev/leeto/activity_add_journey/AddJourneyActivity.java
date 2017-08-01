@@ -1,10 +1,15 @@
 package olog.dev.leeto.activity_add_journey;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Toast;
@@ -19,7 +24,6 @@ import olog.dev.leeto.base.AbsMorphActivity;
 import olog.dev.leeto.databinding.ActivityAddJourneyBinding;
 import olog.dev.leeto.model.pojo.Journey;
 import olog.dev.leeto.model.pojo.Location;
-import olog.dev.leeto.model.repository.JourneyRepository;
 
 public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyContract.View{
 
@@ -29,6 +33,14 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
     private int year = 1970;
     private int month = 1;
     private int day = 1;
+
+    public static void startActivity(@NonNull FloatingActionButton view){
+        Context context = view.getContext();
+        Intent intent = new Intent(context, AddJourneyActivity.class);
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
+                (Activity) context, view, view.getTransitionName());
+        context.startActivity(intent, options.toBundle());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +100,7 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
             Journey journey = binding.getJourney();
             journey.addStop(calendar.getTime(), binding.getLocation());
 
-            JourneyRepository.getInstance(this).addJourney(this, journey);
+//            Repository.getInstance(this).addJourney(this, journey); TODO
 
             save(null);
         });

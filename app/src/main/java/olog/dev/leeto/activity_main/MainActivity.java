@@ -1,78 +1,86 @@
 package olog.dev.leeto.activity_main;
 
-import android.app.Activity;
-import android.arch.lifecycle.LifecycleRegistry;
-import android.arch.lifecycle.LifecycleRegistryOwner;
-import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import olog.dev.leeto.R;
-import olog.dev.leeto.databinding.ActivityMainBinding;
+import olog.dev.leeto.base.BaseActivity;
+import olog.dev.leeto.custom_view.ParallaxRecyclerView;
+import olog.dev.leeto.dagger.component.DaggerMainActivityComponent;
+import olog.dev.leeto.dagger.component.MainActivityComponent;
+import olog.dev.leeto.dagger.module.MainActivityModule;
 import olog.dev.leeto.model.pojo.Journey;
 
-public class MainActivity extends AppCompatActivity
-        implements MainActivityContract.View, LifecycleRegistryOwner, JourneyAdapter.Callback {
+public class MainActivity extends BaseActivity implements MainContract.View, JourneyAdapter.Callback {
 
-    LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
+    private MainActivityComponent component;
 
-    public ActivityMainBinding binding;
-    private MainActivityContract.Presenter presenter;
+    @Inject
+    MainContract.Presenter presenter;
 
+    @Inject
+    JourneyAdapter adapter;
 
-    public static int RC_ADD_JOURNEY = 100;
+    @BindView(R.id.root) View root;
+    @BindView(R.id.list) ParallaxRecyclerView list;
+    @BindView(R.id.scrim) View scrim;
+    @BindView(R.id.toolbar) View toolbar;
+    @BindView(R.id.addJourney) FloatingActionButton addJourney;
+
+    @OnClick(R.id.addJourney)
+    public void addJourney(View view){
+        presenter.onFabClick((FloatingActionButton) view, list);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // init dagger before onCreate
+
+        component = DaggerMainActivityComponent.builder()
+                .appComponent(getAppComponent())
+                .mainActivityModule(new MainActivityModule(this))
+                .build();
+
+        component.inject(this);
+
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
-        binding.list.attachLifecycle(getLifecycle());
-        binding.list.setViews(binding.scrim, binding.toolbar, binding.addJourney);
-        binding.list.getAdapter().setCallback(this);
+        ButterKnife.bind(this);
 
-        presenter = new MainActivityPresenter(this,this, getLifecycle());
-        binding.setPresenter(presenter);
+        list.setViews(scrim, toolbar, addJourney);
+//        adapter.setCallback(this);
     }
 
-
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == RC_ADD_JOURNEY && resultCode == Activity.RESULT_OK){
-            // reload list from repository
-            presenter.loadJourneysList(this);
-        }
+    public void attachLifecycleOwner(@NonNull MainContract.Presenter presenter) {
+        getLifecycle().addObserver(presenter);
+        getLifecycle().addObserver(list);
     }
 
     @Override
     public void updateJourneysList(List<Journey> data) {
-        getAdapter().updateDataSet(data);
-    }
-
-    public LinearLayoutManager getLayoutManager(){
-        return binding.list.getLayoutManager();
-    }
-
-    public JourneyAdapter getAdapter(){
-        return binding.list.getAdapter();
-    }
-
-    @Override
-    public LifecycleRegistry getLifecycle() {
-        return lifecycleRegistry;
+        adapter.updateDataSet(data);
     }
 
     @Override
     public void showDeleteConfirmSnackBar() {
-        Snackbar.make(binding.root, "Journey deleted", Snackbar.LENGTH_LONG)
-                .setAction("Undo", view -> binding.list.getAdapter().restoreLastDismissedItem())
-                .show();
+//        Snackbar.make(root, "Journey deleted", Snackbar.LENGTH_LONG)
+//                .setAction("Undo", view -> list.getAdapter().restoreLastDismissedItem())
+//                .show();
+    }
+
+    public MainActivityComponent getComponent() {
+        return component;
     }
 }

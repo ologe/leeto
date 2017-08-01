@@ -1,7 +1,6 @@
 package olog.dev.leeto.activity_detail;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.content.Intent;
@@ -19,7 +18,7 @@ import olog.dev.leeto.activity_add_stop.AddStopActivity;
 import olog.dev.leeto.databinding.ActivityDetailBinding;
 import olog.dev.leeto.model.pojo.Journey;
 import olog.dev.leeto.model.pojo.Stop;
-import olog.dev.leeto.model.repository.JourneyRepository;
+import olog.dev.leeto.model.repository.Repository;
 
 
 public class DetailActivity extends AppCompatActivity implements LifecycleRegistryOwner {
@@ -121,8 +120,8 @@ public class DetailActivity extends AppCompatActivity implements LifecycleRegist
             Stop stop = data.getParcelableExtra(EXTRA_STOP);
 
             mapController.addMarker(stop);
-            JourneyRepository.getInstance(this)
-                    .addStopToJourney(this, journey, stop);
+//            Repository.getInstance(this)
+//                    .addStopToJourney(this, journey, stop); TODO
 
             journey.addStop(stop);
             binding.viewPager.getAdapter().notifyDataSetChanged();

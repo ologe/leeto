@@ -7,8 +7,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-alpha4'
-        classpath 'me.tatarka:gradle-retrolambda:3.3.0-beta4'
+        classpath 'com.android.tools.build:gradle:3.0.0-alpha9'
+        classpath 'me.tatarka:gradle-retrolambda:3.7.0'
 
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -25,4 +25,25 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    // Sdk and tools
+    minSdkVersion = 21
+    targetSdkVersion = 26
+    compileSdkVersion = 26
+    buildToolsVersion = '26.0.1'
+
+    // App dependencies
+    support_library = '26.0.0'
+    play_services = '11.0.2'
+    micro_architecture = '1.0.0-alpha7'
+    constraint_layout = '1.0.2'
+    rx_java = '2.1.2'
+    rx_android = '2.0.1'
+    dagger = '2.11'
+    gson = '2.8.0'
+    timber = '4.5.1'
+
+    butterknife = '8.7.0'
 }
