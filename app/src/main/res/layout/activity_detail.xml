@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="presenter"
+            type="olog.dev.leeto.activity_detail.DetailActivityContract.Presenter"/>
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/scrim_dark"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_dark"
+        android:transitionName="scrim_dark">
+
+        <!--above 1-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:translationY="-20dp"
+            android:transitionName="above1"
+            android:background="@android:color/white"
+            android:elevation="6dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="24dp" />
+
+        <!--above 2-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:translationY="-40dp"
+            android:transitionName="above2"
+            android:background="@android:color/white"
+            android:elevation="6dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="24dp" />
+
+        <!--above 3-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:translationY="-60dp"
+            android:transitionName="above3"
+            android:background="@android:color/white"
+            android:elevation="6dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="24dp"/>
+
+        <!--bottom 1-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:translationY="20dp"
+            android:transitionName="bottom1"
+            android:layout_gravity="bottom"
+            android:background="@android:color/white"
+            android:elevation="6dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="24dp" />
+
+        <!--bottom 2-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:translationY="40dp"
+            android:transitionName="bottom2"
+            android:layout_gravity="bottom"
+            android:background="@android:color/white"
+            android:elevation="6dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="24dp" />
+
+        <!--bottom 3-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:translationY="60dp"
+            android:transitionName="bottom3"
+            android:layout_gravity="bottom"
+            android:background="@android:color/white"
+            android:elevation="6dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="24dp"/>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/back"
+            android:alpha=".85"
+            android:layout_marginTop="@dimen/statusBar"
+            android:tint="@android:color/white"
+            app:srcCompat="@drawable/vd_back"
+            android:translationY="3dp"
+            android:layout_width="48dp"
+            android:padding="12dp"
+            android:layout_height="48dp"
+            android:transitionName="back"
+            android:onClick="@{() -> presenter.closeActivity(context)}"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_marginTop="@dimen/statusBar"
+            android:alpha=".85"
+            android:layout_marginStart="64dp"
+            android:gravity="center_vertical"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:text="@string/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:fontFamily="@font/lobster"
+            android:transitionName="@string/app_name"/>
+
+        <View
+            android:id="@+id/scrim_accent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_accent"
+            android:layout_marginTop="125dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="36dp"
+            android:transitionName="scrim_accent"/>
+
+        <!--margint top = margin 90 (main activity) - 16(first item top margin)-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="85dp"
+            android:elevation="6dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="80dp">
+
+            <View
+                android:id="@+id/root"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@android:color/white"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/journeyName"
+                tools:text="Viaggio1"
+                android:maxLines="1"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:ellipsize="end"
+                android:textColor="@color/dark_grey"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"/>
+
+            <olog.dev.leeto.custom_view.RoundedMapView
+                android:id="@+id/map"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                tools:background="@color/dark_grey"
+                android:layout_margin="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/journeyName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintDimensionRatio="1.7"/>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                app:layout_constraintTop_toBottomOf="@+id/inkIndicator"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp" />
+
+            <olog.dev.leeto.custom_view.InkPageIndicator
+                android:id="@+id/inkIndicator"
+                app:layout_constraintTop_toBottomOf="@id/map"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:dotDiameter="5dp"
+                app:dotGap="9dp"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/addStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            app:fabSize="normal"
+            app:backgroundTint="@color/fab_background_color"
+            app:srcCompat="@drawable/vd_add"
+            android:tint="@android:color/white"
+            android:layout_margin="16dp"
+            android:transitionName="@string/transition_fab"
+            android:onClick="@{(v) -> presenter.startAddLocationActivity(v)}"/>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</layout>
+
+

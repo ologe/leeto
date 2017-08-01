@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/root"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@android:color/white"/>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/back"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            app:srcCompat="@drawable/vd_back"
+            android:tint="@color/dark_grey"
+            android:padding="12dp"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/journeyName"
+            tools:text="Viaggio1"
+            android:maxLines="1"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:ellipsize="end"
+            app:layout_constraintTop_toBottomOf="@+id/back"
+            app:layout_constraintStart_toEndOf="@id/back"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <olog.dev.leeto.custom_view.RoundedMapView
+            android:id="@+id/map"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            tools:background="@color/dark_grey"
+            android:layout_margin="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/journeyName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="1.7"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            app:layout_constraintTop_toBottomOf="@+id/inkIndicator"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:clipToPadding="false"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:paddingBottom="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp" />
+
+        <olog.dev.leeto.custom_view.InkPageIndicator
+            android:id="@+id/inkIndicator"
+            app:layout_constraintTop_toBottomOf="@id/map"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/addStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:fabSize="normal"
+            app:backgroundTint="@color/fab_background_color"
+            app:srcCompat="@drawable/vd_add"
+            android:tint="@android:color/white"
+            android:layout_margin="16dp"
+            android:transitionName="fab"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

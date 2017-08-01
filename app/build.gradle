@@ -1,0 +1,83 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.0"
+    defaultConfig {
+        applicationId "olog.dev.leeto"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+//            debuggable false
+        }
+    }
+
+    dexOptions {
+        preDexLibraries true
+        maxProcessCount 8
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dataBinding.enabled = true
+    defaultConfig.vectorDrawables.useSupportLibrary = true
+}
+
+ext {
+    support = '26.0.0-beta1'
+    microArchitecture = '1.0.0-alpha3'
+    constraintLayout = '1.0.2'
+
+    rxJavaVersion = '2.1.0'
+    rxAndroidVersion = '2.0.1'
+
+    playServices = '11.0.1'
+}
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    testImplementation 'junit:junit:4.12'
+
+    implementation "com.android.support:appcompat-v7:$support"
+    implementation "com.android.support:design:$support"
+    implementation "com.android.support.constraint:constraint-layout:$constraintLayout"
+
+    implementation "android.arch.lifecycle:runtime:$microArchitecture"
+    implementation "android.arch.lifecycle:extensions:$microArchitecture"
+    annotationProcessor "android.arch.lifecycle:compiler:$microArchitecture"
+
+    implementation "com.google.android.gms:play-services-maps:$playServices"
+    implementation "com.google.android.gms:play-services-location:$playServices"
+
+
+    implementation 'com.google.code.gson:gson:2.8.0'
+
+    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+
+//    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+
+
+}

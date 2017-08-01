@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Leeto</string>
+
+    <string name="transition_fab">transition_dialog</string>
+
+    <!--dialog-->
+    <string name="add_dialog_short_description">Short description</string>
+    <string name="add_dialog_name">Name</string>
+    <string name="add_dialog_address">Address</string>
+    <string name="add_dialog_lat">Lat</string>
+    <string name="add_dialog_long">Long</string>
+    <string name="add_dialog_date">Date</string>
+    <string name="add_dialog_journey">Journey</string>
+    <string name="add_dialog_location">Location</string>
+    <string name="add_dialog_save">Save</string>
+    <string name="add_dialog_discard">Discard</string>
+
+    <!--main activity-->
+    <string name="main_activity_empty_state">Nothing there!</string>
+
+
+    <!--location service-->
+    <string name="enable_location">Please enable location</string>
+    <string name="location_not_found">Location not found</string>
+    <string name="location_something_went_wrong">Something went wrong</string>
+
+</resources>

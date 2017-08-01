@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="location"
+            type="olog.dev.leeto.model.pojo.Location"/>
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/locationDate"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                tools:text="15-09-1994"
+                android:textColor="@color/grey600"
+                android:textSize="12sp"
+                android:drawableStart="@drawable/vd_calendar"
+                android:drawablePadding="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/locationName"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="8dp"
+                android:textSize="12sp"
+                android:textColor="@color/grey600"
+                android:gravity="start"
+                android:drawableStart="@drawable/vd_location"
+                android:drawablePadding="2dp"
+                tools:text="Viaggio 1, Address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/descriptionHeader"
+            android:text="Description"
+            android:alpha=".7"
+            android:textColor="@color/dark_grey"
+            android:textSize="14sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/description"
+            android:textSize="16sp"
+            tools:text="@tools:sample/lorem"
+            android:text="@{location.shortDescription}"
+            android:textColor="@color/dark_grey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
+            android:maxLines="3"/>
+
+    </LinearLayout>
+
+
+</layout>
