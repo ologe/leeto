@@ -76,6 +76,7 @@ public class AppPermissionHelper implements PermissionHelperInterface{
     @Override
     public void updatePermission(@NonNull String permission, boolean value) {
         Timber.d("updatePermission: " + permission + " to " + value);
+        subjects.get(permission).onNext(value);
     }
 
     @Override

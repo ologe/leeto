@@ -116,7 +116,7 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
             calendar.set(year, month, day);
 
             Journey journey = new Journey(
-                    journeyName.getText().toString(),
+                    System.currentTimeMillis(), journeyName.getText().toString(), // TODO create univoque id
                     journeyDescription.getText().toString());
 
             Location location = new Location(

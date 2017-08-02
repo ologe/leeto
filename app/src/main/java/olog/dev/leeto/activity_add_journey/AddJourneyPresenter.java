@@ -61,7 +61,6 @@ public class AddJourneyPresenter implements AddJourneyContract.Presenter {
 
     @Override
     public void onLocationRequestClick(Context context) {
-
         if(permissionHelper.hasPermission(AppPermissionHelper.LOCATION)){
             getCurrentLocation(context);
         } else permissionHelper.requestPermission(AppPermissionHelper.LOCATION);
@@ -78,7 +77,6 @@ public class AddJourneyPresenter implements AddJourneyContract.Presenter {
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.mainThread())
                 .subscribe(hasPermission -> {
-                    Timber.e("subscribe " + hasPermission);
                     if(hasPermission) {
                        getCurrentLocation(context);
                     }
@@ -102,6 +100,7 @@ public class AddJourneyPresenter implements AddJourneyContract.Presenter {
 
         if(!LocationUtils.isLocationEnabled(context)){
             Toast.makeText(context, R.string.enable_location, Toast.LENGTH_SHORT).show();
+            return;
         }
 
         LocationServices.getFusedLocationProviderClient(context)
@@ -130,10 +129,10 @@ public class AddJourneyPresenter implements AddJourneyContract.Presenter {
 
                     view.updateLocation(locationObject);
 
-
-                }).addOnFailureListener((Activity) context, e -> {
-            e.printStackTrace();
-            Toast.makeText(context, R.string.location_something_went_wrong, Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener((Activity) context, e -> {
+                    e.printStackTrace();
+                    Toast.makeText(context, R.string.location_something_went_wrong, Toast.LENGTH_SHORT).show();
         });
     }
 }

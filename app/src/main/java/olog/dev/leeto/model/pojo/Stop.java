@@ -40,6 +40,7 @@ public class Stop implements Parcelable{
         parcel.writeParcelable(location, flags);
     }
 
+
     public final static Creator CREATOR = new Creator() {
         @Override
         public Stop createFromParcel(Parcel source) {

@@ -1,10 +1,11 @@
 package olog.dev.leeto.activity_main;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.util.List;
 
@@ -31,11 +32,15 @@ public class MainActivity extends BaseActivity implements MainContract.View, Jou
     @Inject
     JourneyAdapter adapter;
 
+    @Inject
+    LinearLayoutManager layoutManager;
+
     @BindView(R.id.root) View root;
     @BindView(R.id.list) ParallaxRecyclerView list;
     @BindView(R.id.scrim) View scrim;
     @BindView(R.id.toolbar) View toolbar;
     @BindView(R.id.addJourney) FloatingActionButton addJourney;
+    @BindView(R.id.back) ImageView back;
 
     @OnClick(R.id.addJourney)
     public void addJourney(View view){
@@ -62,7 +67,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Jou
         getLifecycle().addObserver(list);
 
         list.setViews(scrim, toolbar, addJourney);
-//        adapter.setCallback(this);
+        adapter.setCallback(this);
     }
 
     @Override
@@ -72,9 +77,9 @@ public class MainActivity extends BaseActivity implements MainContract.View, Jou
 
     @Override
     public void showDeleteConfirmSnackBar() {
-//        Snackbar.make(root, "Journey deleted", Snackbar.LENGTH_LONG)
-//                .setAction("Undo", view -> list.getAdapter().restoreLastDismissedItem())
-//                .show();
+        Snackbar.make(root, "Journey deleted", Snackbar.LENGTH_LONG)
+                .setAction("Undo", view -> adapter.restoreLastDismissedItem())
+                .show();
     }
 
     public MainActivityComponent getComponent() {

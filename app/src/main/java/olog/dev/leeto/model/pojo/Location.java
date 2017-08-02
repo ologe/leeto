@@ -106,5 +106,4 @@ public class Location implements Parcelable{
         this.longitude = longitude;
     }
 
-
 }
