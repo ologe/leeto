@@ -1,5 +1,6 @@
 package olog.dev.leeto.activity_main;
 
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 
 import javax.inject.Inject;
@@ -7,8 +8,9 @@ import javax.inject.Inject;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import olog.dev.leeto.activity_add_journey.AddJourneyActivity;
-import olog.dev.leeto.custom_view.ParallaxRecyclerView;
+import olog.dev.leeto.activity_main.view.ParallaxRecyclerView;
 import olog.dev.leeto.dagger.annotation.PerActivity;
+import olog.dev.leeto.model.pojo.Journey;
 import olog.dev.leeto.model.repository.RepositoryInterface;
 import olog.dev.leeto.utility.rx.BaseSchedulerProvider;
 
@@ -22,9 +24,9 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Inject
     MainPresenter(MainContract.View view,
-                         RepositoryInterface repository,
-                         CompositeDisposable subscriptions,
-                         BaseSchedulerProvider schedulerProvider) {
+                  RepositoryInterface repository,
+                  CompositeDisposable subscriptions,
+                  BaseSchedulerProvider schedulerProvider) {
         this.view = view;
         this.repository = repository;
         this.subscriptions = subscriptions;
@@ -37,8 +39,10 @@ public class MainPresenter implements MainContract.Presenter {
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.mainThread())
                 .subscribe( journeys -> {
-                    if(!journeys.isEmpty()) view.updateJourneysList(journeys);
-                    // TODO else
+                    if(!journeys.isEmpty()){
+                        view.showJourneysList(journeys);
+                    } else view.showNoJourneysFragment();
+
                 }, Throwable::printStackTrace);
 
         subscriptions.add(disposable);
@@ -50,11 +54,15 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void onFabClick(FloatingActionButton view, ParallaxRecyclerView recyclerView) {
+    public void onFabClick(@NonNull FloatingActionButton view, @NonNull ParallaxRecyclerView recyclerView) {
         if(!recyclerView.isFabAdd()){
             recyclerView.smoothScrollToPosition(0);
         } else AddJourneyActivity.startActivity(view);
 
     }
 
+    @Override
+    public void deleteJourney(@NonNull Journey journey) {
+        repository.deleteJourney(journey);
+    }
 }

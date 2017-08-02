@@ -9,7 +9,10 @@ import olog.dev.leeto.model.pojo.Journey;
 
 public interface RepositoryInterface {
 
+    @NonNull
     Observable<List<Journey>> observeToData();
+
     void addJourney(@NonNull Journey journey);
 
+    void deleteJourney(@NonNull Journey journey);
 }

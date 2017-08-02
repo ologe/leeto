@@ -16,7 +16,6 @@ import java.util.Locale;
 
 import olog.dev.leeto.R;
 import olog.dev.leeto.utility.LocationUtils;
-import olog.dev.leeto.model.AppPermissionHelper;
 
 public class AddStopPresenter implements AddStopContract.Presenter {
 

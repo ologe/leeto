@@ -2,6 +2,8 @@ package olog.dev.leeto.base;
 
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import olog.dev.leeto.App;
@@ -18,6 +20,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
 
     protected AppComponent getAppComponent(){
         return ((App) getApplication()).getAppComponent();
+    }
+
+    @Nullable
+    protected Fragment findFragmentByTag(String TAG){
+        return getSupportFragmentManager().findFragmentByTag(TAG);
     }
 
 }

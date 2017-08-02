@@ -19,9 +19,17 @@
     <string name="main_activity_empty_state">Nothing there!</string>
 
 
+    <!--utils-->
+    <string name="undo">Undo</string>
+
     <!--location service-->
     <string name="enable_location">Please enable location</string>
     <string name="location_not_found">Location not found</string>
     <string name="location_something_went_wrong">Location not found, please retry</string>
+    <string name="journey_empty_state">Tap + to add your first journey</string>
+
+    <!--journey-->
+    <string name="journey_deleted">Journey deleted</string>
+
 
 </resources>

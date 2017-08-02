@@ -2,7 +2,7 @@ package olog.dev.leeto.dagger.component;
 
 import dagger.Component;
 import olog.dev.leeto.activity_main.MainActivity;
-import olog.dev.leeto.custom_view.ParallaxRecyclerView;
+import olog.dev.leeto.activity_main.view.ParallaxRecyclerView;
 import olog.dev.leeto.dagger.annotation.PerActivity;
 import olog.dev.leeto.dagger.module.MainActivityModule;
 

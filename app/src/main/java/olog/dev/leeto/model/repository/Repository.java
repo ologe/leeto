@@ -18,7 +18,6 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 import olog.dev.leeto.dagger.annotation.ApplicationContext;
 import olog.dev.leeto.dagger.annotation.PerApplication;
@@ -47,18 +46,23 @@ public class Repository implements RepositoryInterface {
         // no null values
         publisher.onNext(journeyList);
         // can cause small leak
-        loadFromJson()
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.mainThread())
-                .subscribe(journeys -> publisher.onNext(journeys), Throwable::printStackTrace);
+        loadFromStorage()
+                .subscribeOn(this.schedulerProvider.io())
+                .observeOn(this.schedulerProvider.mainThread())
+                .subscribe(journeys -> {
+                    journeyList = journeys;
+                    publisher.onNext(journeyList);
+                }, Throwable::printStackTrace);
     }
 
+    @NonNull
     @Override
     public Observable<List<Journey>> observeToData(){
         return publisher;
     }
 
-    private Single<List<Journey>> loadFromJson(){
+    @NonNull
+    private Single<List<Journey>> loadFromStorage(){
         return Single.create( emitter -> {
 
             InputStream inputStream = context.openFileInput(JOURNEY_LIST_FILE_NAME);
@@ -78,23 +82,30 @@ public class Repository implements RepositoryInterface {
             journeyList = loadedData.fromJson(jsonOutput, new TypeToken<List<Journey>>(){}.getType());
 
             emitter.onSuccess(journeyList);
-
         });
     }
 
     @Override
     public void addJourney(@NonNull Journey journey){
         journeyList.add(journey);
-
         publisher.onNext(journeyList);
 
-        saveJourneysList(context)
+        saveJourneysList()
                 .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.io())
                 .subscribe(() -> {}, Throwable::printStackTrace);
     }
 
-    private Completable saveJourneysList(Context context){
+    @Override
+    public void deleteJourney(@NonNull Journey journey) {
+        journeyList.remove(journey);
+        publisher.onNext(journeyList);
+
+        saveJourneysList()
+                .subscribeOn(schedulerProvider.io())
+                .subscribe(() -> {}, Throwable::printStackTrace);
+    }
+
+    private Completable saveJourneysList(){
         return Completable.create(emitter -> {
 
             final String json = new Gson().toJson(journeyList, new TypeToken<List<Journey>>(){}.getType());

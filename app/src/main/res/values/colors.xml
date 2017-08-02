@@ -24,5 +24,7 @@
     <color name="grey800">#424242</color>
     <color name="grey900">#212121</color>
 
+    <color name="location_marker">#F05349</color>
+
 
 </resources>

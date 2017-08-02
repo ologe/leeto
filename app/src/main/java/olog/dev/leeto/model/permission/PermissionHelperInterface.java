@@ -1,4 +1,4 @@
-package olog.dev.leeto.model;
+package olog.dev.leeto.model.permission;
 
 import android.support.annotation.NonNull;
 

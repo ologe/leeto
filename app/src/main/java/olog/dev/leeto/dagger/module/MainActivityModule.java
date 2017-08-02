@@ -6,10 +6,10 @@ import android.view.LayoutInflater;
 
 import dagger.Module;
 import dagger.Provides;
-import olog.dev.leeto.activity_main.JourneyAdapter;
 import olog.dev.leeto.activity_main.MainActivity;
 import olog.dev.leeto.activity_main.MainContract;
 import olog.dev.leeto.activity_main.MainPresenter;
+import olog.dev.leeto.activity_main.adapter.JourneyAdapter;
 import olog.dev.leeto.dagger.annotation.ActivityContext;
 import olog.dev.leeto.dagger.annotation.PerActivity;
 
@@ -50,7 +50,7 @@ public class MainActivityModule {
     @Provides
     @PerActivity
     JourneyAdapter provideAdapter(LayoutInflater inflater){
-        return new JourneyAdapter(inflater);
+        return new JourneyAdapter(mainActivity, inflater);
     }
 
     @Provides

@@ -1,9 +1,10 @@
-package olog.dev.leeto.custom_view;
+package olog.dev.leeto.activity_main.view;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -16,8 +17,9 @@ import android.view.View;
 import javax.inject.Inject;
 
 import olog.dev.leeto.R;
-import olog.dev.leeto.activity_main.JourneyAdapter;
 import olog.dev.leeto.activity_main.MainActivity;
+import olog.dev.leeto.activity_main.adapter.JourneyAdapter;
+import olog.dev.leeto.utility.DimensionUtils;
 import olog.dev.leeto.utility.recycler_view.DragCallback;
 
 public class ParallaxRecyclerView extends RecyclerView implements LifecycleObserver {
@@ -39,25 +41,33 @@ public class ParallaxRecyclerView extends RecyclerView implements LifecycleObser
 
     private int topMargin;
 
+    public ParallaxRecyclerView(Context context) {
+        this(context, null);
+    }
+
     public ParallaxRecyclerView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs,0);
+    }
+
+    public ParallaxRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
         // starting scrim accent top margin
         if(!isInEditMode()){
-
-            ((MainActivity) getContext())
-                    .getComponent()
-                    .inject(this);
-
-            topMargin = (int) (125 * getResources().getDisplayMetrics().density);
-
-            setLayoutManager(layoutManager);
-            setAdapter(adapter);
-
-            // swipe
-            ItemTouchHelper helper = new ItemTouchHelper(
-                    new DragCallback(adapter,0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT));
-            helper.attachToRecyclerView(this);
+            init(context);
         }
+    }
+
+    public void init(@NonNull Context context){
+        ((MainActivity) getContext())
+                .getComponent()
+                .inject(this);
+
+        topMargin = DimensionUtils.dip(context, 125);
+
+        // swipe
+        ItemTouchHelper helper = new ItemTouchHelper(new DragCallback(adapter));
+        helper.attachToRecyclerView(this);
+
     }
 
     public void setViews(View scrim, View toolbar, FloatingActionButton fab){
@@ -84,8 +94,9 @@ public class ParallaxRecyclerView extends RecyclerView implements LifecycleObser
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            // after deleting an item, animation become buggy, so restore totalDy when
+            // after deleting an item, animation became buggy, so restore totalDy when
             // the list reach start
+
             if(!recyclerView.canScrollVertically(-1)){
                 totalDy = 0;
             } else totalDy += dy;
@@ -112,7 +123,6 @@ public class ParallaxRecyclerView extends RecyclerView implements LifecycleObser
     }
 
     private void handleScrimParallax(int totalDy, int dy){
-        if(scrimParams == null) return;
 
         if(dy > 0){
             // moving up
@@ -121,7 +131,6 @@ public class ParallaxRecyclerView extends RecyclerView implements LifecycleObser
             toolbar.setAlpha(Math.max(0f, toolbar.getAlpha() - (float)dy/200));
         } else {
             // moving down
-
             int firstVisible = layoutManager.findFirstCompletelyVisibleItemPosition();
 
             if(firstVisible <= 3){

@@ -3,14 +3,12 @@ package olog.dev.leeto.utility.recycler_view;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-import olog.dev.leeto.activity_main.JourneyAdapter;
+public class DragCallback extends ItemTouchHelper.SimpleCallback {
 
-public class DragCallback extends ItemTouchHelper.SimpleCallback{
+    private JourneyAdapterTouchHelper adapter;
 
-    private JourneyAdapter adapter;
-
-    public DragCallback(JourneyAdapter adapter, int dragDirs, int swipeDirs) {
-        super(dragDirs, swipeDirs);
+    public DragCallback(JourneyAdapterTouchHelper adapter) {
+        super(0, ItemTouchHelper.RIGHT);
         this.adapter = adapter;
     }
 
@@ -21,7 +19,8 @@ public class DragCallback extends ItemTouchHelper.SimpleCallback{
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        adapter.onItemDismiss(viewHolder.getAdapterPosition());
+//        if(direction == ItemTouchHelper.RIGHT)
+            adapter.onItemDismiss(viewHolder.getAdapterPosition());
     }
 
 

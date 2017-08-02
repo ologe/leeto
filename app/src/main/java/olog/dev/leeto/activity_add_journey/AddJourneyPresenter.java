@@ -21,8 +21,8 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import olog.dev.leeto.R;
 import olog.dev.leeto.dagger.annotation.ActivityContext;
-import olog.dev.leeto.model.AppPermissionHelper;
-import olog.dev.leeto.model.PermissionHelperInterface;
+import olog.dev.leeto.model.permission.AppPermissionHelper;
+import olog.dev.leeto.model.permission.PermissionHelperInterface;
 import olog.dev.leeto.model.pojo.Journey;
 import olog.dev.leeto.model.pojo.Location;
 import olog.dev.leeto.model.repository.RepositoryInterface;
@@ -135,4 +135,5 @@ public class AddJourneyPresenter implements AddJourneyContract.Presenter {
                     Toast.makeText(context, R.string.location_something_went_wrong, Toast.LENGTH_SHORT).show();
         });
     }
+
 }

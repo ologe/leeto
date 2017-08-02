@@ -10,28 +10,25 @@ import java.util.List;
 
 public class Journey implements Parcelable {
 
-    private long id;
     private String name;
     private String shortDescription;
     private List<Stop> stopList;
 
-    public Journey(long id, String name, String shortDescription) {
-        this.id = id;
+    public Journey(String name, String shortDescription) {
         this.name = name;
         this.shortDescription = shortDescription;
 
         stopList = new ArrayList<>();
     }
 
-    public Journey(long id, @NonNull String name, @NonNull String shortDescription, @NonNull Date startDate, @NonNull Location startLocation) {
-        this(id, name, shortDescription);
+    public Journey(@NonNull String name, @NonNull String shortDescription, @NonNull Date startDate, @NonNull Location startLocation) {
+        this(name, shortDescription);
         stopList.add(new Stop(startDate, startLocation));
     }
 
     public Journey(Parcel in){
         name = in.readString();
         shortDescription = in.readString();
-        id = in.readLong();
         stopList = new ArrayList<>();
         in.readList(stopList, Stop.class.getClassLoader());
     }
@@ -68,10 +65,6 @@ public class Journey implements Parcelable {
         this.shortDescription = shortDescription;
     }
 
-    public long getId() {
-        return id;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -82,20 +75,6 @@ public class Journey implements Parcelable {
         parcel.writeString(name);
         parcel.writeString(shortDescription);
         parcel.writeList(stopList);
-        parcel.writeLong(id);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        return id == ((Journey) o).id;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) id;
     }
 
     public final static Creator CREATOR = new Creator() {

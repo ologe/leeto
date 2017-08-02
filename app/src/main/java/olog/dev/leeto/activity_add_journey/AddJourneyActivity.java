@@ -35,8 +35,8 @@ import olog.dev.leeto.R;
 import olog.dev.leeto.base.AbsMorphActivity;
 import olog.dev.leeto.dagger.component.DaggerAddJourneyComponent;
 import olog.dev.leeto.dagger.module.AddJourneyModule;
-import olog.dev.leeto.model.AppPermissionHelper;
-import olog.dev.leeto.model.PermissionHelperInterface;
+import olog.dev.leeto.model.permission.AppPermissionHelper;
+import olog.dev.leeto.model.permission.PermissionHelperInterface;
 import olog.dev.leeto.model.pojo.Journey;
 import olog.dev.leeto.model.pojo.Location;
 import timber.log.Timber;
@@ -54,6 +54,9 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
     @Inject
     CompositeDisposable subscriptions;
 
+    @Inject
+    Calendar calendar;
+
     @BindView(R.id.save) Button saveButton;
 
     @BindView(R.id.journeyDate) TextView journeyDate;
@@ -70,10 +73,6 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
     public void showDatePicker(View view){
         presenter.showDatePicker(datePickerDialog);
     }
-
-    private int year;
-    private int month;
-    private int day;
 
     @OnClick(R.id.locationRequest)
     public void requestLocation(View view){
@@ -102,8 +101,6 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
 
         getLifecycle().addObserver(presenter);
 
-        Timber.e("onCreate " + permissionHelper);
-
         setupCalendar();
     }
 
@@ -112,11 +109,8 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
         super.onResume();
         saveButton.setOnClickListener(view -> {
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(year, month, day);
-
             Journey journey = new Journey(
-                    System.currentTimeMillis(), journeyName.getText().toString(), // TODO create univoque id
+                    journeyName.getText().toString(),
                     journeyDescription.getText().toString());
 
             Location location = new Location(
@@ -168,19 +162,12 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
     }
 
     private void setupCalendar(){
-        Calendar calendar = Calendar.getInstance();
-
-        this.year = calendar.get(Calendar.YEAR);
-        this.month = calendar.get(Calendar.MONTH);
-        this.day = calendar.get(Calendar.DAY_OF_MONTH);
 
         journeyDate.setText(olog.dev.leeto.utility.TextUtils.dateToString(new Date()));
 
         datePickerDialog = new DatePickerDialog(this, (datePicker, year, month, day) -> {
 
-            this.year = year;
-            this.month = month;
-            this.day = day;
+            calendar.set(year, month, day);
 
             String date = day + "-" + month + "-" + year;
             journeyDate.setText(date);
@@ -234,6 +221,5 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
                 .map(o -> o.view().getText().toString())
                 .map(TextUtils::isEmpty);
     }
-
 
 }
