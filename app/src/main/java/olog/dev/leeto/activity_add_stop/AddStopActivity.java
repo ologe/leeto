@@ -82,7 +82,7 @@ public class AddStopActivity extends AbsMorphActivity implements AddStopContract
 
             Stop stop = new Stop(calendar.getTime(), binding.getLocation());
 
-            save(stop);
+//            save(stop);
         });
     }
 
@@ -111,17 +111,7 @@ public class AddStopActivity extends AbsMorphActivity implements AddStopContract
     }
 
     @Override
-    protected View getContainerLayout() {
-        return binding.container;
-    }
-
-    @Override
-    protected View getRootLayout() {
-        return binding.root;
-    }
-
-    @Override
-    protected View getDiscardButton() {
-        return binding.discard;
+    protected int getLayoutId() {
+        return R.layout.activity_add_stop;
     }
 }

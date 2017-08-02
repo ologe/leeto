@@ -1,51 +1,53 @@
 package olog.dev.leeto.base;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.CallSuper;
+import android.support.annotation.LayoutRes;
+import android.support.constraint.ConstraintLayout;
 import android.transition.ArcMotion;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
+import android.widget.Button;
+import android.widget.FrameLayout;
 
-import io.reactivex.annotations.Nullable;
-import olog.dev.leeto.activity_detail.DetailActivity;
-import olog.dev.leeto.model.pojo.Stop;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import olog.dev.leeto.R;
 import olog.dev.leeto.utility.transition.fab_morph.MorphDialogToFab;
 import olog.dev.leeto.utility.transition.fab_morph.MorphFabToDialog;
 
-public abstract class AbsMorphActivity extends AppCompatActivity {
+public abstract class AbsMorphActivity extends BaseActivity {
 
-    private ViewGroup container;
+    protected @BindView(R.id.container) ConstraintLayout container;
+    protected @BindView(R.id.root) FrameLayout root;
+    protected @BindView(R.id.discard) Button discard;
 
     @Override
+    @CallSuper
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(getLayoutId());
 
-        container = (ViewGroup) getContainerLayout();
+        ButterKnife.bind(this);
+
         setupSharedElementTransitions();
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
+    @CallSuper
     protected void onResume() {
         super.onResume();
-        getRootLayout().setOnClickListener(dismissListener);
-        getDiscardButton().setOnClickListener(dismissListener);
+        root.setOnClickListener(dismissListener);
+        discard.setOnClickListener(dismissListener);
     }
 
     @Override
+    @CallSuper
     protected void onPause() {
         super.onPause();
-        getContainerLayout().setOnClickListener(null);
-        getDiscardButton().setOnClickListener(null);
+        root.setOnClickListener(null);
+        discard.setOnClickListener(null);
     }
 
     public void setupSharedElementTransitions() {
@@ -63,40 +65,25 @@ public abstract class AbsMorphActivity extends AppCompatActivity {
         sharedReturn.setPathMotion(arcMotion);
         sharedReturn.setInterpolator(easeInOut);
 
-        if (container != null) {
-            sharedEnter.addTarget(container);
-            sharedReturn.addTarget(container);
-        }
+        sharedEnter.addTarget(container);
+        sharedReturn.addTarget(container);
         getWindow().setSharedElementEnterTransition(sharedEnter);
         getWindow().setSharedElementReturnTransition(sharedReturn);
     }
 
     @Override
+    @CallSuper
     public void onBackPressed() {
         dismiss();
     }
 
     protected void dismiss() {
-        setResult(Activity.RESULT_CANCELED);
-        finishAfterTransition();
-    }
-
-    protected void save(@Nullable Object object){
-        Intent intent = null;
-        if(object != null){
-            intent = new Intent();
-            if(object instanceof Stop){
-                intent.putExtra(DetailActivity.EXTRA_STOP, (Stop)object);
-            }
-        }
-        setResult(Activity.RESULT_OK, intent);
         finishAfterTransition();
     }
 
     private View.OnClickListener dismissListener = view -> dismiss();
 
-    protected abstract View getContainerLayout();
-    protected abstract View getRootLayout();
+    @LayoutRes
+    protected abstract int getLayoutId();
 
-    protected abstract View getDiscardButton();
 }

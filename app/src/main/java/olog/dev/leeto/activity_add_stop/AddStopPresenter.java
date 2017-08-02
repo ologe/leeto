@@ -16,7 +16,7 @@ import java.util.Locale;
 
 import olog.dev.leeto.R;
 import olog.dev.leeto.utility.LocationUtils;
-import olog.dev.leeto.utility.Permission;
+import olog.dev.leeto.model.AppPermissionHelper;
 
 public class AddStopPresenter implements AddStopContract.Presenter {
 
@@ -33,9 +33,9 @@ public class AddStopPresenter implements AddStopContract.Presenter {
 
     @Override
     public void onLocationRequestClick(Context context, olog.dev.leeto.model.pojo.Location location) {
-        if(Permission.checkLocationPermission((Activity) context)){
-            getCurrentLocation(context, location);
-        } else Permission.requestLocationPermission((Activity) context);
+//        if(AppPermissionHelper.checkLocationPermission((Activity) context)){
+//            getCurrentLocation(context, location);
+//        } else AppPermissionHelper.requestLocationPermission((Activity) context);
     }
 
     @SuppressLint("MissingPermission")

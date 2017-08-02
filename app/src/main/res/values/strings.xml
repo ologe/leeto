@@ -22,6 +22,6 @@
     <!--location service-->
     <string name="enable_location">Please enable location</string>
     <string name="location_not_found">Location not found</string>
-    <string name="location_something_went_wrong">Something went wrong</string>
+    <string name="location_something_went_wrong">Location not found, please retry</string>
 
 </resources>

@@ -58,14 +58,11 @@ public class MainActivity extends BaseActivity implements MainContract.View, Jou
 
         ButterKnife.bind(this);
 
-        list.setViews(scrim, toolbar, addJourney);
-//        adapter.setCallback(this);
-    }
-
-    @Override
-    public void attachLifecycleOwner(@NonNull MainContract.Presenter presenter) {
         getLifecycle().addObserver(presenter);
         getLifecycle().addObserver(list);
+
+        list.setViews(scrim, toolbar, addJourney);
+//        adapter.setCallback(this);
     }
 
     @Override

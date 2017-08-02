@@ -11,11 +11,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -23,7 +23,6 @@ import io.reactivex.subjects.BehaviorSubject;
 import olog.dev.leeto.dagger.annotation.ApplicationContext;
 import olog.dev.leeto.dagger.annotation.PerApplication;
 import olog.dev.leeto.model.pojo.Journey;
-import olog.dev.leeto.model.pojo.Location;
 import olog.dev.leeto.model.pojo.Stop;
 import olog.dev.leeto.utility.rx.BaseSchedulerProvider;
 
@@ -83,18 +82,20 @@ public class Repository implements RepositoryInterface {
         });
     }
 
-    public void addJourney(@NonNull Context context,@NonNull Journey journey){
+    @Override
+    public void addJourney(@NonNull Journey journey){
         journeyList.add(journey);
 
         publisher.onNext(journeyList);
 
         saveJourneysList(context)
-                .subscribeOn(Schedulers.io())
-                .subscribe(aBoolean -> {}, Throwable::printStackTrace);
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.io())
+                .subscribe(() -> {}, Throwable::printStackTrace);
     }
 
-    private Single<Boolean> saveJourneysList(Context context){
-        return Single.create(emitter -> {
+    private Completable saveJourneysList(Context context){
+        return Completable.create(emitter -> {
 
             final String json = new Gson().toJson(journeyList, new TypeToken<List<Journey>>(){}.getType());
 
@@ -103,31 +104,31 @@ public class Repository implements RepositoryInterface {
             outputStream.write(json);
             outputStream.close();
 
-            emitter.onSuccess(true);
+            emitter.onComplete();
         });
     }
 
     public void addStopToJourney(Context context, Journey j, Stop stop){
-        Single.create(e -> {
-            int index = -1;
-            for (int i = 0; i < journeyList.size(); i++) {
-                if(j.getName().equals(journeyList.get(i).getName())){
-                    index = i;
-                    break;
-                }
-            }
-
-            Journey journey = journeyList.get(index);
-            journey.addStop(stop);
-
-            saveJourneysList(context)
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(v -> {}, Throwable::printStackTrace);
-
-            e.onSuccess(true);
-
-        }).observeOn(Schedulers.io())
-                .subscribe(v -> {}, Throwable::printStackTrace);
+//        Single.create(e -> {
+//            int index = -1;
+//            for (int i = 0; i < journeyList.size(); i++) {
+//                if(j.getName().equals(journeyList.get(i).getName())){
+//                    index = i;
+//                    break;
+//                }
+//            }
+//
+//            Journey journey = journeyList.get(index);
+//            journey.addStop(stop);
+//
+//            saveJourneysList(context)
+//                    .subscribeOn(Schedulers.io())
+//                    .subscribe(v -> {}, Throwable::printStackTrace);
+//
+//            e.onSuccess(true);
+//
+//        }).observeOn(Schedulers.io())
+//                .subscribe(v -> {}, Throwable::printStackTrace);
 
     }
 

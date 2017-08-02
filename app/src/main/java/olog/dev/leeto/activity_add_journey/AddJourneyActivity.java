@@ -1,38 +1,84 @@
 package olog.dev.leeto.activity_add_journey;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputEditText;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
+import com.jakewharton.rxbinding2.widget.RxTextView;
+
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import olog.dev.leeto.R;
 import olog.dev.leeto.base.AbsMorphActivity;
-import olog.dev.leeto.databinding.ActivityAddJourneyBinding;
+import olog.dev.leeto.dagger.component.DaggerAddJourneyComponent;
+import olog.dev.leeto.dagger.module.AddJourneyModule;
+import olog.dev.leeto.model.AppPermissionHelper;
+import olog.dev.leeto.model.PermissionHelperInterface;
 import olog.dev.leeto.model.pojo.Journey;
 import olog.dev.leeto.model.pojo.Location;
+import timber.log.Timber;
 
-public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyContract.View{
+public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyContract.View {
 
-    private ActivityAddJourneyBinding binding;
+    private DatePickerDialog datePickerDialog;
 
-    private AddJourneyContract.Presenter presenter;
-    private int year = 1970;
-    private int month = 1;
-    private int day = 1;
+    @Inject
+    AddJourneyContract.Presenter presenter;
+
+    @Inject
+    PermissionHelperInterface permissionHelper;
+
+    @Inject
+    CompositeDisposable subscriptions;
+
+    @BindView(R.id.save) Button saveButton;
+
+    @BindView(R.id.journeyDate) TextView journeyDate;
+    @BindView(R.id.journeyName) TextInputEditText journeyName;
+    @BindView(R.id.journeyDescription) TextInputEditText journeyDescription;
+
+    @BindView(R.id.locationName) TextInputEditText locationName;
+    @BindView(R.id.locationAddress) TextInputEditText locationAddress;
+    @BindView(R.id.locationLatitude) TextInputEditText locationLatitude;
+    @BindView(R.id.locationLongitude) TextInputEditText locationLongitude;
+    @BindView(R.id.locationDescription) TextInputEditText locationDescription;
+
+    @OnClick(R.id.journeyDate)
+    public void showDatePicker(View view){
+        presenter.showDatePicker(datePickerDialog);
+    }
+
+    private int year;
+    private int month;
+    private int day;
+
+    @OnClick(R.id.locationRequest)
+    public void requestLocation(View view){
+        presenter.onLocationRequestClick(this);
+    }
 
     public static void startActivity(@NonNull FloatingActionButton view){
         Context context = view.getContext();
@@ -43,23 +89,82 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_add_journey);
+        DaggerAddJourneyComponent.builder()
+                .appComponent(getAppComponent())
+                .addJourneyModule(new AddJourneyModule(this))
+                .build()
+                .inject(this);
 
         super.onCreate(savedInstanceState);
+        // butterKnife already bound
 
-        binding.journeyDate.setText(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date()));
+        getLifecycle().addObserver(presenter);
 
-        presenter = new AddJourneyPresenter(this);
+        Timber.e("onCreate " + permissionHelper);
 
         setupCalendar();
+    }
 
-        binding.setPresenter(presenter);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        saveButton.setOnClickListener(view -> {
 
-        binding.setJourney(new Journey());
-        binding.setLocation(new Location());
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, month, day);
 
+            Journey journey = new Journey(
+                    journeyName.getText().toString(),
+                    journeyDescription.getText().toString());
+
+            Location location = new Location(
+                    locationName.getText().toString(),
+                    Double.parseDouble(locationLatitude.getText().toString()),
+                    Double.parseDouble(locationLongitude.getText().toString()),
+                    locationAddress.getText().toString(),
+                    locationDescription.getText().toString()
+            );
+
+            journey.addStop(calendar.getTime(), location);
+
+            presenter.addJourneyToRepository(journey);
+
+            dismiss();
+        });
+
+        Disposable disposable = Observable.combineLatest(
+                isTextViewEmpty(journeyName),
+                isTextViewEmpty(locationName),
+                isTextViewEmpty(locationAddress),
+                isTextViewEmpty(locationLatitude),
+                isTextViewEmpty(locationLongitude),
+                (aBoolean, aBoolean2, aBoolean3, aBoolean4, aBoolean5) -> aBoolean || aBoolean2 || aBoolean3 || aBoolean4 || aBoolean5
+        ).subscribe(allAreEmpty -> {saveButton.setEnabled(!allAreEmpty);});
+
+        subscriptions.add(disposable);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        subscriptions.clear();
+        saveButton.setOnClickListener(null);
+    }
+
+    @Override
+    public void updateLocation(Location location) {
+        locationName.setText(location.getName());
+        locationAddress.setText(location.getAddress());
+        locationLatitude.setText(String.valueOf(location.getLatitude()));
+        locationLongitude.setText(String.valueOf(location.getLongitude()));
+        locationDescription.setText(String.valueOf(location.getShortDescription()));
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_add_journey;
     }
 
     private void setupCalendar(){
@@ -69,83 +174,66 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
         this.month = calendar.get(Calendar.MONTH);
         this.day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (datePicker, year, month, day) -> {
+        journeyDate.setText(olog.dev.leeto.utility.TextUtils.dateToString(new Date()));
+
+        datePickerDialog = new DatePickerDialog(this, (datePicker, year, month, day) -> {
 
             this.year = year;
             this.month = month;
             this.day = day;
 
             String date = day + "-" + month + "-" + year;
-            binding.journeyDate.setText(date);
+            journeyDate.setText(date);
 
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
-        binding.journeyDate.setInputType(InputType.TYPE_NULL);
-        binding.setDatePicker(datePickerDialog);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        binding.save.setOnClickListener(view -> {
-
-            if(!checkNull()) {
-                Toast.makeText(this, "Fill all the fields", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(year, month, day);
-
-            Journey journey = binding.getJourney();
-            journey.addStop(calendar.getTime(), binding.getLocation());
-
-//            Repository.getInstance(this).addJourney(this, journey); TODO
-
-            save(null);
-        });
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        binding.save.setOnClickListener(null);
+        // keyboard will not appear
+        journeyDate.setInputType(InputType.TYPE_NULL);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            presenter.onLocationRequestClick(this, binding.getLocation());
+        if(requestCode != AppPermissionHelper.REQUEST_CODE){
+            Timber.d("permission requested with requestCode " + requestCode);
+            return;
+        }
+
+        for (int i=0;i<permissions.length; i++){
+            String permission = permissions[i];
+            Timber.i("onRequestPermissionsResult, permission" + permission);
+
+            if(grantResults[i] == PackageManager.PERMISSION_GRANTED){
+                permissionHelper.updatePermission(permission, true);
+            } else {
+                permissionHelper.updatePermission(permission, false);
+                if(permissionHelper.permissionNeverShowAgain(permission)){
+                    onPermissionBlocked(permission);
+                }
+            }
+        }
+
+    }
+
+    private void onPermissionBlocked(@NonNull String permission){
+        Timber.w("onPermissionBlocked " + permission);
+
+        if(permission.equals(Manifest.permission.READ_EXTERNAL_STORAGE)){
+            AlertDialog.Builder builder = new AlertDialog.Builder(AddJourneyActivity.this)
+                    .setTitle("Permission denied")
+                    .setMessage("Please enable location permission")
+                    .setPositiveButton("Go to settings",
+                            (dialogInterface, i) -> permissionHelper.goToSettingsForPermission()
+                    );
+
+            builder.show();
         }
     }
 
-    private boolean checkNull(){
-        return !binding.journeyName.getText().toString().equals("") &&
-                !binding.journeyDescription.getText().toString().equals("") &&
-                !binding.locationName.getText().toString().equals("") &&
-                !binding.locationLatitude.getText().toString().equals("") &&
-                !binding.locationLongitude.getText().toString().equals("");
-    }
-
-    @Override
-    public void updateLocation(Location location) {
-        binding.setLocation(location);
+    private Observable<Boolean> isTextViewEmpty(TextView editText){
+        return RxTextView.afterTextChangeEvents(editText)
+                .map(o -> o.view().getText().toString())
+                .map(TextUtils::isEmpty);
     }
 
 
-
-    @Override
-    protected View getContainerLayout() {
-        return binding.container;
-    }
-
-    @Override
-    protected View getRootLayout() {
-        return binding.root;
-    }
-
-    @Override
-    protected View getDiscardButton() {
-        return binding.discard;
-    }
 }
