@@ -6,7 +6,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.InputType;
-import android.view.View;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -41,7 +40,7 @@ public class AddStopActivity extends AbsMorphActivity implements AddStopContract
         presenter = new AddStopPresenter(this);
 
         binding.setPresenter(presenter);
-        binding.setLocation(new Location());
+//        binding.setLocation(new Location());
 
         setupCalendar();
     }

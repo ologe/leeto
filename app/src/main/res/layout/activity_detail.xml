@@ -123,8 +123,20 @@
             android:layout_marginEnd="36dp"
             android:transitionName="scrim_accent"/>
 
-        <!--margint top = margin 90 (main activity) - 16(first item top margin)-->
+        <View
+            android:id="@+id/root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="85dp"
+            android:elevation="6dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="80dp"
+            android:background="@android:color/white"/>
+
+        <!--margin top = margin 90 (main activity) - 16(first item top margin)-->
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/root2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="85dp"
@@ -132,16 +144,6 @@
             android:layout_marginStart="36dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="80dp">
-
-            <View
-                android:id="@+id/root"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@android:color/white"/>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/journeyName"
@@ -167,7 +169,9 @@
                 app:layout_constraintTop_toBottomOf="@+id/journeyName"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintDimensionRatio="1.7"/>
+                app:layout_constraintDimensionRatio="1.7"
+                android:visibility="invisible"
+                tools:visibility="visible"/>
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewPager"
@@ -178,7 +182,9 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
                 android:paddingStart="8dp"
-                android:paddingEnd="8dp" />
+                android:paddingEnd="8dp"
+                android:visibility="invisible"
+                tools:visibility="visible"/>
 
             <olog.dev.leeto.custom_view.InkPageIndicator
                 android:id="@+id/inkIndicator"
@@ -189,7 +195,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:dotDiameter="5dp"
-                app:dotGap="9dp"/>
+                app:dotGap="9dp"
+                android:visibility="invisible"
+                tools:visibility="visible"/>
 
         </android.support.constraint.ConstraintLayout>
 

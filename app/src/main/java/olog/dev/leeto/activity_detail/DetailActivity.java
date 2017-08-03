@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Transition;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -18,7 +19,7 @@ import olog.dev.leeto.activity_add_stop.AddStopActivity;
 import olog.dev.leeto.databinding.ActivityDetailBinding;
 import olog.dev.leeto.model.pojo.Journey;
 import olog.dev.leeto.model.pojo.Stop;
-import olog.dev.leeto.model.repository.Repository;
+import timber.log.Timber;
 
 
 public class DetailActivity extends AppCompatActivity implements LifecycleRegistryOwner {
@@ -68,6 +69,38 @@ public class DetailActivity extends AppCompatActivity implements LifecycleRegist
         binding.inkIndicator.setViewPager(binding.viewPager);
 
         setNavigationBarTransition();
+
+        getWindow().getSharedElementEnterTransition().addListener(new Transition.TransitionListener() {
+            @Override public void onTransitionStart(Transition transition) {}
+
+            @Override public void onTransitionCancel(Transition transition) {}
+
+            @Override public void onTransitionPause(Transition transition) {}
+
+            @Override public void onTransitionResume(Transition transition) {}
+
+            @Override
+            public void onTransitionEnd(Transition transition) {
+                Timber.d("onTransitionEnd");
+                binding.root2.setVisibility(View.VISIBLE);
+            }
+        });
+
+        getWindow().getSharedElementReturnTransition().addListener(new Transition.TransitionListener() {
+            @Override
+            public void onTransitionStart(Transition transition) {
+                Timber.d("onTransitionStart");
+                binding.root2.setVisibility(View.INVISIBLE);
+            }
+
+            @Override public void onTransitionEnd(Transition transition) {}
+
+            @Override public void onTransitionCancel(Transition transition) {}
+
+            @Override public void onTransitionPause(Transition transition) {}
+
+            @Override public void onTransitionResume(Transition transition) {}
+        });
     }
 
     private void setNavigationBarTransition(){
@@ -123,7 +156,7 @@ public class DetailActivity extends AppCompatActivity implements LifecycleRegist
 //            Repository.getInstance(this)
 //                    .addStopToJourney(this, journey, stop); TODO
 
-            journey.addStop(stop);
+//            journey.addStop(stop);
             binding.viewPager.getAdapter().notifyDataSetChanged();
         }
     }

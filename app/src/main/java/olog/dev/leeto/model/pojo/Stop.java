@@ -16,22 +16,21 @@ public class Stop implements Parcelable{
         this.location = location;
     }
 
-    public Stop(Parcel in){
-        date = new Date(in.readLong());
-        location = in.readParcelable(Location.class.getClassLoader());
-    }
-
+    @NonNull
     public Date getDate() {
         return date;
     }
 
+    @NonNull
     public Location getLocation() {
         return location;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+
+    // parcelable
+    public Stop(Parcel in){
+        date = new Date(in.readLong());
+        location = in.readParcelable(Location.class.getClassLoader());
     }
 
     @Override
@@ -40,6 +39,10 @@ public class Stop implements Parcelable{
         parcel.writeParcelable(location, flags);
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
     public final static Creator CREATOR = new Creator() {
         @Override

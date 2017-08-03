@@ -2,7 +2,6 @@ package olog.dev.leeto.activity_add_journey;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
@@ -55,14 +54,9 @@ public class AddJourneyPresenter implements AddJourneyContract.Presenter {
     }
 
     @Override
-    public void showDatePicker(DatePickerDialog dialog) {
-        dialog.show();
-    }
-
-    @Override
-    public void onLocationRequestClick(Context context) {
+    public void onLocationRequestClick() {
         if(permissionHelper.hasPermission(AppPermissionHelper.LOCATION)){
-            getCurrentLocation(context);
+            getCurrentLocation();
         } else permissionHelper.requestPermission(AppPermissionHelper.LOCATION);
     }
 
@@ -78,7 +72,7 @@ public class AddJourneyPresenter implements AddJourneyContract.Presenter {
                 .observeOn(schedulerProvider.mainThread())
                 .subscribe(hasPermission -> {
                     if(hasPermission) {
-                       getCurrentLocation(context);
+                       getCurrentLocation();
                     }
                 }, Throwable::printStackTrace);
         subscriptions.add(disposable);
@@ -96,7 +90,7 @@ public class AddJourneyPresenter implements AddJourneyContract.Presenter {
     }
 
     @SuppressLint("MissingPermission")
-    private void getCurrentLocation(Context context){
+    private void getCurrentLocation(){
 
         if(!LocationUtils.isLocationEnabled(context)){
             Toast.makeText(context, R.string.enable_location, Toast.LENGTH_SHORT).show();
@@ -108,10 +102,7 @@ public class AddJourneyPresenter implements AddJourneyContract.Presenter {
                 .addOnSuccessListener((Activity) context, location -> {
                     if(location == null) return;
 
-                    Location locationObject = new Location();
-
-                    locationObject.setLatitude(location.getLatitude());
-                    locationObject.setLongitude(location.getLongitude());
+                    Location locationObject = null;
 
                     Geocoder geocoder = new Geocoder(context, Locale.getDefault());
 
@@ -119,8 +110,12 @@ public class AddJourneyPresenter implements AddJourneyContract.Presenter {
                         Address address = geocoder.getFromLocation(
                                 location.getLatitude(), location.getLongitude(), 1).get(0);
 
-                        locationObject.setName(address.getCountryName());
-                        locationObject.setAddress(address.getThoroughfare() + ", " + address.getLocality());
+                        locationObject = new Location(context,
+                                address.getCountryName(),
+                                location.getLatitude(),
+                                location.getLongitude(),
+                                address.getThoroughfare() + ", " + address.getLocality(),
+                                null);
 
                     } catch (IOException e) {
                         e.printStackTrace();

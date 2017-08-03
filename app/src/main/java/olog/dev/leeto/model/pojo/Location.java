@@ -1,10 +1,14 @@
 package olog.dev.leeto.model.pojo;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.FloatRange;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
-import io.reactivex.annotations.Nullable;
+import olog.dev.leeto.R;
 
 public class Location implements Parcelable{
 
@@ -14,16 +18,14 @@ public class Location implements Parcelable{
     private String address;
     private String shortDescription;
 
-    public Location(){
-        name = "";
-        latitude = 0;
-        longitude = 0;
-        address = "";
-        shortDescription = "";
-    }
-
-    public Location(@NonNull String name, double latitude, double longitude,@NonNull String address, @Nullable String shortDescription) {
-        if(shortDescription == null) shortDescription = "";
+    public Location(@NonNull Context context,
+                    @NonNull String name,
+                    @FloatRange(from = -90, to = 90) double latitude,
+                    @FloatRange(from = -180, to = 180) double longitude,
+                    @NonNull String address,
+                    @Nullable String shortDescription) {
+        if(shortDescription == null || TextUtils.isEmpty(shortDescription))
+            shortDescription = context.getString(R.string.no_description);
 
         this.name = name;
         this.latitude = latitude;
@@ -32,14 +34,7 @@ public class Location implements Parcelable{
         this.shortDescription = shortDescription;
     }
 
-    public Location(Parcel in){
-        name = in.readString();
-        latitude = in.readDouble();
-        longitude = in.readDouble();
-        address = in.readString();
-        shortDescription = in.readString();
-    }
-
+    @NonNull
     public String getName() {
         return name;
     }
@@ -52,17 +47,42 @@ public class Location implements Parcelable{
         return longitude;
     }
 
+    @NonNull
     public String getAddress() {
         return address;
     }
 
+    @NonNull
     public String getShortDescription() {
         return shortDescription;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setName(@NonNull String name) {
+        this.name = name;
+    }
+
+    public void setAddress(@NonNull String address) {
+        this.address = address;
+    }
+
+    public void setShortDescription(@NonNull String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
+
+    public void setLatitude(@FloatRange(from = -90, to = 90) double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(@FloatRange(from = -180, to = 180) double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Location(Parcel in){
+        name = in.readString();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+        address = in.readString();
+        shortDescription = in.readString();
     }
 
     @Override
@@ -72,6 +92,11 @@ public class Location implements Parcelable{
         parcel.writeDouble(longitude);
         parcel.writeString(address);
         parcel.writeString(shortDescription);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public final static Creator CREATOR = new Creator() {
@@ -85,25 +110,5 @@ public class Location implements Parcelable{
             return new Location[size];
         }
     };
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
 
 }

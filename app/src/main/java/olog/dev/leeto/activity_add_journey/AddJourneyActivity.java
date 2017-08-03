@@ -28,6 +28,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnTouch;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -39,23 +40,12 @@ import olog.dev.leeto.model.permission.AppPermissionHelper;
 import olog.dev.leeto.model.permission.PermissionHelperInterface;
 import olog.dev.leeto.model.pojo.Journey;
 import olog.dev.leeto.model.pojo.Location;
+import olog.dev.leeto.utility.DateUtils;
 import timber.log.Timber;
 
 public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyContract.View {
 
     private DatePickerDialog datePickerDialog;
-
-    @Inject
-    AddJourneyContract.Presenter presenter;
-
-    @Inject
-    PermissionHelperInterface permissionHelper;
-
-    @Inject
-    CompositeDisposable subscriptions;
-
-    @Inject
-    Calendar calendar;
 
     @BindView(R.id.save) Button saveButton;
 
@@ -69,14 +59,27 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
     @BindView(R.id.locationLongitude) TextInputEditText locationLongitude;
     @BindView(R.id.locationDescription) TextInputEditText locationDescription;
 
-    @OnClick(R.id.journeyDate)
-    public void showDatePicker(View view){
-        presenter.showDatePicker(datePickerDialog);
+    @Inject
+    AddJourneyContract.Presenter presenter;
+
+    @Inject
+    PermissionHelperInterface permissionHelper;
+
+    @Inject
+    CompositeDisposable subscriptions;
+
+    @Inject
+    Calendar calendar;
+
+    @OnTouch(R.id.journeyDate)
+    public boolean showDatePicker(View view){
+        datePickerDialog.show();
+        return false;
     }
 
     @OnClick(R.id.locationRequest)
     public void requestLocation(View view){
-        presenter.onLocationRequestClick(this);
+        presenter.onLocationRequestClick();
     }
 
     public static void startActivity(@NonNull FloatingActionButton view){
@@ -109,11 +112,11 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
         super.onResume();
         saveButton.setOnClickListener(view -> {
 
-            Journey journey = new Journey(
+            Journey journey = new Journey(this,
                     journeyName.getText().toString(),
                     journeyDescription.getText().toString());
 
-            Location location = new Location(
+            Location location = new Location(this,
                     locationName.getText().toString(),
                     Double.parseDouble(locationLatitude.getText().toString()),
                     Double.parseDouble(locationLongitude.getText().toString()),
@@ -135,7 +138,7 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
                 isTextViewEmpty(locationLatitude),
                 isTextViewEmpty(locationLongitude),
                 (aBoolean, aBoolean2, aBoolean3, aBoolean4, aBoolean5) -> aBoolean || aBoolean2 || aBoolean3 || aBoolean4 || aBoolean5
-        ).subscribe(allAreEmpty -> {saveButton.setEnabled(!allAreEmpty);});
+        ).subscribe(allAreEmpty -> saveButton.setEnabled(!allAreEmpty));
 
         subscriptions.add(disposable);
     }
@@ -148,7 +151,9 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
     }
 
     @Override
-    public void updateLocation(Location location) {
+    public void updateLocation(@Nullable Location location) {
+        if(location == null) return;
+
         locationName.setText(location.getName());
         locationAddress.setText(location.getAddress());
         locationLatitude.setText(String.valueOf(location.getLatitude()));
@@ -168,9 +173,7 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
         datePickerDialog = new DatePickerDialog(this, (datePicker, year, month, day) -> {
 
             calendar.set(year, month, day);
-
-            String date = day + "-" + month + "-" + year;
-            journeyDate.setText(date);
+            journeyDate.setText(DateUtils.toString(calendar.getTime()));
 
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 

@@ -21,6 +21,7 @@
 
     <!--utils-->
     <string name="undo">Undo</string>
+    <string name="no_description">No description..</string>
 
     <!--location service-->
     <string name="enable_location">Please enable location</string>
@@ -30,6 +31,7 @@
 
     <!--journey-->
     <string name="journey_deleted">Journey deleted</string>
+    <string name="get_location">Get</string>
 
 
 </resources>
