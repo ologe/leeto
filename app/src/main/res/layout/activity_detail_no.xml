@@ -40,7 +40,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
 
-        <olog.dev.leeto.custom_view.RoundedMapView
+        <olog.dev.leeto.ui.custom_view.RoundedMapView
             android:id="@+id/map"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -64,7 +64,7 @@
             android:paddingStart="8dp"
             android:paddingEnd="8dp" />
 
-        <olog.dev.leeto.custom_view.InkPageIndicator
+        <olog.dev.leeto.ui.custom_view.InkPageIndicator
             android:id="@+id/inkIndicator"
             app:layout_constraintTop_toBottomOf="@id/map"
             app:layout_constraintStart_toStartOf="parent"

@@ -16,7 +16,8 @@
         android:theme="@style/Base"
         android:name=".App">
 
-        <activity android:name=".activity_main.MainActivity">
+        <activity android:name=".ui.activity_main.MainActivity"
+            android:screenOrientation="portrait">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,14 +26,17 @@
 
         </activity>
 
-        <activity android:name=".activity_detail.DetailActivity"
-            android:theme="@style/Base.Detail"/>
+        <activity android:name=".ui.activity_detail.DetailActivity"
+            android:theme="@style/Base.Detail"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".activity_add_journey.AddJourneyActivity"
-            android:theme="@style/Base.Dialog"/>
+        <activity android:name=".ui.activity_add_journey.AddJourneyActivity"
+            android:theme="@style/Base.Dialog"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".activity_add_stop.AddStopActivity"
-            android:theme="@style/Base.Dialog"/>
+        <activity android:name=".ui.activity_add_stop.AddStopActivity"
+            android:theme="@style/Base.Dialog"
+            android:screenOrientation="portrait"/>
 
 
         <meta-data android:name="com.google.android.geo.API_KEY"

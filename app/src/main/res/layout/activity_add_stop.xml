@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:location="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -12,7 +10,7 @@
         <variable name="location" type="olog.dev.leeto.model.pojo.Location"/>
         <variable
             name="presenter"
-            type="olog.dev.leeto.activity_add_stop.AddStopContract.Presenter"/>
+            type="olog.dev.leeto.ui.activity_add_stop.AddStopContract.Presenter"/>
     </data>
 
     <FrameLayout

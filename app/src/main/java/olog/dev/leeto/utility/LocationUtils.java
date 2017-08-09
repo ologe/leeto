@@ -5,6 +5,10 @@ import android.location.LocationManager;
 
 public class LocationUtils {
 
+    private LocationUtils() {
+        throw new AssertionError("not instantiable");
+    }
+
     public static boolean isLocationEnabled(Context context){
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 

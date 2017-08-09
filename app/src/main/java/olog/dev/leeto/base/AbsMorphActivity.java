@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import olog.dev.leeto.R;
 import olog.dev.leeto.utility.transition.fab_morph.MorphDialogToFab;
 import olog.dev.leeto.utility.transition.fab_morph.MorphFabToDialog;
@@ -23,13 +24,15 @@ public abstract class AbsMorphActivity extends BaseActivity {
     protected @BindView(R.id.root) FrameLayout root;
     protected @BindView(R.id.discard) Button discard;
 
+    private Unbinder unbinder;
+
     @Override
     @CallSuper
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
 
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
 
         setupSharedElementTransitions();
     }
@@ -48,6 +51,12 @@ public abstract class AbsMorphActivity extends BaseActivity {
         super.onPause();
         root.setOnClickListener(null);
         discard.setOnClickListener(null);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(unbinder != null) unbinder.unbind();
     }
 
     public void setupSharedElementTransitions() {

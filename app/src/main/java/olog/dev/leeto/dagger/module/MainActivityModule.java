@@ -6,12 +6,12 @@ import android.view.LayoutInflater;
 
 import dagger.Module;
 import dagger.Provides;
-import olog.dev.leeto.activity_main.MainActivity;
-import olog.dev.leeto.activity_main.MainContract;
-import olog.dev.leeto.activity_main.MainPresenter;
-import olog.dev.leeto.activity_main.adapter.JourneyAdapter;
 import olog.dev.leeto.dagger.annotation.ActivityContext;
 import olog.dev.leeto.dagger.annotation.PerActivity;
+import olog.dev.leeto.ui.activity_main.MainActivity;
+import olog.dev.leeto.ui.activity_main.MainContract;
+import olog.dev.leeto.ui.activity_main.MainPresenter;
+import olog.dev.leeto.ui.activity_main.adapter.JourneyAdapter;
 
 @Module
 public class MainActivityModule {

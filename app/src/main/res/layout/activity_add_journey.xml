@@ -54,7 +54,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:drawablePadding="100dp"/>
+                android:drawablePadding="100dp"
+                android:inputType="textFilter"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -109,7 +110,8 @@
                 android:textSize="12sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="3"/>
+                android:maxLines="3"
+                android:inputType="textFilter"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -146,7 +148,8 @@
                 android:hint="@string/add_dialog_name"
                 android:textSize="12sp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:inputType="textFilter"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -263,7 +266,8 @@
                 android:textSize="12sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="3"/>
+                android:maxLines="3"
+                android:inputType="textFilter"/>
 
         </android.support.design.widget.TextInputLayout>
 

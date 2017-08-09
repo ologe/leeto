@@ -7,7 +7,7 @@ import java.util.Locale;
 public class TextUtils {
 
     private TextUtils(){
-        // helper class
+        throw new AssertionError("not instantiable");
     }
 
     public static String dateToString(Date date){

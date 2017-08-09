@@ -5,7 +5,7 @@ import android.os.Build;
 public class BuildVersion {
 
     private BuildVersion() {
-        // helper class
+        throw new AssertionError("not instantiable");
     }
 
     public static boolean Marshmallow(){

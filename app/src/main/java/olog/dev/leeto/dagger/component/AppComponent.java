@@ -10,7 +10,7 @@ import olog.dev.leeto.dagger.module.AppContextModule;
 import olog.dev.leeto.dagger.module.HelperModule;
 import olog.dev.leeto.dagger.module.ReactiveModule;
 import olog.dev.leeto.dagger.module.RepositoryModule;
-import olog.dev.leeto.model.repository.RepositoryInterface;
+import olog.dev.leeto.model.repository.IRepository;
 import olog.dev.leeto.utility.rx.BaseSchedulerProvider;
 
 @Component(modules = {
@@ -24,7 +24,7 @@ public interface AppComponent {
 
     void inject(App app);
 
-    RepositoryInterface getRepository();
+    IRepository getRepository();
 
     BaseSchedulerProvider getSchedulerProvider();
 

@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 public class DimensionUtils {
 
     private DimensionUtils(){
-        // helper class
+        throw new AssertionError("not instantiable");
     }
 
     public static int dip(@NonNull Context context, int value){

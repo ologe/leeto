@@ -26,7 +26,7 @@ import olog.dev.leeto.model.pojo.Stop;
 import olog.dev.leeto.utility.rx.BaseSchedulerProvider;
 
 @PerApplication
-public class Repository implements RepositoryInterface {
+public class Repository implements IRepository {
 
     private static final String JOURNEY_LIST_FILE_NAME = "journeysList.json";
 

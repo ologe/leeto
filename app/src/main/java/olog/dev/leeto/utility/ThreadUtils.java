@@ -10,7 +10,7 @@ import olog.dev.leeto.BuildConfig;
 public class ThreadUtils {
 
     private ThreadUtils(){
-        // helper class
+        throw new AssertionError("not instantiable");
     }
 
     @MainThread

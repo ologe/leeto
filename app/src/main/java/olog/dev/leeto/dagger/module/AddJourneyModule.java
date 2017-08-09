@@ -5,11 +5,11 @@ import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
-import olog.dev.leeto.activity_add_journey.AddJourneyActivity;
-import olog.dev.leeto.activity_add_journey.AddJourneyContract;
-import olog.dev.leeto.activity_add_journey.AddJourneyPresenter;
 import olog.dev.leeto.dagger.annotation.ActivityContext;
 import olog.dev.leeto.dagger.annotation.PerActivity;
+import olog.dev.leeto.ui.activity_add_journey.AddJourneyActivity;
+import olog.dev.leeto.ui.activity_add_journey.AddJourneyContract;
+import olog.dev.leeto.ui.activity_add_journey.AddJourneyPresenter;
 
 @Module
 public class AddJourneyModule {

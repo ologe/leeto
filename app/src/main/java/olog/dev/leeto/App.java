@@ -1,7 +1,6 @@
 package olog.dev.leeto;
 
 import android.app.Application;
-import android.os.StrictMode;
 
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -13,7 +12,7 @@ import io.reactivex.schedulers.Schedulers;
 import olog.dev.leeto.dagger.component.AppComponent;
 import olog.dev.leeto.dagger.component.DaggerAppComponent;
 import olog.dev.leeto.dagger.module.AppContextModule;
-import olog.dev.leeto.model.repository.RepositoryInterface;
+import olog.dev.leeto.model.repository.IRepository;
 import olog.dev.leeto.utility.timber.DebugTree;
 import olog.dev.leeto.utility.timber.ReleaseTree;
 import timber.log.Timber;
@@ -21,7 +20,7 @@ import timber.log.Timber;
 public class App extends Application {
 
     @Inject
-    RepositoryInterface repository;
+    IRepository repository;
 
     AppComponent appComponent;
 
