@@ -31,11 +31,9 @@ public class ParallaxRecyclerView extends RecyclerView implements LifecycleObser
     private View toolbar;
     private FloatingActionButton fab;
 
-    @Inject
-    JourneyAdapter adapter;
+    @Inject JourneyAdapter adapter;
 
-    @Inject
-    LinearLayoutManager layoutManager;
+    @Inject LinearLayoutManager layoutManager;
 
     private CoordinatorLayout.LayoutParams scrimParams = null;
 
