@@ -1,4 +1,4 @@
-package olog.dev.leeto.ui._activity_main.adapter;
+package olog.dev.leeto.ui._activity_main.list;
 
 import android.arch.lifecycle.Lifecycle;
 import android.support.annotation.NonNull;
@@ -20,17 +20,15 @@ import olog.dev.leeto.utility.dagger.annotations.scope.PerActivity;
 import olog.dev.leeto.utility.reactive.BaseSchedulersProvider;
 
 @PerActivity
-public class JourneyAdapter extends BaseAdapter<JourneyHolder, Journey> /*implements JourneyAdapterTouchHelper*/ {
+public class JourneyAdapter extends BaseAdapter<JourneyHolder, Journey> {
 
     private static final int HEADERS = 0;
 
     private final MainContract.View view;
     private final LayoutInflater inflater;
 
-//    private Pair<Integer, Journey> lastDeleted = null;
-
     @Inject
-    public JourneyAdapter(Lifecycle lifecycle,
+    JourneyAdapter(Lifecycle lifecycle,
                           BaseSchedulersProvider schedulers,
                           MainContract.View view,
                           LayoutInflater inflater){
@@ -68,19 +66,8 @@ public class JourneyAdapter extends BaseAdapter<JourneyHolder, Journey> /*implem
         return R.layout.item_journey;
     }
 
-//    @Override
-//    public void onItemDismiss(int position) {
-//        lastDeleted = new Pair<>(position, dataSet.get(position));
-//        dataSet.remove(dataSet.get(position));
-//        notifyItemRemoved(position);
-//        view.showDeleteSnackBar(R.string.journey_deleted, lastDeleted.second);
-//    }
-
-//    public void restoreLastDismissedItem(){
-//        if(lastDeleted == null) return;
-//        dataSet.add(lastDeleted.first, lastDeleted.second);
-//        notifyItemInserted(lastDeleted.first);
-//        lastDeleted = null;
-//    }
-
+    @Override
+    protected void onDataSetUpdatedCallback(List<Journey> oldDataSet, List<Journey> newDataSet) {
+        view.scrollToPosition(0);
+    }
 }

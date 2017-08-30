@@ -12,7 +12,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -20,10 +19,15 @@ import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
+
+import javax.inject.Inject;
+import javax.inject.Provider;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTouch;
+import dagger.android.AndroidInjection;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -31,7 +35,6 @@ import olog.dev.leeto.R;
 import olog.dev.leeto.base.AbsMorphActivity;
 import olog.dev.leeto.data.model.Journey;
 import olog.dev.leeto.data.model.Location;
-import olog.dev.leeto.data.permission.IPermissionHelper;
 import olog.dev.leeto.utility.DateUtils;
 
 public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyContract.View {
@@ -50,21 +53,34 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
     @BindView(R.id.locationLongitude) TextInputEditText locationLongitude;
     @BindView(R.id.locationDescription) TextInputEditText locationDescription;
 
-    /*@Inject */AddJourneyContract.Presenter presenter;
-    /*@Inject */IPermissionHelper permissionHelper;
-    /*@Inject */CompositeDisposable subscriptions;
-    /*@Inject */Calendar calendar;
+    @Inject AddJourneyContract.Presenter presenter;
+//    @Inject IPermissionHelper permissionHelper;
+    @Inject CompositeDisposable subscriptions;
+    @Inject Calendar calendar;
+
+    @Inject Provider<String> mockData;
 
     @OnTouch(R.id.journeyDate)
-    public boolean showDatePicker(View view){
+    public boolean showDatePicker(){
         datePickerDialog.show();
         return false;
     }
 
-    @OnClick(R.id.locationRequest)
-    public void requestLocation(View view){
-        presenter.onLocationRequestClick();
+    @OnClick(R.id.journeyBigHeader)
+    public void generateMockData(){
+        String location = mockData.get();
+
+        journeyName.setText("Trip to " + location);
+        locationName.setText(location);
+        locationAddress.setText(location + " address");
+        locationLatitude.setText("" + (new Random().nextDouble() % 90));
+        locationLongitude.setText("" + (new Random().nextDouble() % 180) );
     }
+
+//    @OnClick(R.id.locationRequest)
+//    public void requestLocation(View view){
+//        presenter.onLocationRequestClick();
+//    }
 
     public static void startActivity(@NonNull FloatingActionButton view){
         Context context = view.getContext();
@@ -76,18 +92,9 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
-
-//        DaggerAddJourneyComponent.builder()
-//                .appComponent(getAppComponent())
-//                .addJourneyModule(new AddJourneyModule(this))
-//                .build()
-//                .inject(this);
-
         // butterKnife already bound in superclass
-
-//        getLifecycle().addObserver(presenter);
 
         setupCalendar();
     }

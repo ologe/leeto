@@ -71,7 +71,7 @@ public abstract class BaseAdapter<VH extends RecyclerView.ViewHolder, Model exte
         dataSetDisposable = publisher
                 .onBackpressureLatest()
                 .debounce(DEBOUNCE, TimeUnit.MILLISECONDS)
-                .map(newDataSet -> create(newDataSet, calculateDiff(new Diff(this.dataSet, newDataSet))))
+                .map(newDataSet -> create(newDataSet, calculateDiff(new Diff<>(this.dataSet, newDataSet))))
                 .subscribeOn(schedulers.computation())
                 .observeOn(schedulers.mainThread())
                 .subscribe(result -> {

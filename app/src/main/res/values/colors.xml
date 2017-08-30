@@ -2,7 +2,8 @@
 <resources>
     <color name="colorPrimary">@android:color/white</color>
     <color name="colorPrimaryDark">@color/dark_grey</color>
-    <color name="colorAccent">#2979FF</color>
+    <!--<color name="colorAccent">#2979FF</color>-->
+    <color name="colorAccent">@color/dark_grey</color>
 
     <color name="textColorSecondary">#616161</color>
     <color name="dark_grey">#262626</color>
@@ -24,7 +25,10 @@
     <color name="grey800">#424242</color>
     <color name="grey900">#212121</color>
 
-    <color name="location_marker">#F05349</color>
+    <color name="maps_red">#F05349</color>
+    <color name="maps_green">#21A462</color>
+    <color name="maps_blue">#5184c5</color>
+    <color name="maps_yellow">#fddc43</color>
 
 
 </resources>

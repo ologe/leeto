@@ -10,6 +10,7 @@
     <string name="add_dialog_lat">Lat</string>
     <string name="add_dialog_long">Long</string>
     <string name="add_dialog_date">Date</string>
+    <string name="add_dialog_header">New Journey</string>
     <string name="add_dialog_journey">Journey</string>
     <string name="add_dialog_location">Location</string>
     <string name="add_dialog_save">Save</string>

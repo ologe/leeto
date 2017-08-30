@@ -1,7 +1,11 @@
-package olog.dev.leeto.dagger.module;
+package olog.dev.leeto.ui.activity_add_journey.di;
 
 import android.app.Activity;
 import android.content.Context;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import dagger.Module;
 import dagger.Provides;
@@ -14,10 +18,18 @@ import olog.dev.leeto.utility.dagger.annotations.scope.PerActivity;
 @Module
 public class AddJourneyModule {
 
+    private List<String> mockLocations;
     private AddJourneyActivity activity;
 
     public AddJourneyModule(AddJourneyActivity activity) {
         this.activity = activity;
+        // TODO remove
+        mockLocations = new ArrayList<>();
+        mockLocations.add("Parma");
+        mockLocations.add("New York");
+        mockLocations.add("Parigi");
+        mockLocations.add("Mosca");
+        mockLocations.add("Barcellona");
     }
 
     @Provides
@@ -43,6 +55,11 @@ public class AddJourneyModule {
     @PerActivity
     AddJourneyContract.Presenter providePresenter(AddJourneyPresenter presenter){
         return presenter;
+    }
+
+    @Provides
+    String provideMockData(){
+        return mockLocations.get(new Random().nextInt(mockLocations.size()));
     }
 
 }

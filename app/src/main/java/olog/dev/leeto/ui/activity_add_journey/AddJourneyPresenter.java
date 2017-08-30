@@ -12,18 +12,14 @@ import com.google.android.gms.location.LocationServices;
 
 import java.io.IOException;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import olog.dev.leeto.R;
 import olog.dev.leeto.base.AbsPresenter;
 import olog.dev.leeto.data.model.Journey;
 import olog.dev.leeto.data.model.Location;
-import olog.dev.leeto.data.permission.IPermissionHelper;
-import olog.dev.leeto.data.permission.PermissionHelper;
 import olog.dev.leeto.data.repository.IRepository;
 import olog.dev.leeto.utility.LocationUtils;
 import olog.dev.leeto.utility.dagger.annotations.context.ActivityContext;
@@ -31,40 +27,40 @@ import olog.dev.leeto.utility.reactive.BaseSchedulersProvider;
 
 public class AddJourneyPresenter extends AbsPresenter<AddJourneyContract.View> implements AddJourneyContract.Presenter {
 
-    private Context context;
-    private IPermissionHelper permissionHelper;
+    private final Context context;
+//    private IPermissionHelper permissionHelper;
 
     @Inject
     AddJourneyPresenter(@ActivityContext Context context,
                         AddJourneyContract.View view,
-                        IPermissionHelper permissionHelper,
+//                        IPermissionHelper permissionHelper,
                         BaseSchedulersProvider schedulers,
                         CompositeDisposable subscriptions,
                         IRepository repository){
         super(view, repository, subscriptions, schedulers);
         this.context = context;
-        this.permissionHelper = permissionHelper;
+//        this.permissionHelper = permissionHelper;
     }
 
     @Override
     public void onLocationRequestClick() {
-        if(permissionHelper.hasPermission(PermissionHelper.LOCATION)){
-            getCurrentLocation();
-        } else permissionHelper.requestPermission(PermissionHelper.LOCATION);
+//        if(permissionHelper.hasPermission(PermissionHelper.LOCATION)){
+//            getCurrentLocation();
+//        } else permissionHelper.requestPermission(PermissionHelper.LOCATION);
     }
 
     @Override
     protected void subscribe() {
-        Disposable disposable = permissionHelper.observePermission(PermissionHelper.LOCATION)
-                .delay(600, TimeUnit.MILLISECONDS)
-                .subscribeOn(schedulers.io())
-                .observeOn(schedulers.mainThread())
-                .subscribe(hasPermission -> {
-                    if(hasPermission) {
-                        getCurrentLocation();
-                    }
-                }, Throwable::printStackTrace);
-        subscriptions.add(disposable);
+//        Disposable disposable = permissionHelper.observePermission(PermissionHelper.LOCATION)
+//                .delay(600, TimeUnit.MILLISECONDS)
+//                .subscribeOn(schedulers.io())
+//                .observeOn(schedulers.mainThread())
+//                .subscribe(hasPermission -> {
+//                    if(hasPermission) {
+//                        getCurrentLocation();
+//                    }
+//                }, Throwable::printStackTrace);
+//        subscriptions.add(disposable);
     }
 
     @Override

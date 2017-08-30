@@ -17,6 +17,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -73,6 +74,7 @@ public class Repository implements IRepository {
     @Override
     public Disposable registerToUpdates() {
         return operationQueue.onBackpressureBuffer()
+                .delay(300, TimeUnit.MILLISECONDS)
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.io())
                 .subscribe(journeyTypePair -> {

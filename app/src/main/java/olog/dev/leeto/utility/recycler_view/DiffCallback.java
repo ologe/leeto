@@ -19,18 +19,21 @@ public class DiffCallback implements ListUpdateCallback {
 
     @Override
     public void onInserted(int position, int count) {
+//        System.out.println("onInserted " + position + " count " + count);
         position = position + headers;
         adapter.notifyItemRangeInserted(position, count);
     }
 
     @Override
     public void onRemoved(int position, int count) {
+//        System.out.println("onRemoved " + position + " count " + count);
         position = position + headers;
         adapter.notifyItemRangeRemoved(position, count);
     }
 
     @Override
     public void onMoved(int fromPosition, int toPosition) {
+//        System.out.println("onMoved from " + fromPosition + " to " + toPosition);
         fromPosition = fromPosition + headers;
         toPosition = toPosition + headers;
         adapter.notifyItemMoved(fromPosition, toPosition);
@@ -38,6 +41,7 @@ public class DiffCallback implements ListUpdateCallback {
 
     @Override
     public void onChanged(int position, int count, Object payload) {
+//        System.out.println("onChanged " + position + " count " + count);
         position = position + headers;
         adapter.notifyItemRangeChanged(position, count, payload);
     }

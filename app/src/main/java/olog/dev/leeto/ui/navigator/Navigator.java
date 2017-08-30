@@ -3,6 +3,8 @@ package olog.dev.leeto.ui.navigator;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Pair;
@@ -73,6 +75,10 @@ class Navigator implements INavigator {
 
     @Override
     public void toNoJourneyFragment() {
+        if (findFragmentByTag(NoJourneyFragment.TAG) != null){
+            return;
+        }
+
         NoJourneyFragment fragment = new NoJourneyFragment();
 
         activity.getSupportFragmentManager().beginTransaction()
@@ -95,4 +101,11 @@ class Navigator implements INavigator {
 
         return pairs;
     }
+
+    @Nullable
+    private  <T extends Fragment> T findFragmentByTag(@NonNull String tag){
+        //noinspection unchecked
+        return (T) activity.getSupportFragmentManager().findFragmentByTag(tag);
+    }
+
 }

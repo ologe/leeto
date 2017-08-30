@@ -1,4 +1,4 @@
-package olog.dev.leeto.ui._activity_main.view;
+package olog.dev.leeto.ui._activity_main.list;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
@@ -14,13 +14,13 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import olog.dev.leeto.R;
-import olog.dev.leeto.ui._activity_main.adapter.JourneyAdapter;
 import olog.dev.leeto.utility.DimensionUtils;
 
 public class ParallaxRecyclerView extends RecyclerView implements LifecycleObserver {
 
     private boolean isFabAdd = true;
     private static final int PIVOT = 200; // 200 == 1f(max alpha) - 1/200 (dy/200)
+    private static final float ALPHA_MAX = 1f;
 
     private View scrim;
     private View toolbar;
@@ -46,11 +46,6 @@ public class ParallaxRecyclerView extends RecyclerView implements LifecycleObser
 
     public void init(@NonNull Context context){
         topMargin = DimensionUtils.dip(context, 125);
-
-        // swipe
-//        ItemTouchHelper helper = new ItemTouchHelper(new DragCallback(adapter));
-//        helper.attachToRecyclerView(this);
-
     }
 
     public void setViews(View scrim, View toolbar, FloatingActionButton fab){
@@ -100,7 +95,7 @@ public class ParallaxRecyclerView extends RecyclerView implements LifecycleObser
         if(totalDy != 0){
             if(isFabAdd){
                 isFabAdd = false;
-                fab.setImageResource(R.drawable.vd_key_arrow_up);
+                fab.setImageResource(R.drawable.vd_arrow_up);
             }
         }
     }
@@ -122,7 +117,7 @@ public class ParallaxRecyclerView extends RecyclerView implements LifecycleObser
             }
 
             if(firstVisible <= 1 && totalDy <= PIVOT){
-                toolbar.setAlpha(Math.min(.85f, toolbar.getAlpha() - (float)dy/200));
+                toolbar.setAlpha(Math.min(ALPHA_MAX, toolbar.getAlpha() - (float)dy/200));
             }
         }
     }

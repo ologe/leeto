@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_dark"
@@ -26,15 +25,14 @@
     <TextView
         android:id="@+id/toolbar"
         android:layout_marginTop="@dimen/statusBar"
-        android:alpha=".85"
         android:layout_marginStart="24dp"
         android:gravity="center_vertical"
-        android:textSize="20sp"
+        android:textSize="40sp"
         android:textColor="@android:color/white"
         android:text="@string/app_name"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:fontFamily="@font/lobster"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:transitionName="@string/app_name"/>
 
     <View
@@ -47,7 +45,7 @@
         android:layout_marginEnd="36dp"
         android:transitionName="scrim_accent"/>
 
-    <olog.dev.leeto.ui._activity_main.view.ParallaxRecyclerView
+    <olog.dev.leeto.ui._activity_main.list.ParallaxRecyclerView
         android:paddingTop="90dp"
         android:id="@+id/list"
         android:layout_width="match_parent"

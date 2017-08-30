@@ -38,7 +38,7 @@ public class Diff<T extends HasId> extends DiffUtil.Callback {
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldList.get(oldItemPosition).equals(newList.get(newItemPosition)) && oldItemPosition == newItemPosition;
+        return oldList.get(oldItemPosition).equals(newList.get(newItemPosition));
     }
 
 }
