@@ -20,9 +20,9 @@ import java.util.List;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import olog.dev.leeto.model.pojo.Journey;
-import olog.dev.leeto.model.pojo.Location;
-import olog.dev.leeto.model.pojo.Stop;
+import olog.dev.leeto.data.model.Journey;
+import olog.dev.leeto.data.model.Location;
+import olog.dev.leeto.data.model.Stop;
 
 public class MapController implements LifecycleObserver, OnMapReadyCallback {
 

@@ -7,9 +7,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-alpha9'
-        classpath 'me.tatarka:gradle-retrolambda:3.7.0'
-
+        classpath 'com.android.tools.build:gradle:3.0.0-beta2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -33,18 +31,32 @@ ext {
     targetSdkVersion = 26
     compileSdkVersion = 26
     buildToolsVersion = '26.0.1'
+    constraint_layout = '1.0.2'
 
     // App dependencies
-    support_library = '26.0.0'
-    play_services = '11.0.2'
-    micro_architecture = '1.0.0-alpha7'
-    constraint_layout = '1.0.2'
-    rx_java = '2.1.2'
-    rx_android = '2.0.1'
-    rx_binding = '2.0.0'
-    dagger = '2.11'
+    support_library = '26.0.2'
+    play_services = '11.2.0'
+    micro_architecture = '1.0.0-alpha9'
     gson = '2.8.0'
     timber = '4.5.1'
+    butterknife = '8.8.1'
+    lombok = '1.16.18'
+    glide = '3.8.0'
 
-    butterknife = '8.7.0'
+    // reactive
+    rx_java = '2.1.3'
+    rx_android = '2.0.1'
+    rx_binding = '2.0.0'
+
+    // di
+    dagger = '2.11'
+
+    // test
+    junit = '4.12'
+    mockito = '2.8.47'
+    runner = '1.0.0'
+    espresso = '3.0.0'
+
+    // debug
+    debug_db = '1.0.1'
 }

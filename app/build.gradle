@@ -1,6 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
-
 
 android {
 
@@ -14,6 +12,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables.useSupportLibrary = true
+        resConfigs "en", "xxxhdpi"
     }
     buildTypes {
 
@@ -23,10 +24,9 @@ android {
         }
 
         debug {
-            minifyEnabled true
+            minifyEnabled false
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            debuggable false
         }
     }
 
@@ -35,8 +35,14 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    dataBinding.enabled = true
-    defaultConfig.vectorDrawables.useSupportLibrary = true
+    // for test
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    dexOptions {
+        preDexLibraries true
+    }
 }
 
 
@@ -60,27 +66,40 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:$rootProject.micro_architecture"
     annotationProcessor "android.arch.lifecycle:compiler:$rootProject.micro_architecture"
 
-    // maps
+    // play service
     implementation "com.google.android.gms:play-services-maps:$rootProject.play_services"
     implementation "com.google.android.gms:play-services-location:$rootProject.play_services"
-
-    // json parser
-    implementation "com.google.code.gson:gson:$rootProject.gson"
 
     // reactive stream
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
     implementation "com.jakewharton.rxbinding2:rxbinding:$rootProject.rx_binding"
 
-
-    // dependecy injection
+    // di
     implementation "com.google.dagger:dagger:$rootProject.dagger"
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger"
+    implementation "com.google.dagger:dagger-android:$rootProject.dagger"
+    implementation "com.google.dagger:dagger-android-support:$rootProject.dagger"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$rootProject.dagger"
 
-    implementation "com.jakewharton.timber:timber:$rootProject.timber"
 
     // view binding
     implementation "com.jakewharton:butterknife:$rootProject.butterknife"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterknife"
+    provided  "org.projectlombok:lombok:$rootProject.lombok"
+    annotationProcessor "org.projectlombok:lombok:$rootProject.lombok"
 
+    // other
+    implementation "com.jakewharton.timber:timber:$rootProject.timber"
+    implementation "com.github.bumptech.glide:glide:$rootProject.glide"
+    implementation "com.google.code.gson:gson:$rootProject.gson"
+
+    // test
+    testImplementation "junit:junit:$rootProject.junit"
+    testImplementation "org.mockito:mockito-core:$rootProject.mockito"
+    androidTestImplementation "com.android.support.test:runner:$rootProject.runner"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.espresso"
+
+    // debug
+    debugImplementation "com.amitshekhar.android:debug-db:$rootProject.debug_db"
 }

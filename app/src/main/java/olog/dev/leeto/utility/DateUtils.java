@@ -4,14 +4,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class DateUtils {
+import lombok.experimental.UtilityClass;
 
-    private DateUtils() {
-        throw new AssertionError("not instantiable");
-    }
+@UtilityClass
+public class DateUtils {
 
     public static String toString(Date date){
         return new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(date);
     }
+
+
 
 }

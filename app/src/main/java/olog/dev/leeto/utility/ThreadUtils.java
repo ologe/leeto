@@ -4,14 +4,11 @@ import android.os.Looper;
 import android.support.annotation.MainThread;
 import android.support.annotation.WorkerThread;
 
+import lombok.experimental.UtilityClass;
 import olog.dev.leeto.BuildConfig;
 
-
+@UtilityClass
 public class ThreadUtils {
-
-    private ThreadUtils(){
-        throw new AssertionError("not instantiable");
-    }
 
     @MainThread
     public static void assertMainThread(){

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -14,21 +13,16 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 
-import olog.dev.leeto.R;
-import olog.dev.leeto.databinding.ActivityDetailBinding;
-import olog.dev.leeto.model.pojo.Journey;
-import olog.dev.leeto.model.pojo.Stop;
-import olog.dev.leeto.ui.activity_add_stop.AddStopActivity;
 import timber.log.Timber;
 
 
 public class DetailActivity extends AppCompatActivity implements LifecycleRegistryOwner {
 
-    private static final String TAG = AddStopActivity.class.getSimpleName();
+    private static final String TAG = "DetailActivity";
     public static String EXTRA_STOP = TAG + "extra.stop";
     public static int RC_ADD_STOP = 200;
 
-    public static final String BUNDLE_JOURNEY = TAG + "bundle.journey";
+    public static final String BUNDLE_JOURNEY_ID = TAG + "bundle.journey_id";
     public static final String BUNDLE_POSITION = TAG + "bundle.position";
 
     public static final String SHARED_ROOT = TAG + "shared.root";
@@ -36,9 +30,9 @@ public class DetailActivity extends AppCompatActivity implements LifecycleRegist
 
     private DetailActivityContract.Presenter presenter;
 
-    private Journey journey;
-
-    private ActivityDetailBinding binding;
+//    private Journey journey;
+//
+//    private ActivityDetailBinding binding;
 
     private MapController mapController;
 
@@ -47,26 +41,26 @@ public class DetailActivity extends AppCompatActivity implements LifecycleRegist
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
+//        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
         postponeEnterTransition();
 
         presenter = new DetailActivityPresenter();
 
-        binding.setPresenter(presenter);
-
-        journey = getIntent().getParcelableExtra(BUNDLE_JOURNEY);
+//        binding.setPresenter(presenter);
+//
+//        journey = getIntent().getParcelableExtra(BUNDLE_JOURNEY);
         int position = getIntent().getIntExtra(BUNDLE_POSITION, -1);
 
-        mapController = new MapController(journey, savedInstanceState, getLifecycle(), binding.map);
+//        mapController = new MapController(journey, savedInstanceState, getLifecycle(), binding.map);
 
-        binding.journeyName.setText(journey.getName());
-
-        binding.journeyName.setTransitionName(SHARED_JOURNEY_NAME + position);
-        binding.root.setTransitionName(SHARED_ROOT + position);
-
-        binding.viewPager.setAdapter(new StopPagerAdapter(journey.getStopsList(), getSupportFragmentManager()));
-        binding.inkIndicator.setViewPager(binding.viewPager);
+//        binding.journeyName.setText(journey.getName());
+//
+//        binding.journeyName.setTransitionName(SHARED_JOURNEY_NAME + position);
+//        binding.root.setTransitionName(SHARED_ROOT + position);
+//
+//        binding.viewPager.setAdapter(new StopPagerAdapter(journey.getStopsList(), getSupportFragmentManager()));
+//        binding.inkIndicator.setViewPager(binding.viewPager);
 
         setNavigationBarTransition();
 
@@ -82,7 +76,7 @@ public class DetailActivity extends AppCompatActivity implements LifecycleRegist
             @Override
             public void onTransitionEnd(Transition transition) {
                 Timber.d("onTransitionEnd");
-                binding.root2.setVisibility(View.VISIBLE);
+//                binding.root2.setVisibility(View.VISIBLE);
             }
         });
 
@@ -90,7 +84,7 @@ public class DetailActivity extends AppCompatActivity implements LifecycleRegist
             @Override
             public void onTransitionStart(Transition transition) {
                 Timber.d("onTransitionStart");
-                binding.root2.setVisibility(View.INVISIBLE);
+//                binding.root2.setVisibility(View.INVISIBLE);
             }
 
             @Override public void onTransitionEnd(Transition transition) {}
@@ -132,17 +126,17 @@ public class DetailActivity extends AppCompatActivity implements LifecycleRegist
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        binding.viewPager.addOnPageChangeListener(onPageChangeListener);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        binding.viewPager.removeOnPageChangeListener(onPageChangeListener);
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        binding.viewPager.addOnPageChangeListener(onPageChangeListener);
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        binding.viewPager.removeOnPageChangeListener(onPageChangeListener);
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -150,14 +144,14 @@ public class DetailActivity extends AppCompatActivity implements LifecycleRegist
 
         if(requestCode == RC_ADD_STOP && resultCode == Activity.RESULT_OK){
             // TODO dentro try catch
-            Stop stop = data.getParcelableExtra(EXTRA_STOP);
+//            Stop stop = data.getParcelableExtra(EXTRA_STOP);
 
-            mapController.addMarker(stop);
+//            mapController.addMarker(stop);
 //            Repository.getInstance(this)
 //                    .addStopToJourney(this, journey, stop); TODO
 
 //            journey.addStop(stop);
-            binding.viewPager.getAdapter().notifyDataSetChanged();
+//            binding.viewPager.getAdapter().notifyDataSetChanged();
         }
     }
 
@@ -167,8 +161,8 @@ public class DetailActivity extends AppCompatActivity implements LifecycleRegist
 
         @Override
         public void onPageSelected(int position) {
-            binding.map.getMapAsync(googleMap -> mapController.moveTo(
-                    journey.getStopsList().get(position).getLocation(), position));
+//            binding.map.getMapAsync(googleMap -> mapController.moveTo(
+//                    journey.getStopsList().get(position).getLocation(), position));
         }
     };
 

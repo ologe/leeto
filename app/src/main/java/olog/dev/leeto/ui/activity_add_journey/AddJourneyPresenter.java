@@ -19,38 +19,31 @@ import javax.inject.Inject;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import olog.dev.leeto.R;
-import olog.dev.leeto.dagger.annotation.ActivityContext;
-import olog.dev.leeto.model.permission.IPermissionHelper;
-import olog.dev.leeto.model.permission.PermissionHelper;
-import olog.dev.leeto.model.pojo.Journey;
-import olog.dev.leeto.model.pojo.Location;
-import olog.dev.leeto.model.repository.IRepository;
+import olog.dev.leeto.base.AbsPresenter;
+import olog.dev.leeto.data.model.Journey;
+import olog.dev.leeto.data.model.Location;
+import olog.dev.leeto.data.permission.IPermissionHelper;
+import olog.dev.leeto.data.permission.PermissionHelper;
+import olog.dev.leeto.data.repository.IRepository;
 import olog.dev.leeto.utility.LocationUtils;
-import olog.dev.leeto.utility.rx.BaseSchedulerProvider;
-import timber.log.Timber;
+import olog.dev.leeto.utility.dagger.annotations.context.ActivityContext;
+import olog.dev.leeto.utility.reactive.BaseSchedulersProvider;
 
-public class AddJourneyPresenter implements AddJourneyContract.Presenter {
+public class AddJourneyPresenter extends AbsPresenter<AddJourneyContract.View> implements AddJourneyContract.Presenter {
 
     private Context context;
-    private AddJourneyContract.View view;
     private IPermissionHelper permissionHelper;
-    private BaseSchedulerProvider schedulerProvider;
-    private CompositeDisposable subscriptions;
-    private IRepository repository;
 
     @Inject
     AddJourneyPresenter(@ActivityContext Context context,
                         AddJourneyContract.View view,
                         IPermissionHelper permissionHelper,
-                        BaseSchedulerProvider schedulerProvider,
+                        BaseSchedulersProvider schedulers,
                         CompositeDisposable subscriptions,
                         IRepository repository){
+        super(view, repository, subscriptions, schedulers);
         this.context = context;
-        this.view = view;
         this.permissionHelper = permissionHelper;
-        this.schedulerProvider = schedulerProvider;
-        this.subscriptions = subscriptions;
-        this.repository = repository;
     }
 
     @Override
@@ -61,27 +54,17 @@ public class AddJourneyPresenter implements AddJourneyContract.Presenter {
     }
 
     @Override
-    public void subscribe() {
-        Timber.d("subscribe");
-
-        Timber.e("onCreate " + permissionHelper);
-
+    protected void subscribe() {
         Disposable disposable = permissionHelper.observePermission(PermissionHelper.LOCATION)
                 .delay(600, TimeUnit.MILLISECONDS)
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.mainThread())
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.mainThread())
                 .subscribe(hasPermission -> {
                     if(hasPermission) {
-                       getCurrentLocation();
+                        getCurrentLocation();
                     }
                 }, Throwable::printStackTrace);
         subscriptions.add(disposable);
-    }
-
-    @Override
-    public void unsubscribe() {
-        Timber.d("unsubscribe");
-        subscriptions.clear();
     }
 
     @Override
@@ -110,12 +93,13 @@ public class AddJourneyPresenter implements AddJourneyContract.Presenter {
                         Address address = geocoder.getFromLocation(
                                 location.getLatitude(), location.getLongitude(), 1).get(0);
 
-                        locationObject = new Location(context,
+                        locationObject = new Location(
                                 address.getCountryName(),
                                 location.getLatitude(),
                                 location.getLongitude(),
                                 address.getThoroughfare() + ", " + address.getLocality(),
-                                null);
+                                null
+                        );
 
                     } catch (IOException e) {
                         e.printStackTrace();

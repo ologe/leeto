@@ -3,11 +3,10 @@ package olog.dev.leeto.utility;
 import android.content.Context;
 import android.location.LocationManager;
 
-public class LocationUtils {
+import lombok.experimental.UtilityClass;
 
-    private LocationUtils() {
-        throw new AssertionError("not instantiable");
-    }
+@UtilityClass
+public class LocationUtils {
 
     public static boolean isLocationEnabled(Context context){
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);

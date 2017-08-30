@@ -21,8 +21,6 @@ import com.jakewharton.rxbinding2.widget.RxTextView;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTouch;
@@ -31,11 +29,9 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import olog.dev.leeto.R;
 import olog.dev.leeto.base.AbsMorphActivity;
-import olog.dev.leeto.dagger.component.DaggerAddJourneyComponent;
-import olog.dev.leeto.dagger.module.AddJourneyModule;
-import olog.dev.leeto.model.permission.IPermissionHelper;
-import olog.dev.leeto.model.pojo.Journey;
-import olog.dev.leeto.model.pojo.Location;
+import olog.dev.leeto.data.model.Journey;
+import olog.dev.leeto.data.model.Location;
+import olog.dev.leeto.data.permission.IPermissionHelper;
 import olog.dev.leeto.utility.DateUtils;
 
 public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyContract.View {
@@ -54,10 +50,10 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
     @BindView(R.id.locationLongitude) TextInputEditText locationLongitude;
     @BindView(R.id.locationDescription) TextInputEditText locationDescription;
 
-    @Inject AddJourneyContract.Presenter presenter;
-    @Inject IPermissionHelper permissionHelper;
-    @Inject CompositeDisposable subscriptions;
-    @Inject Calendar calendar;
+    /*@Inject */AddJourneyContract.Presenter presenter;
+    /*@Inject */IPermissionHelper permissionHelper;
+    /*@Inject */CompositeDisposable subscriptions;
+    /*@Inject */Calendar calendar;
 
     @OnTouch(R.id.journeyDate)
     public boolean showDatePicker(View view){
@@ -83,15 +79,15 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
 
         super.onCreate(savedInstanceState);
 
-        DaggerAddJourneyComponent.builder()
-                .appComponent(getAppComponent())
-                .addJourneyModule(new AddJourneyModule(this))
-                .build()
-                .inject(this);
+//        DaggerAddJourneyComponent.builder()
+//                .appComponent(getAppComponent())
+//                .addJourneyModule(new AddJourneyModule(this))
+//                .build()
+//                .inject(this);
 
         // butterKnife already bound in superclass
 
-        getLifecycle().addObserver(presenter);
+//        getLifecycle().addObserver(presenter);
 
         setupCalendar();
     }
@@ -101,11 +97,11 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
         super.onResume();
         saveButton.setOnClickListener(view -> {
 
-            Journey journey = new Journey(this,
+            Journey journey = new Journey(
                     journeyName.getText().toString(),
                     journeyDescription.getText().toString());
 
-            Location location = new Location(this,
+            Location location = new Location(
                     locationName.getText().toString(),
                     Double.parseDouble(locationLatitude.getText().toString()),
                     Double.parseDouble(locationLongitude.getText().toString()),
@@ -158,7 +154,7 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
     private void setupCalendar(){
 
         // mandatory to initialize the view with some date
-        journeyDate.setText(olog.dev.leeto.utility.TextUtils.dateToString(new Date()));
+        journeyDate.setText(DateUtils.toString(new Date()));
 
         datePickerDialog = new DatePickerDialog(this, (datePicker, year, month, day) -> {
 

@@ -24,8 +24,8 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--dontwarn java.lang.invoke.*
--dontwarn **$$Lambda$*
-
--dontwarn
--ignorewarnings
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}

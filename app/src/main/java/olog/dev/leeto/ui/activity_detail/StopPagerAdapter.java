@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
-import olog.dev.leeto.model.pojo.Stop;
+import olog.dev.leeto.data.model.Stop;
 
 public class StopPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -19,7 +19,8 @@ public class StopPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return StopFragment.newInstance(dataSet.get(position));
+//        return StopFragment.newInstance(dataSet.get(position));
+        return null;
     }
 
     @Override

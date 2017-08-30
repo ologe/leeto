@@ -7,7 +7,7 @@
         <variable
             name="datePicker"
             type="android.app.DatePickerDialog"/>
-        <variable name="location" type="olog.dev.leeto.model.pojo.Location"/>
+        <variable name="location" type="olog.dev.leeto.data.model.Location"/>
         <variable
             name="presenter"
             type="olog.dev.leeto.ui.activity_add_stop.AddStopContract.Presenter"/>

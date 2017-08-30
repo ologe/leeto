@@ -2,12 +2,12 @@ package olog.dev.leeto.base;
 
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-import olog.dev.leeto.App;
-import olog.dev.leeto.dagger.component.AppComponent;
+import com.bumptech.glide.Glide;
 
 public abstract class BaseActivity extends AppCompatActivity implements LifecycleRegistryOwner {
 
@@ -18,13 +18,22 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
         return lifecycleRegistry;
     }
 
-    protected AppComponent getAppComponent(){
-        return ((App) getApplication()).getAppComponent();
+    @Nullable
+    protected <T extends Fragment> T findFragmentByTag(@NonNull String tag){
+        //noinspection unchecked
+        return (T) getSupportFragmentManager().findFragmentByTag(tag);
     }
 
-    @Nullable
-    protected Fragment findFragmentByTag(String TAG){
-        return getSupportFragmentManager().findFragmentByTag(TAG);
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        Glide.with(this).onTrimMemory(level);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        Glide.with(this).onLowMemory();
     }
 
 }
