@@ -13,8 +13,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import olog.dev.leeto.base.AbsPresenter;
 import olog.dev.leeto.data.repository.IRepository;
-import olog.dev.leeto.ui._activity_main.list.ParallaxRecyclerView;
-import olog.dev.leeto.ui.activity_add_journey.AddJourneyActivity;
+import olog.dev.leeto.ui.fragment_no_journey.NoJourneyFragment;
 import olog.dev.leeto.ui.navigator.INavigator;
 import olog.dev.leeto.utility.dagger.annotations.scope.PerActivity;
 import olog.dev.leeto.utility.reactive.BaseSchedulersProvider;
@@ -42,10 +41,13 @@ public class MainPresenter extends AbsPresenter<MainContract.View> implements Ma
                 .subscribe( journeys -> {
 
                     if(!journeys.isEmpty()){
+                        navigator.removeFragment(NoJourneyFragment.TAG);
                         view.showJourneysList(journeys);
-                    } else navigator.toNoJourneyFragment();
+                    } else {
+                        navigator.toNoJourneyFragment();
+                    }
 
-                }, Throwable::printStackTrace);
+                });
 
         Disposable repositoryUpdatesDisposable = repository.registerToUpdates();
 
@@ -53,10 +55,8 @@ public class MainPresenter extends AbsPresenter<MainContract.View> implements Ma
     }
 
     @Override
-    public void onFabClick(@NonNull FloatingActionButton view, @NonNull ParallaxRecyclerView recyclerView) {
-        if(!recyclerView.isFabAdd()){
-            recyclerView.smoothScrollToPosition(0);
-        } else AddJourneyActivity.startActivity(view);
+    public void toAddJourney(@NonNull FloatingActionButton fab) {
+        navigator.toAddJourneyActivity(fab);
     }
 
     @Override

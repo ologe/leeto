@@ -12,4 +12,8 @@ public class BuildVersion {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 
+    public static boolean Nougat(){
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
+    }
+
 }

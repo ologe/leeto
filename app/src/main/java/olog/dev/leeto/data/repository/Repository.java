@@ -29,6 +29,7 @@ import io.reactivex.subjects.BehaviorSubject;
 import lombok.Cleanup;
 import olog.dev.leeto.data.model.Journey;
 import olog.dev.leeto.data.model.Stop;
+import olog.dev.leeto.utility.collections.CollectionsUtils;
 import olog.dev.leeto.utility.dagger.annotations.context.ApplicationContext;
 import olog.dev.leeto.utility.dagger.annotations.scope.PerApplication;
 import olog.dev.leeto.utility.reactive.BaseSchedulersProvider;
@@ -172,4 +173,9 @@ public class Repository implements IRepository {
 
     }
 
+    @NonNull
+    @Override
+    public Journey getJourney(long journeyId) {
+        return CollectionsUtils.first(cache.getValue(), journey -> journey.getId() == journeyId);
+    }
 }

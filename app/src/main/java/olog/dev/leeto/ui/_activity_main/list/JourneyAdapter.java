@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -29,9 +31,9 @@ public class JourneyAdapter extends BaseAdapter<JourneyHolder, Journey> {
 
     @Inject
     JourneyAdapter(Lifecycle lifecycle,
-                          BaseSchedulersProvider schedulers,
-                          MainContract.View view,
-                          LayoutInflater inflater){
+                   BaseSchedulersProvider schedulers,
+                   MainContract.View view,
+                   LayoutInflater inflater){
         super(Collections.emptyList(), lifecycle, schedulers, HEADERS);
         this.view = view;
         this.inflater = inflater;
@@ -49,7 +51,7 @@ public class JourneyAdapter extends BaseAdapter<JourneyHolder, Journey> {
             this.view.onItemClick(dataSet.get(position), position, holder.scrim, holder.journeyName);
         });
 
-        return new JourneyHolder(view);
+        return holder;
     }
 
     @Override
@@ -67,7 +69,7 @@ public class JourneyAdapter extends BaseAdapter<JourneyHolder, Journey> {
     }
 
     @Override
-    protected void onDataSetUpdatedCallback(List<Journey> oldDataSet, List<Journey> newDataSet) {
-        view.scrollToPosition(0);
+    public void onViewRecycled(JourneyHolder holder) {
+        Glide.clear(holder.image);
     }
 }

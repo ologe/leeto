@@ -4,6 +4,8 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,17 +18,19 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import olog.dev.leeto.R;
+import olog.dev.leeto.ui._activity_main.MainActivity;
+import olog.dev.leeto.ui.activity_add_journey.AddJourneyActivity;
 import olog.dev.leeto.ui.activity_detail.DetailActivity;
 import olog.dev.leeto.ui.fragment_no_journey.NoJourneyFragment;
 import olog.dev.leeto.utility.dagger.annotations.scope.PerActivity;
 
 @PerActivity
-class Navigator implements INavigator {
+public class Navigator implements INavigator {
 
     private AppCompatActivity activity;
 
     @Inject
-    public Navigator(AppCompatActivity activity) {
+    Navigator(AppCompatActivity activity) {
         this.activity = activity;
     }
 
@@ -70,7 +74,23 @@ class Navigator implements INavigator {
         @SuppressWarnings("unchecked")
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, createPairs(views));
 
-        activity.startActivity(intent, options.toBundle());
+        ActivityCompat.startActivity(activity, intent, options.toBundle());
+    }
+
+    @Override
+    public void toAddJourneyActivity(@NonNull FloatingActionButton fab) {
+        Intent intent = new Intent(activity, AddJourneyActivity.class);
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
+                activity, fab, fab.getTransitionName());
+        ActivityCompat.startActivityForResult(activity, intent, MainActivity.REQUEST_CODE, options.toBundle());
+    }
+
+    @Override
+    public void toAddStopActivity(@NonNull FloatingActionButton fab) {
+//        Intent intent = new Intent(activity, AddStopActivity.class);
+//        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
+//                activity, fab, fab.getTransitionName());
+//        activity.startActivity(intent, options.toBundle());
     }
 
     @Override
@@ -85,6 +105,22 @@ class Navigator implements INavigator {
                 .setReorderingAllowed(true)
                 .add(R.id.root, fragment, NoJourneyFragment.TAG)
                 .commitNowAllowingStateLoss();
+    }
+
+    @Override
+    public void closeActivity() {
+        activity.finishAfterTransition();
+    }
+
+    @Override
+    public void removeFragment(@NonNull String TAG) {
+        Fragment fragment = findFragmentByTag(NoJourneyFragment.TAG);
+        if(fragment != null){
+            activity.getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .remove(fragment)
+                    .commitAllowingStateLoss();
+        }
     }
 
     private Pair[] createPairs(Map<String, View> views){

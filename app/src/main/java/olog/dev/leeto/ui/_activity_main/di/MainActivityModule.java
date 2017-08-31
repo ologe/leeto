@@ -4,7 +4,6 @@ import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 
 import dagger.Module;
@@ -12,8 +11,6 @@ import dagger.Provides;
 import olog.dev.leeto.ui._activity_main.MainActivity;
 import olog.dev.leeto.ui._activity_main.MainContract;
 import olog.dev.leeto.ui._activity_main.MainPresenter;
-import olog.dev.leeto.ui._activity_main.list.JourneyAdapter;
-import olog.dev.leeto.ui._activity_main.list.JourneyHolder;
 import olog.dev.leeto.utility.dagger.annotations.context.ActivityContext;
 import olog.dev.leeto.utility.dagger.annotations.scope.PerActivity;
 
@@ -59,12 +56,6 @@ public class MainActivityModule {
 
     @Provides
     @PerActivity
-    RecyclerView.Adapter<JourneyHolder> provideAdapter(JourneyAdapter adapter){
-        return adapter;
-    }
-
-    @Provides
-    @PerActivity
     LinearLayoutManager provideLayoutManager(){
         return new LinearLayoutManager(activity);
     }
@@ -74,5 +65,6 @@ public class MainActivityModule {
     Lifecycle provideLifecycle(){
         return activity.getLifecycle();
     }
+
 
 }

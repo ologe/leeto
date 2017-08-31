@@ -1,10 +1,12 @@
 package olog.dev.leeto.ui._activity_main;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -24,13 +26,20 @@ import olog.dev.leeto.base.BaseActivity;
 import olog.dev.leeto.data.model.Journey;
 import olog.dev.leeto.ui._activity_main.list.JourneyAdapter;
 import olog.dev.leeto.ui._activity_main.list.ParallaxRecyclerView;
-import olog.dev.leeto.ui.fragment_no_journey.NoJourneyFragment;
+import olog.dev.leeto.utility.HandlerUtils;
 
 public class MainActivity extends BaseActivity implements MainContract.View {
+
+    public static final int REQUEST_CODE = 123;
+    private static final int SCROLL_DELAY = 400;
 
     @Inject MainContract.Presenter presenter;
     @Inject JourneyAdapter adapter;
     @Inject LinearLayoutManager layoutManager;
+
+    private Unbinder unbinder;
+    private Handler handler;
+    private SmoothScrollToPositionRunnable smoothScrollToPositionRunnable;
 
     @BindView(R.id.root) View root;
     @BindView(R.id.list) ParallaxRecyclerView list;
@@ -39,11 +48,13 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @BindView(R.id.addJourneyFab) FloatingActionButton addJourney;
     @BindView(R.id.back) ImageView back;
 
-    private Unbinder unbinder;
-
     @OnClick(R.id.addJourneyFab)
-    public void addJourney(View view){
-        presenter.onFabClick((FloatingActionButton) view, list);
+    public void addJourney(FloatingActionButton view){
+        if (list.isFabAdd()) {
+            presenter.toAddJourney(view);
+        } else {
+            list.smoothScrollToPosition(0);
+        }
     }
 
     @Override
@@ -53,6 +64,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         setContentView(R.layout.activity_main);
 
         unbinder = ButterKnife.bind(this);
+        handler = new Handler();
 
         getLifecycle().addObserver(list);
 
@@ -62,20 +74,30 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        HandlerUtils.removeCallback(handler, smoothScrollToPositionRunnable);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
     }
 
     @Override
-    public void showJourneysList(@NonNull List<Journey> data) {
-        Fragment fragment = findFragmentByTag(NoJourneyFragment.TAG);
-        if(fragment != null){
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .remove(fragment)
-                    .commitAllowingStateLoss();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
+            if(adapter.getItemCount() > 1){
+                toolbar.setAlpha(0);
+                scrollToPositionWithDelay(0);
+            }
         }
+    }
+
+    @Override
+    public void showJourneysList(@NonNull List<Journey> data) {
         adapter.updateDataSet(data);
     }
 
@@ -94,8 +116,26 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         presenter.toDetailActivity(transitionViews, journey.getId(), currentPosition, layoutManager);
     }
 
-    @Override
-    public void scrollToPosition(int position) {
-        list.smoothScrollToPosition(0);
+
+    private void scrollToPositionWithDelay(int position) {
+        HandlerUtils.removeCallback(handler, smoothScrollToPositionRunnable);
+        smoothScrollToPositionRunnable = new SmoothScrollToPositionRunnable(list, position);
+        handler.postDelayed(smoothScrollToPositionRunnable, SCROLL_DELAY);
+    }
+
+    private static class SmoothScrollToPositionRunnable implements Runnable {
+
+        private final int position;
+        private final RecyclerView list;
+
+        public SmoothScrollToPositionRunnable(RecyclerView list ,int position) {
+            this.list = list;
+            this.position = position;
+        }
+
+        @Override
+        public void run() {
+            list.smoothScrollToPosition(position);
+        }
     }
 }

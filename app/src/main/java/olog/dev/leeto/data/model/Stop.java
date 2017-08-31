@@ -7,6 +7,7 @@ import java.util.Date;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.Value;
+import olog.dev.leeto.utility.DateUtils;
 
 @Value
 @ToString
@@ -19,6 +20,10 @@ public class Stop {
     public Stop(@NonNull Date date, @NonNull Location location) {
         this.date = date;
         this.location = location;
+    }
+
+    public String getFormattedDate(){
+        return DateUtils.toString(date);
     }
 
 }

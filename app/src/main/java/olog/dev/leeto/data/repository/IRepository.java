@@ -20,4 +20,6 @@ public interface IRepository {
     @NonNull
     Disposable registerToUpdates();
 
+    @NonNull
+    Journey getJourney(long journeyId);
 }

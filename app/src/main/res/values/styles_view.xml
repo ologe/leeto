@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ScrimAccent">
+        <item name="android:layout_marginTop">125dp</item>
+        <item name="android:layout_marginStart">24dp</item>
+        <item name="android:layout_marginEnd">36dp</item>
+        <item name="android:transitionName">scrim_accent</item>
+        <item name="android:background">@drawable/gradient_accent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="ScrimDark">
+        <item name="android:transitionName">scrim_dark</item>
+        <item name="android:background">@drawable/gradient_dark</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="BackButton">
+        <item name="android:layout_marginTop">@dimen/statusBar</item>
+        <item name="android:tint">@android:color/white</item>
+        <item name="android:src">@drawable/ic_back</item>
+        <item name="android:translationY">15dp</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:scaleY">1.5</item>
+        <item name="android:scaleX">1.5</item>
+        <item name="android:transitionName">back</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+    </style>
+
+    <style name="MainHeader">
+        <item name="android:layout_marginTop">@dimen/statusBar</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:transitionName">@string/app_name</item>
+        <item name="android:text">@string/app_name</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="TransitionView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:elevation">6dp</item>
+        <item name="android:layout_marginStart">36dp</item>
+        <item name="android:layout_marginEnd">24dp</item>
+    </style>
+
+    <style name="AddFab">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="fabSize">normal</item>
+        <item name="backgroundTint">@color/fab_background_color</item>
+        <item name="srcCompat">@drawable/vd_add</item>
+        <item name="android:tint">@android:color/white</item>
+        <item name="android:layout_margin">16dp</item>
+        <item name="android:transitionName">@string/transition_fab</item>
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:elevation">6dp</item>
+    </style>
+
+</resources>

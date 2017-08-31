@@ -1,6 +1,7 @@
 package olog.dev.leeto.ui.navigator;
 
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -15,4 +16,11 @@ public interface INavigator {
 
     void toNoJourneyFragment();
 
+    void toAddJourneyActivity(@NonNull FloatingActionButton fab);
+
+    void toAddStopActivity(@NonNull FloatingActionButton fab);
+
+    void removeFragment(@NonNull String TAG);
+
+    void closeActivity();
 }

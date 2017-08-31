@@ -1,14 +1,8 @@
 package olog.dev.leeto.ui.activity_add_journey;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -73,8 +67,8 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
         journeyName.setText("Trip to " + location);
         locationName.setText(location);
         locationAddress.setText(location + " address");
-        locationLatitude.setText("" + (new Random().nextDouble() % 90));
-        locationLongitude.setText("" + (new Random().nextDouble() % 180) );
+        locationLatitude.setText("" + (new Random().nextInt(90)));
+        locationLongitude.setText("" + (new Random().nextInt(180)) );
     }
 
 //    @OnClick(R.id.locationRequest)
@@ -82,20 +76,11 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
 //        presenter.onLocationRequestClick();
 //    }
 
-    public static void startActivity(@NonNull FloatingActionButton view){
-        Context context = view.getContext();
-        Intent intent = new Intent(context, AddJourneyActivity.class);
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
-                (Activity) context, view, view.getTransitionName());
-        context.startActivity(intent, options.toBundle());
-    }
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         // butterKnife already bound in superclass
-
         setupCalendar();
     }
 
@@ -119,6 +104,8 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
             journey.addStop(calendar.getTime(), location);
 
             presenter.addJourneyToRepository(journey);
+
+            setResult(RESULT_OK);
 
             dismiss();
         });

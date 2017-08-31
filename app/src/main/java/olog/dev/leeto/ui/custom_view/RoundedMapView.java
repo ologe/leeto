@@ -5,22 +5,19 @@ import android.util.AttributeSet;
 
 import com.google.android.gms.maps.MapView;
 
-import olog.dev.leeto.R;
+public class RoundedMapView extends MapView implements RoundifyView {
 
-public class RoundedMapView extends MapView {
-
-
-    public RoundedMapView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
+    public RoundedMapView(Context context) {
+        this(context, null);
     }
 
-
-    private void init(){
-        if(!isInEditMode()){
-            setClipToOutline(true);
-            setBackgroundResource(R.drawable.rounded_shape);
-
-        }
+    public RoundedMapView(Context context, AttributeSet attributeSet) {
+        this(context, attributeSet, 0);
     }
+
+    public RoundedMapView(Context context, AttributeSet attributeSet, int i) {
+        super(context, attributeSet, i);
+        roundify(this, context, attributeSet);
+    }
+
 }

@@ -27,8 +27,8 @@ public class AddJourneyModule {
         mockLocations = new ArrayList<>();
         mockLocations.add("Parma");
         mockLocations.add("New York");
-        mockLocations.add("Parigi");
-        mockLocations.add("Mosca");
+        mockLocations.add("Paris");
+        mockLocations.add("Moscow");
         mockLocations.add("Barcellona");
     }
 
