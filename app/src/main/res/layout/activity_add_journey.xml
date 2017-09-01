@@ -7,14 +7,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
+    <olog.dev.leeto.ui.custom_view.RoundedConstraintLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginEnd="@dimen/dialog_margin"
         android:layout_marginStart="@dimen/dialog_margin"
-        android:background="@drawable/dialog_background"
+        app:corner_radius="2dp"
         android:transitionName="@string/transition_fab"
         android:elevation="@dimen/dialog_elevation"
         android:clickable="true"
@@ -223,6 +223,6 @@
             <!--android:layout_height="wrap_content"-->
             <!--style="?attr/borderlessButtonStyle"/>-->
 
-    </android.support.constraint.ConstraintLayout>
+    </olog.dev.leeto.ui.custom_view.RoundedConstraintLayout>
 
 </FrameLayout>

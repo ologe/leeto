@@ -1,4 +1,4 @@
-package olog.dev.leeto.ui.activity_detail;
+package olog.dev.leeto.ui._activity_detail;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,13 +17,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import dagger.android.AndroidInjection;
 import olog.dev.leeto.R;
 import olog.dev.leeto.base.BaseActivity;
 import olog.dev.leeto.data.model.Journey;
-import olog.dev.leeto.ui.activity_detail.view_pager.StopPagerAdapter;
 import olog.dev.leeto.ui.custom_view.InkPageIndicator;
-import olog.dev.leeto.ui.custom_view.Mappp;
+import olog.dev.leeto.utility.Precondition;
 
 
 public class DetailActivity extends BaseActivity implements DetailContract.View {
@@ -40,7 +38,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.View 
     @BindView(R.id.rootBackground) View rootBackground;
     @BindView(R.id.viewPager) ViewPager viewPager;
     @BindView(R.id.inkIndicator) InkPageIndicator inkIndicator;
-    @BindView(R.id.map) Mappp map;
+    @BindView(R.id.map) DetailMap map;
 
     @Inject DetailContract.Presenter presenter;
     @Inject int position;
@@ -50,21 +48,25 @@ public class DetailActivity extends BaseActivity implements DetailContract.View 
         presenter.toAddStopActivity(view);
     }
 
+    @OnClick(R.id.back)
+    public void closeActivity(){
+        presenter.closeActivity();
+    }
+
     private Unbinder unbinder;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
         unbinder = ButterKnife.bind(this);
 
-        map.onCreate(savedInstanceState);
-
         postponeEnterTransition();
 
         setNavigationBarTransition();
+
+        presenter.init();
     }
 
     private void setNavigationBarTransition(){
@@ -96,14 +98,14 @@ public class DetailActivity extends BaseActivity implements DetailContract.View 
 
     @Override
     public void setupUI(@NonNull Journey journey) {
-        map.init(journey);
+        map.init(Precondition.checkNotNull(journey));
 
         journeyName.setText(journey.getName());
 
         journeyName.setTransitionName(SHARED_JOURNEY_NAME + position);
         rootBackground.setTransitionName(SHARED_ROOT + position);
 
-        viewPager.setAdapter(new StopPagerAdapter(journey.getStopsList(), getSupportFragmentManager()));
+        viewPager.setAdapter(new StopPagerAdapter(journey.getStopList(), getSupportFragmentManager()));
         inkIndicator.setViewPager(viewPager);
     }
 

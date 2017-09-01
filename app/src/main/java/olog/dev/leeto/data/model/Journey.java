@@ -14,7 +14,7 @@ import olog.dev.leeto.utility.AppConstants;
 
 @Value
 @ToString(of = {"id", "name"})
-@EqualsAndHashCode(of = {"id", "name"})
+@EqualsAndHashCode(of = {"id"})
 public class Journey implements HasId {
 
     long id;
@@ -27,14 +27,12 @@ public class Journey implements HasId {
         if(TextUtils.isEmpty(shortDescription))
             shortDescription = AppConstants.NO_DESCRIPTION;
 
-        this.id = System.currentTimeMillis();
+        this.id = System.nanoTime();
         this.name = name;
         this.shortDescription = shortDescription;
 
         stopList = new ArrayList<>();
     }
-
-
 
     public void addStop(@NonNull Date date, @NonNull Location location){
         stopList.add(new Stop(date, location));
@@ -45,9 +43,5 @@ public class Journey implements HasId {
         return stopList.get(0);
     }
 
-    @NonNull
-    public List<Stop> getStopsList() {
-        return stopList;
-    }
 
 }

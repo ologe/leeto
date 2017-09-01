@@ -19,9 +19,9 @@
     </style>
 
     <style name="BackButton">
-        <item name="android:layout_marginTop">@dimen/statusBar</item>
+        <item name="android:layout_marginTop">16dp</item>
         <item name="android:tint">@android:color/white</item>
-        <item name="android:src">@drawable/ic_back</item>
+        <item name="android:src">@drawable/vd_back</item>
         <item name="android:translationY">15dp</item>
         <item name="android:padding">6dp</item>
         <item name="android:scaleY">1.5</item>
@@ -33,7 +33,7 @@
     </style>
 
     <style name="MainHeader">
-        <item name="android:layout_marginTop">@dimen/statusBar</item>
+        <item name="android:layout_marginTop">16dp</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
@@ -57,7 +57,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="fabSize">normal</item>
-        <item name="backgroundTint">@color/fab_background_color</item>
+        <item name="backgroundTint">@color/colorAccent</item>
         <item name="srcCompat">@drawable/vd_add</item>
         <item name="android:tint">@android:color/white</item>
         <item name="android:layout_margin">16dp</item>

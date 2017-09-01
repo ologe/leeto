@@ -20,7 +20,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import dagger.android.AndroidInjection;
 import olog.dev.leeto.R;
 import olog.dev.leeto.base.BaseActivity;
 import olog.dev.leeto.data.model.Journey;
@@ -31,7 +30,7 @@ import olog.dev.leeto.utility.HandlerUtils;
 public class MainActivity extends BaseActivity implements MainContract.View {
 
     public static final int REQUEST_CODE = 123;
-    private static final int SCROLL_DELAY = 400;
+    private static final int SCROLL_DELAY = 300;
 
     @Inject MainContract.Presenter presenter;
     @Inject JourneyAdapter adapter;
@@ -59,7 +58,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -89,8 +87,9 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
-            if(adapter.getItemCount() > 1){
-                toolbar.setAlpha(0);
+            if(adapter.getItemCount() >= 1){
+                boolean cantScrollUp = !list.canScrollHorizontally(-1);
+                toolbar.setAlpha(cantScrollUp ? 1 : 0);
                 scrollToPositionWithDelay(0);
             }
         }

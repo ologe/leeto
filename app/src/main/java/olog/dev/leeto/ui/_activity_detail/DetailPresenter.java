@@ -1,4 +1,4 @@
-package olog.dev.leeto.ui.activity_detail;
+package olog.dev.leeto.ui._activity_detail;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +17,7 @@ import olog.dev.leeto.utility.reactive.BaseSchedulersProvider;
 public class DetailPresenter extends AbsPresenter<DetailContract.View> implements DetailContract.Presenter{
 
     private INavigator navigator;
+    private Journey journey;
 
     @Inject
     DetailPresenter(DetailContract.View view,
@@ -27,7 +28,11 @@ public class DetailPresenter extends AbsPresenter<DetailContract.View> implement
                     Journey journey) {
         super(view, repository, subscriptions, schedulers);
         this.navigator = navigator;
+        this.journey = journey;
+    }
 
+    @Override
+    public void init() {
         view.setupUI(journey);
     }
 

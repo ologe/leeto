@@ -137,7 +137,7 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
         int unselectedColour = a.getColor(R.styleable.InkPageIndicator_pageIndicatorColor,
                 ContextCompat.getColor(context, R.color.grey400));
         int selectedColour = a.getColor(R.styleable.InkPageIndicator_currentPageIndicatorColor,
-                ContextCompat.getColor(context, R.color.grey800));
+                ContextCompat.getColor(context, R.color.dark_grey));
 
         a.recycle();
 

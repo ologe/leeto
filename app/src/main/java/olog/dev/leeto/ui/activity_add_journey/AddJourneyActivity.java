@@ -21,7 +21,6 @@ import javax.inject.Provider;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTouch;
-import dagger.android.AndroidInjection;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -78,7 +77,6 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         // butterKnife already bound in superclass
         setupCalendar();

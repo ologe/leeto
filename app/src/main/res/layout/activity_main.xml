@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     style="@style/ScrimDark">
@@ -24,10 +25,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_journey"
-        android:orientation="vertical"
         android:clipToPadding="false"
         android:elevation="6dp"
-        android:overScrollMode="never"/>
+        android:overScrollMode="never" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addJourneyFab"

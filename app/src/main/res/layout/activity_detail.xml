@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"/>
 
-        <olog.dev.leeto.ui.custom_view.RoundedMapView
+        <olog.dev.leeto.ui._activity_detail.DetailMap
             android:id="@+id/map"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -103,9 +103,7 @@
             app:layout_constraintTop_toBottomOf="@+id/journeyName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintDimensionRatio="1.7"
-            android:visibility="invisible"
-            tools:visibility="visible"/>
+            app:layout_constraintDimensionRatio="1.77" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"
@@ -116,9 +114,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
             android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:visibility="invisible"
-            tools:visibility="visible"/>
+            android:paddingEnd="8dp" />
 
         <olog.dev.leeto.ui.custom_view.InkPageIndicator
             android:id="@+id/inkIndicator"
@@ -129,9 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:dotDiameter="5dp"
-            app:dotGap="9dp"
-            android:visibility="invisible"
-            tools:visibility="visible"/>
+            app:dotGap="9dp" />
 
     </android.support.constraint.ConstraintLayout>
 

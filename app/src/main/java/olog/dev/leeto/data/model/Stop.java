@@ -22,6 +22,7 @@ public class Stop {
         this.location = location;
     }
 
+    @NonNull
     public String getFormattedDate(){
         return DateUtils.toString(date);
     }

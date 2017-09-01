@@ -1,16 +1,19 @@
-package olog.dev.leeto.ui.activity_detail.di;
+package olog.dev.leeto.ui._activity_detail.di;
 
 import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.List;
+
 import dagger.Module;
 import dagger.Provides;
 import olog.dev.leeto.data.model.Journey;
+import olog.dev.leeto.data.model.Stop;
 import olog.dev.leeto.data.repository.IRepository;
-import olog.dev.leeto.ui.activity_detail.DetailActivity;
-import olog.dev.leeto.ui.activity_detail.DetailContract;
-import olog.dev.leeto.ui.activity_detail.DetailPresenter;
+import olog.dev.leeto.ui._activity_detail.DetailActivity;
+import olog.dev.leeto.ui._activity_detail.DetailContract;
+import olog.dev.leeto.ui._activity_detail.DetailPresenter;
 import olog.dev.leeto.utility.dagger.annotations.context.ActivityContext;
 import olog.dev.leeto.utility.dagger.annotations.scope.PerActivity;
 
@@ -71,6 +74,12 @@ public class DetailModule {
     @PerActivity
     Journey provideJourney(long journeyId, IRepository repository){
         return repository.getJourney(journeyId);
+    }
+
+    @Provides
+    @PerActivity
+    List<Stop> provideStopList(Journey journey){
+        return journey.getStopList();
     }
 
 }

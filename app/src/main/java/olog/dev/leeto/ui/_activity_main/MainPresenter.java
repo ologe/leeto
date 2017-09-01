@@ -1,5 +1,7 @@
 package olog.dev.leeto.ui._activity_main;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import olog.dev.leeto.base.AbsPresenter;
 import olog.dev.leeto.data.repository.IRepository;
 import olog.dev.leeto.ui.fragment_no_journey.NoJourneyFragment;
 import olog.dev.leeto.ui.navigator.INavigator;
+import olog.dev.leeto.utility.RxUtils;
 import olog.dev.leeto.utility.dagger.annotations.scope.PerActivity;
 import olog.dev.leeto.utility.reactive.BaseSchedulersProvider;
 
@@ -22,6 +25,7 @@ import olog.dev.leeto.utility.reactive.BaseSchedulersProvider;
 public class MainPresenter extends AbsPresenter<MainContract.View> implements MainContract.Presenter {
 
     private INavigator navigator;
+    private Disposable repositoryUpdatesDisposable;
 
     @Inject
     MainPresenter(MainContract.View view,
@@ -31,6 +35,8 @@ public class MainPresenter extends AbsPresenter<MainContract.View> implements Ma
                   INavigator navigator) {
         super(view, repository, subscriptions, schedulers);
         this.navigator = navigator;
+
+        repositoryUpdatesDisposable = repository.registerToUpdates();
     }
 
     @Override
@@ -49,9 +55,12 @@ public class MainPresenter extends AbsPresenter<MainContract.View> implements Ma
 
                 });
 
-        Disposable repositoryUpdatesDisposable = repository.registerToUpdates();
+        subscriptions.addAll(dataDisposable);
+    }
 
-        subscriptions.addAll(dataDisposable, repositoryUpdatesDisposable);
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    public void onDestroy(){
+        RxUtils.unsubscribe(repositoryUpdatesDisposable);
     }
 
     @Override

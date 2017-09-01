@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.processors.BehaviorProcessor;
 import olog.dev.leeto.data.model.HasId;
@@ -35,15 +34,15 @@ public abstract class BaseAdapter<VH extends RecyclerView.ViewHolder, Model exte
     protected final int headers;
 
     public BaseAdapter(List<Model> dataSet,
-                       Lifecycle lifecycle,
                        BaseSchedulersProvider schedulers,
+                       Lifecycle lifecycle,
                        int headers){
-        this(dataSet, lifecycle, schedulers, headers, DEFAULT_DEBOUNCE);
+        this(dataSet, schedulers, lifecycle, headers, DEFAULT_DEBOUNCE);
     }
 
     public BaseAdapter(List<Model> dataSet,
-                       Lifecycle lifecycle,
                        BaseSchedulersProvider schedulers,
+                       Lifecycle lifecycle,
                        int headers,
                        int debounce) {
         this.dataSet = dataSet;
@@ -89,10 +88,6 @@ public abstract class BaseAdapter<VH extends RecyclerView.ViewHolder, Model exte
 
     protected void updateData(List<Model> dataSet){
         publisher.onNext(dataSet);
-    }
-
-    public Flowable<List<Model>> observeDataSet(){
-        return publisher;
     }
 
     protected void onDataSetUpdatedCallback(List<Model> oldDataSet,

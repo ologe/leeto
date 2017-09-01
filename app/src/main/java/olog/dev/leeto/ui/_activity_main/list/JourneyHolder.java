@@ -18,7 +18,7 @@ import olog.dev.leeto.R;
 import olog.dev.leeto.data.model.Journey;
 import olog.dev.leeto.data.model.Location;
 import olog.dev.leeto.data.model.Stop;
-import olog.dev.leeto.ui.activity_detail.DetailActivity;
+import olog.dev.leeto.ui._activity_detail.DetailActivity;
 import olog.dev.leeto.utility.AppConstants;
 
 public class JourneyHolder extends RecyclerView.ViewHolder {
@@ -91,5 +91,6 @@ public class JourneyHolder extends RecyclerView.ViewHolder {
         if(ratio.equals(AppConstants.RATIO_SQUARE)) return OVERRIDE_WIDTH;
         return 0;
     }
+
 
 }

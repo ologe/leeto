@@ -74,7 +74,8 @@ public class Repository implements IRepository {
     @NonNull
     @Override
     public Disposable registerToUpdates() {
-        return operationQueue.onBackpressureBuffer()
+        return operationQueue
+                .onBackpressureBuffer()
                 .delay(300, TimeUnit.MILLISECONDS)
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.io())

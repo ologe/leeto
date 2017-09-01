@@ -7,8 +7,8 @@ import java.util.List;
 
 import olog.dev.leeto.data.model.HasId;
 
-import static com.bumptech.glide.util.Util.assertBackgroundThread;
 import static olog.dev.leeto.utility.Precondition.checkNotNull;
+import static olog.dev.leeto.utility.ThreadUtils.assertBackGroundThread;
 
 public class Diff<T extends HasId> extends DiffUtil.Callback {
 
@@ -16,7 +16,7 @@ public class Diff<T extends HasId> extends DiffUtil.Callback {
     private List<T> newList;
 
     public Diff(@NonNull List<T> oldList, @NonNull List<T> newList) {
-        assertBackgroundThread();
+        assertBackGroundThread();
         this.oldList = checkNotNull(oldList);
         this.newList = checkNotNull(newList);
     }
@@ -38,7 +38,7 @@ public class Diff<T extends HasId> extends DiffUtil.Callback {
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldList.get(oldItemPosition).equals(newList.get(newItemPosition));
+        return oldList.get(oldItemPosition).getId() == newList.get(newItemPosition).getId();
     }
 
 }

@@ -1,4 +1,4 @@
-package olog.dev.leeto.ui.activity_detail;
+package olog.dev.leeto.ui._activity_detail;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +13,7 @@ public interface DetailContract {
     }
 
     interface Presenter {
+        void init();
         void toAddStopActivity(@NonNull FloatingActionButton fab);
         void closeActivity();
     }

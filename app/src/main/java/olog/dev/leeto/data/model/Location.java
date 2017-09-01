@@ -30,10 +30,18 @@ public class Location {
             shortDescription = AppConstants.NO_DESCRIPTION;
 
         this.name = name;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        // TODO
+//        this.latitude = latitude;
+//        this.longitude = longitude;
+        this.latitude = 40.4251;
+        this.longitude = -74.021;
         this.address = address;
         this.shortDescription = shortDescription;
+    }
+
+    @NonNull
+    public String getFormattedLocation(){
+        return name + " \u00B7 " + address;
     }
 
 }

@@ -5,11 +5,13 @@ import javax.inject.Inject;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import olog.dev.leeto.utility.dagger.annotations.scope.PerApplication;
 
+@PerApplication
 public class SchedulerProvider implements BaseSchedulersProvider {
 
     @Inject
-    public SchedulerProvider() {}
+    SchedulerProvider() {}
 
     @Override
     public Scheduler mainThread() {

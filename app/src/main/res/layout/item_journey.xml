@@ -85,6 +85,8 @@
     <ImageView
         android:id="@+id/img"
         tools:src="@drawable/parigi"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/journeyDescription"
         app:layout_constraintEnd_toEndOf="parent"

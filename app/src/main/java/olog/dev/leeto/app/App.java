@@ -19,7 +19,7 @@ public class App extends DaggerApplication {
     public void onCreate() {
         super.onCreate();
 
-//        initializeMaps();
+        initializeMaps();
         initLogger();
 
         AppConstants.init(this);

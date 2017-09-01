@@ -34,7 +34,7 @@ public class JourneyAdapter extends BaseAdapter<JourneyHolder, Journey> {
                    BaseSchedulersProvider schedulers,
                    MainContract.View view,
                    LayoutInflater inflater){
-        super(Collections.emptyList(), lifecycle, schedulers, HEADERS);
+        super(Collections.emptyList(), schedulers, lifecycle, HEADERS);
         this.view = view;
         this.inflater = inflater;
     }

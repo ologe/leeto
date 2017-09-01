@@ -25,6 +25,7 @@
         android:textSize="16sp"
         android:text="@string/journey_empty_state"
         android:layout_marginBottom="20dp"
+        android:textStyle="bold"
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
