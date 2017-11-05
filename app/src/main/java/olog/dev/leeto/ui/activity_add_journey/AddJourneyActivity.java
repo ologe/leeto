@@ -22,7 +22,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 import io.reactivex.Observable;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import olog.dev.leeto.R;
 import olog.dev.leeto.base.AbsMorphActivity;
@@ -48,7 +47,6 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
 
     @Inject AddJourneyContract.Presenter presenter;
 //    @Inject IPermissionHelper permissionHelper;
-    @Inject CompositeDisposable subscriptions;
     @Inject Calendar calendar;
 
     @Inject Provider<String> mockData;
@@ -117,13 +115,13 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
                 (aBoolean, aBoolean2, aBoolean3, aBoolean4, aBoolean5) -> aBoolean || aBoolean2 || aBoolean3 || aBoolean4 || aBoolean5
         ).subscribe(allAreEmpty -> saveButton.setEnabled(!allAreEmpty));
 
-        subscriptions.add(disposable);
+//        subscriptions.add(disposable);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        subscriptions.clear();
+//        subscriptions.clear();
         saveButton.setOnClickListener(null);
     }
 
@@ -131,11 +129,11 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
     public void updateLocation(@Nullable Location location) {
         if(location == null) return;
 
-        locationName.setText(location.getName());
-        locationAddress.setText(location.getAddress());
+//        locationName.setText(location.getName());
+//        locationAddress.setText(location.getAddress());
         locationLatitude.setText(String.valueOf(location.getLatitude()));
         locationLongitude.setText(String.valueOf(location.getLongitude()));
-        locationDescription.setText(String.valueOf(location.getShortDescription()));
+        locationDescription.setText(String.valueOf(location.getDescription()));
     }
 
     @Override

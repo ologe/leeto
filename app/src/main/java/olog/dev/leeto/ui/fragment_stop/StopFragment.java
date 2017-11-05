@@ -40,7 +40,7 @@ public class StopFragment extends BaseFragment implements StopContract.View{
         String formattedLocation = location.getFormattedLocation();
 
         locationDate.setText(stop.getFormattedDate());
-        description.setText(location.getShortDescription());
+        description.setText(location.getDescription());
         locationName.setText(formattedLocation);
     }
 

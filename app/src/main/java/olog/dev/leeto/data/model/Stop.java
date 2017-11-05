@@ -4,18 +4,14 @@ import android.support.annotation.NonNull;
 
 import java.util.Date;
 
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import lombok.Value;
 import olog.dev.leeto.utility.DateUtils;
 
-@Value
-@ToString
-@EqualsAndHashCode
 public class Stop {
 
-    Date date;
-    Location location;
+    @NonNull
+    private final Date date;
+    @NonNull
+    private final Location location;
 
     public Stop(@NonNull Date date, @NonNull Location location) {
         this.date = date;
@@ -27,4 +23,8 @@ public class Stop {
         return DateUtils.toString(date);
     }
 
+    @NonNull
+    public Location getLocation() {
+        return location;
+    }
 }

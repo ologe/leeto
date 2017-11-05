@@ -97,7 +97,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     @Override
     public void showJourneysList(@NonNull List<Journey> data) {
-        adapter.updateDataSet(data);
+//        adapter.updateDataSet(data);
     }
 
     /**

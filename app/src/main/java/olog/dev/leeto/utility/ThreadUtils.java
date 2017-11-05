@@ -1,16 +1,15 @@
 package olog.dev.leeto.utility;
 
 import android.os.Looper;
-import android.support.annotation.MainThread;
-import android.support.annotation.WorkerThread;
 
-import lombok.experimental.UtilityClass;
 import olog.dev.leeto.BuildConfig;
 
-@UtilityClass
 public class ThreadUtils {
 
-    @MainThread
+    private ThreadUtils() {
+        //no instance
+    }
+
     public static void assertMainThread(){
         if (BuildConfig.DEBUG){
             boolean isMainThread = isMainThread();
@@ -20,7 +19,6 @@ public class ThreadUtils {
         }
     }
 
-    @WorkerThread
     public static void assertBackGroundThread(){
         if (BuildConfig.DEBUG){
             boolean isBackgroundThread = !isMainThread();

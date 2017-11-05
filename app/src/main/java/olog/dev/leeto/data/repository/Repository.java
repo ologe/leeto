@@ -20,21 +20,20 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+import dev.olog.shared.ApplicationContext;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.processors.PublishProcessor;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
-import lombok.Cleanup;
 import olog.dev.leeto.data.model.Journey;
 import olog.dev.leeto.data.model.Stop;
 import olog.dev.leeto.utility.collections.CollectionsUtils;
-import olog.dev.leeto.utility.dagger.annotations.context.ApplicationContext;
-import olog.dev.leeto.utility.dagger.annotations.scope.PerApplication;
-import olog.dev.leeto.utility.reactive.BaseSchedulersProvider;
 
-@PerApplication
+@Singleton
 public class Repository implements IRepository {
 
     private static final int INSERT = 0;
@@ -47,21 +46,16 @@ public class Repository implements IRepository {
     private static final String JOURNEY_LIST_FILE_NAME = "journeysList.json";
 
     private Context context;
-    private BaseSchedulersProvider schedulers;
     private BehaviorSubject<List<Journey>> cache;
     private PublishProcessor<Pair<Journey, Integer>> operationQueue;
 
-    @Inject
-    Repository(@ApplicationContext Context context,
-               BaseSchedulersProvider schedulers){
+    @Inject Repository(@ApplicationContext Context context){
         this.context = context;
-        this.schedulers = schedulers;
         cache = BehaviorSubject.create();
         operationQueue = PublishProcessor.create();
 
         Single.fromCallable(this::loadFromStorage)
-                .subscribeOn(schedulers.io())
-                .observeOn(schedulers.io())
+                .subscribeOn(Schedulers.io())
                 .subscribe(journeyList -> cache.onNext(journeyList));
     }
 
@@ -77,8 +71,7 @@ public class Repository implements IRepository {
         return operationQueue
                 .onBackpressureBuffer()
                 .delay(300, TimeUnit.MILLISECONDS)
-                .subscribeOn(schedulers.io())
-                .observeOn(schedulers.io())
+                .subscribeOn(Schedulers.io())
                 .subscribe(journeyTypePair -> {
 
                     int type = journeyTypePair.second;
@@ -92,8 +85,8 @@ public class Repository implements IRepository {
     private List<Journey> loadFromStorage(){
         List<Journey> journeyList = new ArrayList<>();
 
-        try {
-            @Cleanup InputStream inputStream = context.openFileInput(JOURNEY_LIST_FILE_NAME);
+        try (InputStream inputStream = context.openFileInput(JOURNEY_LIST_FILE_NAME)){
+
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             String received;
@@ -138,10 +131,8 @@ public class Repository implements IRepository {
 
         final String json = new Gson().toJson(journeyList, new TypeToken<List<Journey>>(){}.getType());
 
-        try {
-            @Cleanup
-            OutputStreamWriter outputStream = new OutputStreamWriter(
-                    context.openFileOutput(JOURNEY_LIST_FILE_NAME, Context.MODE_PRIVATE));
+        try (OutputStreamWriter outputStream = new OutputStreamWriter(context.openFileOutput(JOURNEY_LIST_FILE_NAME, Context.MODE_PRIVATE))){
+
             outputStream.write(json);
 
         } catch (IOException ex){

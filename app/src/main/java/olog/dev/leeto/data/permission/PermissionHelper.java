@@ -23,9 +23,7 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 import olog.dev.leeto.utility.BuildVersion;
-import olog.dev.leeto.utility.Precondition;
 import olog.dev.leeto.utility.dagger.annotations.scope.PerActivity;
-import timber.log.Timber;
 
 @PerActivity
 public class PermissionHelper implements IPermissionHelper {
@@ -39,9 +37,8 @@ public class PermissionHelper implements IPermissionHelper {
     private Activity activity;
     private PermissionFragment fragment;
 
-    @Inject
-    PermissionHelper(Activity activity) {
-        this.activity = Precondition.checkNotNull(activity);
+    @Inject PermissionHelper(Activity activity) {
+        this.activity = activity;
         subjects = new ArrayMap<>(1);
 
         fragment = (PermissionFragment) ((AppCompatActivity)activity).getSupportFragmentManager()
@@ -54,9 +51,7 @@ public class PermissionHelper implements IPermissionHelper {
 
     @Override
     public Observable<Boolean> observePermission(@NonNull String permission) {
-        Timber.d("observePermission " + permission);
-
-        BehaviorSubject<Boolean> subject = subjects.get(Precondition.checkNotNull(permission));
+        BehaviorSubject<Boolean> subject = subjects.get(permission);
 
         if(subject == null){
             subject = BehaviorSubject.create();
@@ -69,7 +64,7 @@ public class PermissionHelper implements IPermissionHelper {
 
     @Override
     public void requestPermission(@NonNull String permission) {
-        fragment.requestPermission(Precondition.checkNotNull(permission));
+        fragment.requestPermission(permission);
     }
 
     @SuppressWarnings({"SimplifiableConditionalExpression", "UnnecessaryLocalVariable"})
@@ -78,8 +73,6 @@ public class PermissionHelper implements IPermissionHelper {
         boolean hasPermission = BuildVersion.Marshmallow()
                 ? ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED
                 : true;
-
-        Timber.d("hasPermission " + permission + " = " + hasPermission);
 
         return hasPermission;
     }
@@ -112,7 +105,6 @@ public class PermissionHelper implements IPermissionHelper {
 
             for (int i = 0; i < permissions.length; i++) {
                 String permission = permissions[i];
-                Timber.i("onRequestPermissionsResult, permission" + permission);
 
                 boolean permissionGranted = grantResults[i] == PackageManager.PERMISSION_GRANTED;
                 subjects.get(permission).onNext(permissionGranted);
@@ -128,7 +120,6 @@ public class PermissionHelper implements IPermissionHelper {
         }
 
         private void onPermissionBlocked(@NonNull String permission){
-            Timber.w("onPermissionBlocked " + permission);
 
             // TODO hardcoded strings
             if(permission.equals(Manifest.permission.READ_EXTERNAL_STORAGE)){
@@ -144,16 +135,12 @@ public class PermissionHelper implements IPermissionHelper {
         }
 
         private void goToSettingsForPermission() {
-            Timber.d("goToSettingsForPermission");
-
             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             intent.setData(Uri.parse("package:" + getActivity().getPackageName()));
             getActivity().startActivity(intent);
         }
 
         public void requestPermission(@NonNull String permission) {
-            Timber.d("requestPermission called for = [" + permission + "]");
-
             if(BuildVersion.Marshmallow()){
                 requestPermissions(new String[]{ permission }, REQUEST_CODE);
             }

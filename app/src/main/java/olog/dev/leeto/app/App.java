@@ -7,11 +7,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.support.DaggerApplication;
 import io.reactivex.Completable;
 import io.reactivex.schedulers.Schedulers;
-import olog.dev.leeto.BuildConfig;
 import olog.dev.leeto.utility.AppConstants;
-import olog.dev.leeto.utility.timber.DebugTree;
-import olog.dev.leeto.utility.timber.ReleaseTree;
-import timber.log.Timber;
 
 public class App extends DaggerApplication {
 
@@ -20,7 +16,6 @@ public class App extends DaggerApplication {
         super.onCreate();
 
         initializeMaps();
-        initLogger();
 
         AppConstants.init(this);
     }
@@ -35,16 +30,6 @@ public class App extends DaggerApplication {
 
         }).subscribeOn(Schedulers.computation())
                 .subscribe(() -> {}, throwable -> {});
-    }
-
-    private void initLogger(){
-        if(BuildConfig.DEBUG){
-            Timber.plant(new DebugTree());
-        } else {
-            // release mode
-            // can start crashlytics for example
-            Timber.plant(new ReleaseTree());
-        }
     }
 
     @Override

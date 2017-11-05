@@ -1,0 +1,55 @@
+apply plugin: 'com.android.library'
+
+android {
+
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+
+    implementation project(':domain')
+    implementation project(':shared')
+
+    // room db
+    implementation "android.arch.persistence.room:runtime:$rootProject.micro_architecture"
+    annotationProcessor "android.arch.persistence.room:compiler:$rootProject.micro_architecture"
+    implementation "android.arch.persistence.room:rxjava2:$rootProject.micro_architecture"
+
+    // rx
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
+
+    // di
+    implementation "com.google.dagger:dagger:$rootProject.dagger"
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger"
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+}
+repositories {
+    mavenCentral()
+}

@@ -7,31 +7,40 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import lombok.Value;
 import olog.dev.leeto.utility.AppConstants;
 
-@Value
-@ToString(of = {"id", "name"})
-@EqualsAndHashCode(of = {"id"})
-public class Journey implements HasId {
+public class Journey {
 
-    long id;
-    String name;
-    String shortDescription;
-    List<Stop> stopList;
+    private final long id;
+    private final String name;
+    private final String description;
+    private final List<Stop> stopList;
 
-    public Journey(@NonNull String name,
-                   @NonNull String shortDescription) {
-        if(TextUtils.isEmpty(shortDescription))
-            shortDescription = AppConstants.NO_DESCRIPTION;
+    public Journey(
+            @NonNull String name,
+            @NonNull String description) {
+
+        if(TextUtils.isEmpty(description)){
+            description = AppConstants.NO_DESCRIPTION;
+        }
 
         this.id = System.nanoTime();
         this.name = name;
-        this.shortDescription = shortDescription;
+        this.description = description;
 
         stopList = new ArrayList<>();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void addStop(@NonNull Date date, @NonNull Location location){

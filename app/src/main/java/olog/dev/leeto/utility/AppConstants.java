@@ -5,11 +5,13 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.experimental.UtilityClass;
 import olog.dev.leeto.R;
 
-@UtilityClass
 public class AppConstants {
+
+    private AppConstants() {
+        //no instance
+    }
 
     public static String NO_DESCRIPTION = "";
     private static List<String> ratioList;

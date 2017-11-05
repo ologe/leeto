@@ -5,20 +5,20 @@ import android.support.v7.util.DiffUtil;
 
 import java.util.List;
 
-import olog.dev.leeto.data.model.HasId;
+import olog.dev.leeto.DisplayableItem;
 
-import static olog.dev.leeto.utility.Precondition.checkNotNull;
 import static olog.dev.leeto.utility.ThreadUtils.assertBackGroundThread;
 
-public class Diff<T extends HasId> extends DiffUtil.Callback {
+public class Diff extends DiffUtil.Callback {
 
-    private List<T> oldList;
-    private List<T> newList;
+    private List<DisplayableItem> oldList;
+    private List<DisplayableItem> newList;
 
-    public Diff(@NonNull List<T> oldList, @NonNull List<T> newList) {
+    public Diff(@NonNull List<DisplayableItem> oldList,
+                @NonNull List<DisplayableItem> newList) {
         assertBackGroundThread();
-        this.oldList = checkNotNull(oldList);
-        this.newList = checkNotNull(newList);
+        this.oldList = oldList;
+        this.newList = newList;
     }
 
     @Override
@@ -33,12 +33,16 @@ public class Diff<T extends HasId> extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldList.get(oldItemPosition).getId() == newList.get(newItemPosition).getId();
+        DisplayableItem oldItem = oldList.get(oldItemPosition);
+        DisplayableItem newItem = newList.get(newItemPosition);
+        return oldItem.getId() == newItem.getId();
     }
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldList.get(oldItemPosition).getId() == newList.get(newItemPosition).getId();
+        DisplayableItem oldItem = oldList.get(oldItemPosition);
+        DisplayableItem newItem = newList.get(newItemPosition);
+        return oldItem.equals(newItem);
     }
 
 }

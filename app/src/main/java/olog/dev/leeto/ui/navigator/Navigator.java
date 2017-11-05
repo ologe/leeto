@@ -18,7 +18,6 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import olog.dev.leeto.R;
-import olog.dev.leeto.ui._activity_detail.DetailActivity;
 import olog.dev.leeto.ui._activity_main.MainActivity;
 import olog.dev.leeto.ui.activity_add_journey.AddJourneyActivity;
 import olog.dev.leeto.ui.fragment_no_journey.NoJourneyFragment;
@@ -67,14 +66,14 @@ public class Navigator implements INavigator {
             }
         }
 
-        Intent intent = new Intent(activity, DetailActivity.class);
-        intent.putExtra(DetailActivity.BUNDLE_JOURNEY_ID, journeyId);
-        intent.putExtra(DetailActivity.BUNDLE_POSITION, currentPosition);
+//        Intent intent = new Intent(activity, DetailActivity.class);
+//        intent.putExtra(DetailActivity.BUNDLE_JOURNEY_ID, journeyId);
+//        intent.putExtra(DetailActivity.BUNDLE_POSITION, currentPosition);
 
         @SuppressWarnings("unchecked")
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, createPairs(views));
 
-        ActivityCompat.startActivity(activity, intent, options.toBundle());
+//        ActivityCompat.startActivity(activity, intent, options.toBundle());
     }
 
     @Override

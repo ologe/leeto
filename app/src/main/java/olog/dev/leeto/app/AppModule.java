@@ -5,13 +5,12 @@ import android.content.res.Resources;
 
 import dagger.Module;
 import dagger.Provides;
-import olog.dev.leeto.utility.dagger.annotations.context.ApplicationContext;
-import olog.dev.leeto.utility.dagger.annotations.scope.PerApplication;
+import dev.olog.shared.ApplicationContext;
 
 @Module
 public class AppModule {
 
-    private App app;
+    private final App app;
 
     public AppModule(App app) {
         this.app = app;
@@ -19,13 +18,11 @@ public class AppModule {
 
     @Provides
     @ApplicationContext
-    @PerApplication
     Context provideContext(){
         return app;
     }
 
     @Provides
-    @PerApplication
     Resources provideResources(){
         return app.getResources();
     }

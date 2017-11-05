@@ -10,11 +10,13 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-import lombok.experimental.UtilityClass;
 import olog.dev.leeto.utility.BuildVersion;
 
-@UtilityClass
 public class CollectionsUtils {
+
+    private CollectionsUtils() {
+        //no instance
+    }
 
     public static <T> int indexOfFirst(@NonNull List<T> sourceList, @NonNull Predicate<T> predicate){
         for (int i = 0; i < sourceList.size(); i++) {

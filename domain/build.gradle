@@ -1,0 +1,16 @@
+apply plugin: 'java-library'
+
+dependencies {
+
+    implementation project(':shared')
+
+    // rx
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
+
+    // di
+    implementation "com.google.dagger:dagger:$rootProject.dagger"
+
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"

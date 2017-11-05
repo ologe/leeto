@@ -15,15 +15,12 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import io.reactivex.disposables.CompositeDisposable;
 import olog.dev.leeto.R;
 import olog.dev.leeto.base.AbsPresenter;
 import olog.dev.leeto.data.model.Journey;
 import olog.dev.leeto.data.model.Location;
-import olog.dev.leeto.data.repository.IRepository;
 import olog.dev.leeto.utility.LocationUtils;
 import olog.dev.leeto.utility.dagger.annotations.context.ActivityContext;
-import olog.dev.leeto.utility.reactive.BaseSchedulersProvider;
 
 public class AddJourneyPresenter extends AbsPresenter<AddJourneyContract.View> implements AddJourneyContract.Presenter {
 
@@ -32,12 +29,8 @@ public class AddJourneyPresenter extends AbsPresenter<AddJourneyContract.View> i
 
     @Inject
     AddJourneyPresenter(@ActivityContext Context context,
-                        AddJourneyContract.View view,
-//                        IPermissionHelper permissionHelper,
-                        BaseSchedulersProvider schedulers,
-                        CompositeDisposable subscriptions,
-                        IRepository repository){
-        super(view, repository, subscriptions, schedulers);
+                        AddJourneyContract.View view){
+        super(view);
         this.context = context;
 //        this.permissionHelper = permissionHelper;
     }
@@ -65,7 +58,7 @@ public class AddJourneyPresenter extends AbsPresenter<AddJourneyContract.View> i
 
     @Override
     public void addJourneyToRepository(@NonNull Journey journey) {
-        repository.addJourney(journey);
+//        repository.addJourney(journey);
     }
 
     @SuppressLint("MissingPermission")
