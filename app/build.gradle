@@ -67,6 +67,8 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
     implementation "com.jakewharton.rxbinding2:rxbinding:$rootProject.rx_binding"
+    implementation "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$rootProject.rx_binding"
+
 
     // di
     implementation "com.google.dagger:dagger:$rootProject.dagger"
@@ -75,14 +77,12 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$rootProject.dagger"
     annotationProcessor "com.google.dagger:dagger-android-processor:$rootProject.dagger"
 
-
     // view binding
     implementation "com.jakewharton:butterknife:$rootProject.butterknife"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterknife"
 
     // other
     implementation "com.github.bumptech.glide:glide:$rootProject.glide"
-    implementation "com.google.code.gson:gson:$rootProject.gson"
 
     // test
     testImplementation "junit:junit:$rootProject.junit"

@@ -1,6 +1,7 @@
 package olog.dev.leeto.utility;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class AppConstants {
     public static final String RATIO_SQUARE = "1";
     public static final String RATIO_ONE_HALF = "1.5";
 
-    public static void init(@android.support.annotation.NonNull Context context){
+    public static void init(@NonNull Context context){
         NO_DESCRIPTION = context.getString(R.string.no_description);
         ratioList = new ArrayList<>();
         ratioList.add(RATIO_16_9);

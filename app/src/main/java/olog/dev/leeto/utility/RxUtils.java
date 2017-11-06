@@ -9,7 +9,9 @@ public class RxUtils {
     }
 
     public static void unsubscribe(Disposable disposable){
-        if(disposable != null && !disposable.isDisposed()) disposable.dispose();
+        if(disposable != null && !disposable.isDisposed()) {
+            disposable.dispose();
+        }
     }
 
 }

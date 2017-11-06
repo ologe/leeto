@@ -66,8 +66,6 @@ public class MainActivity extends BaseActivity {
         unbinder = ButterKnife.bind(this);
         handler = new Handler();
 
-        getLifecycle().addObserver(list);
-
         layoutManager = new LinearLayoutManager(this);
 
         list.setAdapter(adapter);

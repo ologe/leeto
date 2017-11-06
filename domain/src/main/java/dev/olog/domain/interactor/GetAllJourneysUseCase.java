@@ -21,6 +21,7 @@ public class GetAllJourneysUseCase extends FlowableUseCase<List<Journey>, Void> 
 
     @Override
     protected Flowable<List<Journey>> buildUseCaseObservable(Void unused) {
-        return dataStore.observeAll();
+        return dataStore.observeAll()
+                .distinctUntilChanged();
     }
 }

@@ -1,8 +1,5 @@
 package olog.dev.leeto.ui._activity_main.list;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,10 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.jakewharton.rxbinding2.support.v7.widget.RecyclerViewScrollEvent;
+import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView;
+import com.jakewharton.rxbinding2.view.RxView;
+
 import olog.dev.leeto.R;
 import olog.dev.leeto.utility.DimensionUtils;
 
-public class ParallaxRecyclerView extends RecyclerView implements LifecycleObserver {
+public class ParallaxRecyclerView extends RecyclerView {
 
     private boolean isFabAdd = true;
     private static final int PIVOT = 200; // 200 == 1f(max alpha) - 1/200 (dy/200)
@@ -31,7 +32,7 @@ public class ParallaxRecyclerView extends RecyclerView implements LifecycleObser
     private int topMargin;
 
     public ParallaxRecyclerView(Context context) {
-        this(context, null);
+        this(context, null, 0);
     }
 
     public ParallaxRecyclerView(Context context, @Nullable AttributeSet attrs) {
@@ -56,14 +57,19 @@ public class ParallaxRecyclerView extends RecyclerView implements LifecycleObser
         scrimParams = (CoordinatorLayout.LayoutParams) scrim.getLayoutParams();
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    public void onResume(){
-        addOnScrollListener(onScrollListener);
-    }
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        RxRecyclerView.scrollEvents(this)
+                .takeUntil(RxView.detaches(this))
+                .map(RecyclerViewScrollEvent::dy)
+                .filter(integer -> getLayoutManager().findFirstVisibleItemPosition() == 0)
+                .subscribe(dy -> {
+                    scrimParams.topMargin = Math.max(0, scrimParams.topMargin - dy/3);
+                    scrim.setLayoutParams(scrimParams);
+                    toolbar.setAlpha(Math.max(0f, toolbar.getAlpha() - (float)dy/200));
+                }, Throwable::printStackTrace);
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    public void onPause(){
-        removeOnScrollListener(onScrollListener);
     }
 
     private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
