@@ -15,7 +15,8 @@
         android:layout_marginEnd="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:elevation="10dp">
+        android:elevation="10dp"
+        android:background="@android:color/white">
 
         <!--scrim-->
         <View
