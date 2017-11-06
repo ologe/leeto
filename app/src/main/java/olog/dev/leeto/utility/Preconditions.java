@@ -1,4 +1,4 @@
-package olog.dev.leeto;
+package olog.dev.leeto.utility;
 
 
 public class Preconditions {

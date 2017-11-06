@@ -11,7 +11,7 @@ import dev.olog.domain.model.Journey;
 import dev.olog.domain.model.Location;
 import dev.olog.domain.model.Stop;
 import io.reactivex.Completable;
-import olog.dev.leeto.Preconditions;
+import olog.dev.leeto.utility.Preconditions;
 
 import static olog.dev.leeto.utility.AppConstants.UNSET_ID;
 

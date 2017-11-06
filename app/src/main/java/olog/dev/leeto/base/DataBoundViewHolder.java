@@ -1,4 +1,4 @@
-package olog.dev.leeto;
+package olog.dev.leeto.base;
 
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;

@@ -19,7 +19,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.schedulers.Schedulers;
-import olog.dev.leeto.DataBoundViewHolder;
 
 import static android.support.v7.util.DiffUtil.calculateDiff;
 import static android.util.Pair.create;

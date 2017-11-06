@@ -11,7 +11,7 @@
         android:translationX="-48dp"/>
 
     <TextView
-        android:id="@+id/toolbar"
+        android:id="@+id/header"
         style="@style/MainHeader"
         android:layout_marginStart="24dp" />
 
@@ -19,7 +19,7 @@
         android:id="@+id/scrim"
         style="@style/ScrimAccent" />
 
-    <olog.dev.leeto.ui._activity_main.list.ParallaxRecyclerView
+    <android.support.v7.widget.RecyclerView
         android:paddingTop="90dp"
         android:id="@+id/list"
         android:layout_width="match_parent"

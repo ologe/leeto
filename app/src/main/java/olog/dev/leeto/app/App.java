@@ -1,6 +1,5 @@
 package olog.dev.leeto.app;
 
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 
 import dagger.android.AndroidInjector;
@@ -23,13 +22,8 @@ public class App extends DaggerApplication {
     private void initializeMaps(){
         Completable.create(e -> {
             MapsInitializer.initialize(this);
-            MapView mapView = new MapView(this);
-            mapView.onCreate(null);
-            mapView.onPause();
-            mapView.onDestroy();
-
-        }).subscribeOn(Schedulers.computation())
-                .subscribe(() -> {}, throwable -> {});
+            e.onComplete();
+        }).subscribeOn(Schedulers.io()).subscribe(() -> {}, throwable -> {});
     }
 
     @Override

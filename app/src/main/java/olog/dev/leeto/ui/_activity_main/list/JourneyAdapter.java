@@ -8,9 +8,9 @@ import javax.inject.Inject;
 
 import dagger.Lazy;
 import olog.dev.leeto.BR;
-import olog.dev.leeto.DataBoundViewHolder;
 import olog.dev.leeto.R;
 import olog.dev.leeto.base.BaseAdapter;
+import olog.dev.leeto.base.DataBoundViewHolder;
 import olog.dev.leeto.dagger.PerActivity;
 import olog.dev.leeto.model.DisplayableJourney;
 import olog.dev.leeto.ui.navigator.Navigator;
