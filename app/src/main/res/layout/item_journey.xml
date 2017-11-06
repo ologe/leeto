@@ -107,7 +107,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintDimensionRatio="2"/>
 
-        <TextView
+        <Button
             android:id="@+id/addMedia"
             android:drawableStart="@drawable/vd_add_media"
             app:layout_constraintStart_toStartOf="parent"
@@ -115,8 +115,12 @@
             app:layout_constraintEnd_toStartOf="@id/share"
             android:textAlignment="center"
             android:text="Add media"
+            android:textAllCaps="false"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:textSize="14sp"
-            android:textColor="@color/dark_grey"
+            android:textColor="@color/grey600"
             android:gravity="center"
             android:drawablePadding="16dp"
             android:layout_width="wrap_content"
@@ -124,37 +128,25 @@
             android:padding="16dp"
             app:layout_constraintHorizontal_chainStyle="spread"/>
 
-        <TextView
+        <Button
             android:id="@+id/share"
-
+            android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintTop_toBottomOf="@+id/img"
             app:layout_constraintStart_toEndOf="@id/addMedia"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="Share"
+            android:clickable="true"
+            android:focusable="true"
+            android:textAllCaps="false"
             android:drawablePadding="16dp"
             android:gravity="center"
             android:textSize="14sp"
-            android:textColor="@color/dark_grey"
+            android:textColor="@color/grey600"
             android:drawableStart="@drawable/vd_share"
             android:textAlignment="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"/>
-
-        <!--<ImageButton-->
-            <!--android:id="@+id/share"-->
-            <!--app:layout_constraintTop_toTopOf="@id/journeyName"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintStart_toEndOf="@id/journeyName"-->
-            <!--app:layout_constraintBottom_toBottomOf="@id/journeyName"-->
-            <!--android:src="@drawable/vd_share"-->
-            <!--android:scaleX=".75"-->
-            <!--android:scaleY=".75"-->
-            <!--android:padding="8dp"-->
-            <!--android:layout_marginEnd="8dp"-->
-            <!--android:background="@null"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content" />-->
 
     </android.support.constraint.ConstraintLayout>
 

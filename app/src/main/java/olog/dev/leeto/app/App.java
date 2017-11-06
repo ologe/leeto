@@ -5,7 +5,7 @@ import com.squareup.leakcanary.LeakCanary;
 
 import dagger.android.AndroidInjector;
 import dagger.android.support.DaggerApplication;
-import io.reactivex.Completable;
+import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import olog.dev.leeto.utility.AppConstants;
 
@@ -26,10 +26,9 @@ public class App extends DaggerApplication {
     }
 
     private void initializeMaps(){
-        Completable.create(e -> {
-            MapsInitializer.initialize(this);
-            e.onComplete();
-        }).subscribeOn(Schedulers.io()).subscribe(() -> {}, throwable -> {});
+        Single.fromCallable(() -> MapsInitializer.initialize(this))
+                .subscribeOn(Schedulers.io())
+                .subscribe(integer -> {}, throwable -> {});
     }
 
     @Override
