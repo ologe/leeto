@@ -28,6 +28,7 @@ import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 import olog.dev.leeto.R;
 import olog.dev.leeto.base.AbsMorphActivity;
+import olog.dev.leeto.ui.LocationManager;
 import olog.dev.leeto.utility.DateUtils;
 import olog.dev.leeto.utility.RxUtils;
 
@@ -50,6 +51,7 @@ public class AddJourneyActivity extends AbsMorphActivity {
     @Inject AddJourneyActivityViewModel viewModel;
     @Inject Calendar calendar;
     @Inject Provider<String> mockData;
+    @Inject LocationManager locationManager;
 
     @OnTouch(R.id.journeyDate)
     public boolean showDatePicker(){

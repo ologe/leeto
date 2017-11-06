@@ -16,6 +16,7 @@ import olog.dev.leeto.ui.activity_add_journey.di.AddJourneyInjector;
         RepositoryModuleHelper.class,
         AppHelperModule.class,
         SchedulersModule.class,
+        LocationModule.class,
 
         AndroidSupportInjectionModule.class,
         MainActivityInjector.class,

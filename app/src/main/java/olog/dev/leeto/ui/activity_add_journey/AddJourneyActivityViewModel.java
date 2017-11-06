@@ -25,7 +25,9 @@ public class AddJourneyActivityViewModel extends ViewModel {
 
     private final InsertJourneyUseCase insertJourneyUseCase;
 
-    public AddJourneyActivityViewModel(InsertJourneyUseCase insertJourneyUseCase) {
+    public AddJourneyActivityViewModel(
+            InsertJourneyUseCase insertJourneyUseCase) {
+
         this.insertJourneyUseCase = insertJourneyUseCase;
     }
 

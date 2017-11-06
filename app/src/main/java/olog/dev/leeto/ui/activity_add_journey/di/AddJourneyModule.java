@@ -11,7 +11,6 @@ import java.util.Random;
 import dagger.Module;
 import dagger.Provides;
 import olog.dev.leeto.dagger.ActivityContext;
-import olog.dev.leeto.dagger.PerActivity;
 import olog.dev.leeto.ui.activity_add_journey.AddJourneyActivity;
 import olog.dev.leeto.ui.activity_add_journey.AddJourneyActivityViewModel;
 import olog.dev.leeto.ui.activity_add_journey.AddJourneyActivityViewModelFactory;
@@ -34,7 +33,6 @@ public class AddJourneyModule {
     }
 
     @Provides
-    @PerActivity
     @ActivityContext
     Context provideContext(){
         return activity;
