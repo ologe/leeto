@@ -81,18 +81,18 @@
 //
 //        Disposable markerDisposable = Single.just(journey.getStopList())
 //                .flatMapObservable(Observable::fromIterable)
-//                .map(Stop::getLocation)
-//                .map(location -> Pair.create(location, new LatLng(location.getLatitude(), location.getLongitude())))
-//                .map(pair -> new MarkerOptions().position(pair.second).title(pair.first.getAddress()))
+//                .mapToDomain(Stop::getLocation)
+//                .mapToDomain(location -> Pair.create(location, new LatLng(location.getLatitude(), location.getLongitude())))
+//                .mapToDomain(pair -> new MarkerOptions().position(pair.second).title(pair.first.getAddress()))
 //                .subscribeOn(Schedulers.computation())
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .subscribe(googleMap::addMarker, Throwable::printStackTrace);
 //
 //        Disposable moveCameraDisposable = Single.just(journey.getStopList())
-//                .map(stopList -> stopList.get(0))
-//                .map(Stop::getLocation)
-//                .map(location -> new LatLng(location.getLatitude(), location.getLongitude()))
-//                .map(latLng -> CameraUpdateFactory.newLatLngZoom(latLng, ZOOM))
+//                .mapToDomain(stopList -> stopList.get(0))
+//                .mapToDomain(Stop::getLocation)
+//                .mapToDomain(location -> new LatLng(location.getLatitude(), location.getLongitude()))
+//                .mapToDomain(latLng -> CameraUpdateFactory.newLatLngZoom(latLng, ZOOM))
 //                .subscribeOn(Schedulers.computation())
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .subscribe(googleMap::moveCamera, Throwable::printStackTrace);

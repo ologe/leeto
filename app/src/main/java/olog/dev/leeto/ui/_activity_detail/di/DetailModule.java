@@ -14,8 +14,8 @@
 //import olog.dev.leeto.ui._activity_detail.DetailActivity;
 //import olog.dev.leeto.ui._activity_detail.DetailContract;
 //import olog.dev.leeto.ui._activity_detail.DetailPresenter;
-//import olog.dev.leeto.utility.dagger.annotations.context.ActivityContext;
-//import olog.dev.leeto.utility.dagger.annotations.scope.PerActivity;
+//import olog.dev.leeto.dagger.ActivityContext;
+//import olog.dev.leeto.dagger.PerActivity;
 //
 //@Module
 //public class DetailModule {

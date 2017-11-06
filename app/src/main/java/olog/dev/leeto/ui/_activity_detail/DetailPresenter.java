@@ -8,7 +8,7 @@
 //import olog.dev.leeto.base.AbsPresenter;
 //import olog.dev.leeto.data.model.Journey;
 //import olog.dev.leeto.ui.navigator.INavigator;
-//import olog.dev.leeto.utility.dagger.annotations.scope.PerActivity;
+//import olog.dev.leeto.dagger.PerActivity;
 //
 //@PerActivity
 //public class DetailPresenter extends AbsPresenter<DetailContract.View> implements DetailContract.Presenter{

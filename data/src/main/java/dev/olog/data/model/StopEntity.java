@@ -14,7 +14,10 @@ import java.util.Date;
         foreignKeys = @ForeignKey(
                 entity = JourneyEntity.class,
                 parentColumns = "journey_id",
-                childColumns = "journey_id_fk"
+                childColumns = "journey_id_fk",
+                onDelete = ForeignKey.CASCADE,
+                onUpdate = ForeignKey.CASCADE,
+                deferred = true
         )
 )
 public class StopEntity {
@@ -53,5 +56,27 @@ public class StopEntity {
 
     public LocationEntity getLocation() {
         return location;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        StopEntity that = (StopEntity) o;
+
+        if (id != that.id) return false;
+        if (journeyId != that.journeyId) return false;
+        if (date != null ? !date.equals(that.date) : that.date != null) return false;
+        return location != null ? location.equals(that.location) : that.location == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + journeyId;
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        return result;
     }
 }

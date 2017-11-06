@@ -1,6 +1,5 @@
 package olog.dev.leeto.ui._activity_main;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -20,21 +19,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import dagger.Lazy;
+import dev.olog.domain.model.Journey;
 import olog.dev.leeto.R;
 import olog.dev.leeto.base.BaseActivity;
-import olog.dev.leeto.data.model.Journey;
 import olog.dev.leeto.ui._activity_main.list.JourneyAdapter;
 import olog.dev.leeto.ui._activity_main.list.ParallaxRecyclerView;
+import olog.dev.leeto.ui.navigator.Navigator;
 import olog.dev.leeto.utility.HandlerUtils;
 
-public class MainActivity extends BaseActivity implements MainContract.View {
+public class MainActivity extends BaseActivity {
 
     public static final int REQUEST_CODE = 123;
     private static final int SCROLL_DELAY = 300;
 
-    @Inject MainContract.Presenter presenter;
+    @Inject MainActivityViewModel viewModel;
     @Inject JourneyAdapter adapter;
-    @Inject LinearLayoutManager layoutManager;
+    @Inject Lazy<Navigator> navigator;
+    private LinearLayoutManager layoutManager;
 
     private Unbinder unbinder;
     private Handler handler;
@@ -50,7 +52,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @OnClick(R.id.addJourneyFab)
     public void addJourney(FloatingActionButton view){
         if (list.isFabAdd()) {
-            presenter.toAddJourney(view);
+            navigator.get().toAddJourneyActivity(view);
         } else {
             list.smoothScrollToPosition(0);
         }
@@ -66,9 +68,25 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
         getLifecycle().addObserver(list);
 
+        layoutManager = new LinearLayoutManager(this);
+
         list.setAdapter(adapter);
         list.setLayoutManager(layoutManager);
         list.setViews(scrim, toolbar, addJourney);
+
+        viewModel.observeJourneys()
+                .observe(this, displayableItems -> {
+                    adapter.updateData(displayableItems);
+                    handleNoItems(displayableItems.isEmpty());
+                });
+    }
+
+    private void handleNoItems(boolean isEmpty){
+        if (isEmpty){
+            navigator.get().showJourneyEmptyState();
+        } else {
+            navigator.get().hideJourneyEmptyState();
+        }
     }
 
     @Override
@@ -83,19 +101,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         unbinder.unbind();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
-            if(adapter.getItemCount() >= 1){
-                boolean cantScrollUp = !list.canScrollHorizontally(-1);
-                toolbar.setAlpha(cantScrollUp ? 1 : 0);
-                scrollToPositionWithDelay(0);
-            }
-        }
-    }
-
-    @Override
     public void showJourneysList(@NonNull List<Journey> data) {
 //        adapter.updateDataSet(data);
     }
@@ -103,7 +108,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     /**
      * setup detail activity animation
      */
-    @Override
     public void onItemClick(@NonNull Journey journey, int currentPosition, View scrim, View journeyName) {
         Map<String, View> transitionViews = new WeakHashMap<>();
         transitionViews.put("scrim",scrim);
@@ -112,7 +116,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         transitionViews.put("root", root);
         transitionViews.put("toolbar", toolbar);
         transitionViews.put("back", back);
-        presenter.toDetailActivity(transitionViews, journey.getId(), currentPosition, layoutManager);
+//        presenter.toDetailActivity(transitionViews, journey.getId(), currentPosition, layoutManager);
     }
 
 

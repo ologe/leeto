@@ -1,11 +1,11 @@
-package olog.dev.leeto.utility.dagger.annotations.scope;
+package olog.dev.leeto.dagger;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import javax.inject.Scope;
+import javax.inject.Qualifier;
 
-@Scope
+@Qualifier
 @Retention(RetentionPolicy.CLASS)
-public @interface PerActivity {
+public @interface ActivityContext {
 }

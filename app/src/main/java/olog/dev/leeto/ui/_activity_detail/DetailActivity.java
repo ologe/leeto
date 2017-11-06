@@ -37,7 +37,7 @@
 //    @BindView(R.id.rootBackground) View rootBackground;
 //    @BindView(R.id.viewPager) ViewPager viewPager;
 //    @BindView(R.id.inkIndicator) InkPageIndicator inkIndicator;
-//    @BindView(R.id.map) DetailMap map;
+//    @BindView(R.id.mapToDomain) DetailMap mapToDomain;
 //
 //    @Inject DetailContract.Presenter presenter;
 //    @Inject int position;
@@ -97,7 +97,7 @@
 //
 //    @Override
 //    public void setupUI(@NonNull Journey journey) {
-//        map.init(journey);
+//        mapToDomain.init(journey);
 //
 //        journeyName.setText(journey.getName());
 //
@@ -111,33 +111,33 @@
 //    @Override
 //    protected void onStart() {
 //        super.onStart();
-//        map.onStart();
+//        mapToDomain.onStart();
 //    }
 //
 //    @Override
 //    public void onResume() {
 //        super.onResume();
-//        map.onResume();
+//        mapToDomain.onResume();
 //        viewPager.addOnPageChangeListener(onPageChangeListener);
 //    }
 //
 //    @Override
 //    public void onPause() {
 //        super.onPause();
-//        map.onPause();
+//        mapToDomain.onPause();
 //        viewPager.removeOnPageChangeListener(onPageChangeListener);
 //    }
 //
 //    @Override
 //    protected void onStop() {
 //        super.onStop();
-//        map.onStop();
+//        mapToDomain.onStop();
 //    }
 //
 //    @Override
 //    protected void onDestroy() {
 //        super.onDestroy();
-//        map.onDestroy();
+//        mapToDomain.onDestroy();
 //        unbinder.unbind();
 //    }
 //
@@ -154,7 +154,7 @@
 //
 //        @Override
 //        public void onPageSelected(int position) {
-////            binding.map.getMapAsync(googleMap -> mapController.moveTo(
+////            binding.mapToDomain.getMapAsync(googleMap -> mapController.moveTo(
 ////                    journey.getStopsList().get(position).getLocation(), position));
 //        }
 //    };

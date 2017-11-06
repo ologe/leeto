@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 
 import olog.dev.leeto.R;
 
-public class NoJourneyFragment extends Fragment {
+public class JourneyEmptyStateFragment extends Fragment {
 
-    public static final String TAG = "NoJourneyFragment";
+    public static final String TAG = "JourneyEmptyStateFragment";
 
     @Nullable
     @Override

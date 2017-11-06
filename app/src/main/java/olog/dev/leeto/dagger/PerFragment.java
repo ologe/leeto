@@ -1,4 +1,4 @@
-package olog.dev.leeto.utility.dagger.annotations.scope;
+package olog.dev.leeto.dagger;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -47,7 +47,7 @@
             <!--android:layout_height="wrap_content"/>-->
 
         <!--<olog.dev.leeto.ui.custom_view.RoundedMapView-->
-            <!--android:id="@+id/map"-->
+            <!--android:id="@mapToDommapToDomain/map"-->
             <!--android:layout_width="0dp"-->
             <!--android:layout_height="0dp"-->
             <!--tools:background="@color/dark_grey"-->
@@ -72,7 +72,7 @@
 
         <!--<olog.dev.leeto.ui.custom_view.InkPageIndicator-->
             <!--android:id="@+id/inkIndicator"-->
-            <!--app:layout_constraintTop_toBottomOf="@id/map"-->
+            <!--app:layout_constraintTop_toBottomOf="mapToDommapToDomain/map"-->
             <!--app:layout_constraintStart_toStartOf="parent"-->
             <!--app:layout_constraintEnd_toEndOf="parent"-->
             <!--android:layout_width="wrap_content"-->

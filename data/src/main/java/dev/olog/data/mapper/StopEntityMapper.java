@@ -16,18 +16,37 @@ public class StopEntityMapper {
         this.locationMapper = locationMapper;
     }
 
-    public List<Stop> map(List<StopEntity> entity){
+    public List<Stop> mapToDomain(List<StopEntity> entity){
         List<Stop> stopList = new ArrayList<>();
         for (StopEntity stopEntity : entity) {
-            stopList.add(mapOne(stopEntity));
+            stopList.add(mapToDomainOne(stopEntity));
         }
         return stopList;
     }
 
-    private Stop mapOne(StopEntity entity){
+    public List<StopEntity> mapToEntity(List<Stop> entity){
+        List<StopEntity> stopList = new ArrayList<>();
+        for (Stop stopEntity : entity) {
+            stopList.add(mapToEntityOne(stopEntity));
+        }
+        return stopList;
+    }
+
+    private Stop mapToDomainOne(StopEntity entity){
         return new Stop(
+                entity.getId(),
+                entity.getJourneyId(),
                 entity.getDate(),
-                locationMapper.map(entity.getLocation())
+                locationMapper.mapToDomain(entity.getLocation())
+        );
+    }
+
+    private StopEntity mapToEntityOne(Stop entity){
+        return new StopEntity(
+                entity.getId(),
+                entity.getJourneyId(),
+                entity.getDate(),
+                locationMapper.mapToEntity(entity.getLocation())
         );
     }
 

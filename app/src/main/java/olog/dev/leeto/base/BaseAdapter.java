@@ -3,12 +3,16 @@ package olog.dev.leeto.base;
 import android.arch.lifecycle.DefaultLifecycleObserver;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -16,19 +20,17 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.schedulers.Schedulers;
 import olog.dev.leeto.DataBoundViewHolder;
-import olog.dev.leeto.DisplayableItem;
-import olog.dev.leeto.utility.recycler_view.Diff;
 
 import static android.support.v7.util.DiffUtil.calculateDiff;
 import static android.util.Pair.create;
 import static olog.dev.leeto.utility.RxUtils.unsubscribe;
 
-public abstract class BaseAdapter extends RecyclerView.Adapter<DataBoundViewHolder>
+public abstract class BaseAdapter <T> extends RecyclerView.Adapter<DataBoundViewHolder>
         implements DefaultLifecycleObserver {
 
-    private final PublishProcessor<List<DisplayableItem>> publisher = PublishProcessor.create();
+    private final PublishProcessor<List<T>> publisher = PublishProcessor.create();
 
-    protected List<DisplayableItem> dataSet = new Vector<>();
+    protected List<T> dataSet = new ArrayList<>();
 
     private Disposable dataSetDisposable;
 
@@ -42,17 +44,65 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<DataBoundViewHold
         return dataSet.size();
     }
 
+    @Override
+    public final DataBoundViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        ViewDataBinding binding = DataBindingUtil.inflate(inflater, viewType, parent, false);
+        DataBoundViewHolder<ViewDataBinding> vh = new DataBoundViewHolder<>(binding);
+        initViewHolderListeners(vh, viewType);
+        return vh;
+    }
 
+    protected abstract void initViewHolderListeners(
+            DataBoundViewHolder viewHolder, int viewType);
 
     @Override
-    public void onStart(@NonNull LifecycleOwner owner) {
+    public final void onBindViewHolder(DataBoundViewHolder holder, int position) {
+        bind(holder.getBinding(), dataSet.get(position), position);
+    }
+
+    protected abstract void bind(@NonNull ViewDataBinding binding,
+                                 @NonNull T item,
+                                 int position);
+
+    @Override
+    public final void onBindViewHolder(DataBoundViewHolder holder, int position, List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
+    }
+
+    @Override
+    public final void onStart(@NonNull LifecycleOwner owner) {
         dataSetDisposable = publisher
                 .toSerialized()
                 .debounce(50, TimeUnit.MILLISECONDS)
                 .observeOn(Schedulers.computation())
                 .onBackpressureLatest()
                 .distinctUntilChanged()
-                .map(newDataSet -> create(newDataSet, calculateDiff(new Diff(this.dataSet, newDataSet))))
+                .map(newDataSet -> create(newDataSet, calculateDiff(new DiffUtil.Callback() {
+                    @Override
+                    public int getOldListSize() {
+                        return dataSet.size();
+                    }
+
+                    @Override
+                    public int getNewListSize() {
+                        return newDataSet.size();
+                    }
+
+                    @Override
+                    public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+                        T oldItem = dataSet.get(oldItemPosition);
+                        T newItem = newDataSet.get(newItemPosition);
+                        return BaseAdapter.this.areItemTheSame(oldItem, newItem);
+                    }
+
+                    @Override
+                    public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+                        T oldItem = dataSet.get(oldItemPosition);
+                        T newItem = newDataSet.get(newItemPosition);
+                        return BaseAdapter.this.areContentTheSame(oldItem, newItem);
+                    }
+                })))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
                     boolean wasEmpty = this.dataSet.isEmpty();
@@ -69,14 +119,18 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<DataBoundViewHold
     }
 
     @Override
-    public void onStop(@NonNull LifecycleOwner owner) {
+    public final void onStop(@NonNull LifecycleOwner owner) {
         unsubscribe(dataSetDisposable);
     }
 
-    protected void updateData(List<DisplayableItem> dataSet){
+    public final void updateData(List<T> dataSet){
         publisher.onNext(new ArrayList<>(dataSet));
     }
 
     protected void onDataSetUpdatedCallback(){}
+
+    protected abstract boolean areItemTheSame(T oldItem, T newItem);
+
+    protected abstract boolean areContentTheSame(T oldItem, T newItem);
 
 }

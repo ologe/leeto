@@ -22,8 +22,8 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
+import olog.dev.leeto.dagger.PerActivity;
 import olog.dev.leeto.utility.BuildVersion;
-import olog.dev.leeto.utility.dagger.annotations.scope.PerActivity;
 
 @PerActivity
 public class PermissionHelper implements IPermissionHelper {

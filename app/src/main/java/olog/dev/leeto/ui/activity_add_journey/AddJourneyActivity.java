@@ -1,6 +1,7 @@
 package olog.dev.leeto.ui.activity_add_journey;
 
 import android.app.DatePickerDialog;
+import android.arch.lifecycle.LiveDataReactiveStreams;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -9,6 +10,7 @@ import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import java.util.Calendar;
@@ -21,15 +23,13 @@ import javax.inject.Provider;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTouch;
-import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
 import olog.dev.leeto.R;
 import olog.dev.leeto.base.AbsMorphActivity;
-import olog.dev.leeto.data.model.Journey;
-import olog.dev.leeto.data.model.Location;
 import olog.dev.leeto.utility.DateUtils;
 
-public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyContract.View {
+public class AddJourneyActivity extends AbsMorphActivity {
 
     private DatePickerDialog datePickerDialog;
 
@@ -45,8 +45,7 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
     @BindView(R.id.locationLongitude) TextInputEditText locationLongitude;
     @BindView(R.id.locationDescription) TextInputEditText locationDescription;
 
-    @Inject AddJourneyContract.Presenter presenter;
-//    @Inject IPermissionHelper permissionHelper;
+    @Inject AddJourneyActivityViewModel viewModel;
     @Inject Calendar calendar;
 
     @Inject Provider<String> mockData;
@@ -78,62 +77,41 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
         super.onCreate(savedInstanceState);
         // butterKnife already bound in superclass
         setupCalendar();
+
+        LiveDataReactiveStreams.fromPublisher(
+                Flowable.combineLatest(
+                        isTextViewEmpty(journeyName),
+                        isTextViewEmpty(locationName),
+                        isTextViewEmpty(locationAddress),
+                        isTextViewEmpty(locationLatitude),
+                        isTextViewEmpty(locationLongitude),
+                        (aBoolean, aBoolean2, aBoolean3, aBoolean4, aBoolean5) -> aBoolean || aBoolean2 || aBoolean3 || aBoolean4 || aBoolean5
+                ).map(alLeastOneIsEmpty -> !alLeastOneIsEmpty)
+        ).observe(this, saveButton::setEnabled);
+
+        LiveDataReactiveStreams.fromPublisher(
+                RxView.clicks(saveButton).filter(o -> saveButton.isEnabled())
+                        .flatMapCompletable(o ->
+                        viewModel.createJourney(journeyName.getText().toString(),
+                                journeyDescription.getText().toString(),
+                                calendar.getTime(),
+                                locationName.getText().toString(),
+                                locationLatitude.getText().toString(),
+                                locationLongitude.getText().toString(),
+                                locationAddress.getText().toString(),
+                                locationDescription.getText().toString()
+                )).toFlowable()
+        ).observe(this, t -> dismiss());
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        saveButton.setOnClickListener(view -> {
-
-            Journey journey = new Journey(
-                    journeyName.getText().toString(),
-                    journeyDescription.getText().toString());
-
-            Location location = new Location(
-                    locationName.getText().toString(),
-                    Double.parseDouble(locationLatitude.getText().toString()),
-                    Double.parseDouble(locationLongitude.getText().toString()),
-                    locationAddress.getText().toString(),
-                    locationDescription.getText().toString()
-            );
-
-            journey.addStop(calendar.getTime(), location);
-
-            presenter.addJourneyToRepository(journey);
-
-            setResult(RESULT_OK);
-
-            dismiss();
-        });
-
-        Disposable disposable = Observable.combineLatest(
-                isTextViewEmpty(journeyName),
-                isTextViewEmpty(locationName),
-                isTextViewEmpty(locationAddress),
-                isTextViewEmpty(locationLatitude),
-                isTextViewEmpty(locationLongitude),
-                (aBoolean, aBoolean2, aBoolean3, aBoolean4, aBoolean5) -> aBoolean || aBoolean2 || aBoolean3 || aBoolean4 || aBoolean5
-        ).subscribe(allAreEmpty -> saveButton.setEnabled(!allAreEmpty));
-
-//        subscriptions.add(disposable);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-//        subscriptions.clear();
-        saveButton.setOnClickListener(null);
-    }
-
-    @Override
-    public void updateLocation(@Nullable Location location) {
-        if(location == null) return;
+    public void updateLocation() {
+//        if(location == null) return;
 
 //        locationName.setText(location.getName());
 //        locationAddress.setText(location.getAddress());
-        locationLatitude.setText(String.valueOf(location.getLatitude()));
-        locationLongitude.setText(String.valueOf(location.getLongitude()));
-        locationDescription.setText(String.valueOf(location.getDescription()));
+//        locationLatitude.setText(String.valueOf(location.getLatitude()));
+//        locationLongitude.setText(String.valueOf(location.getLongitude()));
+//        locationDescription.setText(String.valueOf(location.getDescription()));
     }
 
     @Override
@@ -157,10 +135,11 @@ public class AddJourneyActivity extends AbsMorphActivity implements AddJourneyCo
         journeyDate.setInputType(InputType.TYPE_NULL);
     }
 
-    private Observable<Boolean> isTextViewEmpty(TextView editText){
+    private Flowable<Boolean> isTextViewEmpty(TextView editText){
         return RxTextView.afterTextChangeEvents(editText)
                 .map(o -> o.view().getText().toString())
-                .map(TextUtils::isEmpty);
+                .map(TextUtils::isEmpty)
+                .toFlowable(BackpressureStrategy.LATEST);
     }
 
 }

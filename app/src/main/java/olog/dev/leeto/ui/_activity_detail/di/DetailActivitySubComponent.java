@@ -5,7 +5,7 @@
 //import olog.dev.leeto.ui._activity_detail.DetailActivity;
 //import olog.dev.leeto.ui.fragment_stop.di.StopInjector;
 //import olog.dev.leeto.ui.navigator.NavigatorModule;
-//import olog.dev.leeto.utility.dagger.annotations.scope.PerActivity;
+//import olog.dev.leeto.dagger.PerActivity;
 //
 //@Subcomponent(modules = {
 //        DetailModule.class,

@@ -13,6 +13,8 @@ public class AppConstants {
         //no instance
     }
 
+    public static final int UNSET_ID = 0;
+
     public static String NO_DESCRIPTION = "";
     private static List<String> ratioList;
 

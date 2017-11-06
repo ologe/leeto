@@ -24,7 +24,17 @@ public class JourneyWithStopsMapper
                 journey.getId(),
                 journey.getName(),
                 journey.getDescription(),
-                stopMapper.map(entity.stopList)
+                stopMapper.mapToDomain(entity.stopList)
+        );
+    }
+
+    public JourneyWithStopsEntity toEntity(Journey journey){
+        return JourneyWithStopsEntity.from(
+                new JourneyEntity(
+                        journey.getId(),
+                        journey.getName(),
+                        journey.getDescription()
+                ), stopMapper.mapToEntity(journey.getStopList())
         );
     }
 

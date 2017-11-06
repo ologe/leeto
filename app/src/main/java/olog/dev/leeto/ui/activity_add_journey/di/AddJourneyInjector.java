@@ -15,7 +15,7 @@ public abstract class AddJourneyInjector {
     @Binds
     @IntoMap
     @ActivityKey(AddJourneyActivity.class)
-    abstract AndroidInjector.Factory<? extends Activity> bindAddJourneyActivityInjectorFactory(
+    abstract AndroidInjector.Factory<? extends Activity> injectorFactory(
             AddJourneySubComponent.Builder builder
     );
 

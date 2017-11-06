@@ -18,22 +18,20 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import olog.dev.leeto.R;
-import olog.dev.leeto.ui._activity_main.MainActivity;
+import olog.dev.leeto.dagger.PerActivity;
 import olog.dev.leeto.ui.activity_add_journey.AddJourneyActivity;
-import olog.dev.leeto.ui.fragment_no_journey.NoJourneyFragment;
-import olog.dev.leeto.utility.dagger.annotations.scope.PerActivity;
+import olog.dev.leeto.ui.fragment_no_journey.JourneyEmptyStateFragment;
 
 @PerActivity
-public class Navigator implements INavigator {
+public class Navigator {
 
-    private AppCompatActivity activity;
+    private final AppCompatActivity activity;
 
     @Inject
     Navigator(AppCompatActivity activity) {
         this.activity = activity;
     }
 
-    @Override
     public void toDetailActivity(@NonNull Map<String, View> views, long journeyId, int currentPosition, @NonNull LinearLayoutManager layoutManager) {
         int above = 1;
         int bottom = 1;
@@ -76,15 +74,13 @@ public class Navigator implements INavigator {
 //        ActivityCompat.startActivity(activity, intent, options.toBundle());
     }
 
-    @Override
     public void toAddJourneyActivity(@NonNull FloatingActionButton fab) {
         Intent intent = new Intent(activity, AddJourneyActivity.class);
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
                 activity, fab, fab.getTransitionName());
-        ActivityCompat.startActivityForResult(activity, intent, MainActivity.REQUEST_CODE, options.toBundle());
+        ActivityCompat.startActivity(activity, intent, options.toBundle());
     }
 
-    @Override
     public void toAddStopActivity(@NonNull FloatingActionButton fab) {
 //        Intent intent = new Intent(activity, AddStopActivity.class);
 //        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
@@ -92,28 +88,36 @@ public class Navigator implements INavigator {
 //        activity.startActivity(intent, options.toBundle());
     }
 
-    @Override
-    public void toNoJourneyFragment() {
-        if (findFragmentByTag(NoJourneyFragment.TAG) != null){
+    public void showJourneyEmptyState(){
+        if (findFragmentByTag(JourneyEmptyStateFragment.TAG) != null){
             return;
         }
 
-        NoJourneyFragment fragment = new NoJourneyFragment();
+        JourneyEmptyStateFragment fragment = new JourneyEmptyStateFragment();
 
         activity.getSupportFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
-                .add(R.id.root, fragment, NoJourneyFragment.TAG)
-                .commitNowAllowingStateLoss();
+                .add(R.id.root, fragment, JourneyEmptyStateFragment.TAG)
+                .commitAllowingStateLoss();
     }
 
-    @Override
+    public void hideJourneyEmptyState(){
+        Fragment fragment = findFragmentByTag(JourneyEmptyStateFragment.TAG);
+        if (fragment == null){
+            return;
+        }
+
+        activity.getSupportFragmentManager().beginTransaction()
+                .remove(fragment)
+                .commitAllowingStateLoss();
+    }
+
     public void closeActivity() {
         activity.finishAfterTransition();
     }
 
-    @Override
     public void removeFragment(@NonNull String TAG) {
-        Fragment fragment = findFragmentByTag(NoJourneyFragment.TAG);
+        Fragment fragment = findFragmentByTag(JourneyEmptyStateFragment.TAG);
         if(fragment != null){
             activity.getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)

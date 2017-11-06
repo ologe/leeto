@@ -13,10 +13,9 @@ import com.bumptech.glide.RequestManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dev.olog.domain.model.Journey;
+import dev.olog.domain.model.Location;
 import olog.dev.leeto.R;
-import olog.dev.leeto.data.model.Journey;
-import olog.dev.leeto.data.model.Location;
-import olog.dev.leeto.data.model.Stop;
 import olog.dev.leeto.utility.AppConstants;
 
 public class JourneyHolder extends RecyclerView.ViewHolder {
@@ -45,15 +44,15 @@ public class JourneyHolder extends RecyclerView.ViewHolder {
     }
 
     void bind(Journey journey, int position){
-        if(position == RecyclerView.NO_POSITION) return; // is animating
-
-        Stop firstStop = journey.getFirstStop();
-        String date = firstStop.getFormattedDate();
-
-        journeyName.setText(journey.getName());
-        journeyDate.setText(date);
+//        if(position == RecyclerView.NO_POSITION) return; // is animating
+//
+//        Stop firstStop = journey.getFirstStop();
+//        String date = firstStop.getFormattedDate();
+//
+//        journeyName.setText(journey.getName());
+//        journeyDate.setText(date);
 //        location.setText(firstStop.getLocation().getName());
-        journeyDescription.setText(journey.getDescription());
+//        journeyDescription.setText(journey.getDescription());
 
 //        scrim.setTransitionName(DetailActivity.SHARED_ROOT + position);
 //        journeyName.setTransitionName(DetailActivity.SHARED_JOURNEY_NAME + position);
