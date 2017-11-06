@@ -57,7 +57,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="fabSize">normal</item>
-        <item name="backgroundTint">@color/colorAccent</item>
+        <item name="backgroundTint">@color/dark_grey</item>
         <item name="srcCompat">@drawable/vd_add</item>
         <item name="android:tint">@android:color/white</item>
         <item name="android:layout_margin">16dp</item>

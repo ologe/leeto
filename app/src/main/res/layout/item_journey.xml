@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:text="@{journey.getDate}"
             tools:text="24-06-2017"
-            android:textColor="@{journey.isRecent ? @color/item_selected : @color/grey600}"
+            android:textColor="@{journey.isRecent ? @color/item_selected : @color/dark_grey}"
             tools:textColor="@color/item_selected"
             android:textSize="12sp"
             android:layout_marginStart="16dp"
@@ -68,6 +68,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@{journey.getLocation}"
             tools:text="Parma"
+            android:textColor="@color/maps_red"
             android:textSize="12sp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
@@ -88,7 +89,7 @@
             tools:text="@tools:sample/lorem/random"
             android:maxLines="3"
             android:ellipsize="end"
-            android:textColor="@color/dark_grey"
+
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp" />
