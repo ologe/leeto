@@ -50,9 +50,9 @@ public class AddJourneyModule {
         String location = mockLocations.get(random.nextInt(mockLocations.size()));
         return new LocationModel(
                 location,
-                location + " address",
                 "" + (random.nextInt(90)),
-                "" + (random.nextInt(180)));
+                "" + (random.nextInt(180)),
+                location + " address");
     }
 
     @Provides

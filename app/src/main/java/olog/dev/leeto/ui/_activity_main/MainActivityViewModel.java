@@ -3,6 +3,8 @@ package olog.dev.leeto.ui._activity_main;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.LiveDataReactiveStreams;
 import android.arch.lifecycle.ViewModel;
+import android.content.Context;
+import android.content.Intent;
 
 import java.util.List;
 
@@ -34,6 +36,14 @@ public class MainActivityViewModel extends ViewModel {
             );
         }
         return journeyListLiveData;
+    }
+
+    public void share(Context context, String message){
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, message);
+        context.startActivity(Intent.createChooser(shareIntent, "Share journey to.."));
     }
 
 }

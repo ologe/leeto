@@ -1,5 +1,6 @@
 package olog.dev.leeto.app;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 
@@ -19,6 +20,11 @@ public class AppModule {
     @Provides
     @ApplicationContext
     Context provideContext(){
+        return app;
+    }
+
+    @Provides
+    Application provideApplicatoin(){
         return app;
     }
 

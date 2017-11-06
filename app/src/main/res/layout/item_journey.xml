@@ -15,7 +15,6 @@
         android:layout_marginEnd="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@android:color/white"
         android:elevation="10dp">
 
         <!--scrim-->
@@ -27,14 +26,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@android:color/white" />
+            android:background="@android:color/white"
+            />
 
         <TextView
             android:id="@+id/journeyName"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="@{journey.getName}"
+            android:text="@{journey.name}"
             tools:text="Viaggio a New York"
             android:textSize="30sp"
             android:textColor="@color/dark_grey"
@@ -51,7 +51,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{journey.getDate}"
+            android:text="@{journey.date}"
             tools:text="24-06-2017"
             android:textColor="@{journey.isRecent ? @color/item_selected : @color/dark_grey}"
             tools:textColor="@color/item_selected"
@@ -66,7 +66,7 @@
             android:id="@+id/location"
             app:layout_constraintTop_toBottomOf="@+id/journeyName"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="@{journey.getLocation}"
+            android:text="@{journey.location}"
             tools:text="Parma"
             android:textColor="@color/maps_red"
             android:textSize="12sp"
@@ -85,7 +85,7 @@
             app:layout_constraintTop_toBottomOf="@id/journeyDate"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="@{journey.Description}"
+            android:text="@{journey.getDescription}"
             tools:text="@tools:sample/lorem/random"
             android:maxLines="3"
             android:ellipsize="end"
@@ -106,6 +106,55 @@
             android:layout_width="0dp"
             android:layout_marginTop="16dp"
             app:layout_constraintDimensionRatio="2"/>
+
+        <TextView
+            android:id="@+id/addMedia"
+            android:drawableStart="@drawable/vd_add_media"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img"
+            app:layout_constraintEnd_toStartOf="@id/share"
+            android:textAlignment="center"
+            android:text="Add media"
+            android:textSize="14sp"
+            android:textColor="@color/dark_grey"
+            android:gravity="center"
+            android:drawablePadding="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            app:layout_constraintHorizontal_chainStyle="spread"/>
+
+        <TextView
+            android:id="@+id/share"
+
+            app:layout_constraintTop_toBottomOf="@+id/img"
+            app:layout_constraintStart_toEndOf="@id/addMedia"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Share"
+            android:drawablePadding="16dp"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/dark_grey"
+            android:drawableStart="@drawable/vd_share"
+            android:textAlignment="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"/>
+
+        <!--<ImageButton-->
+            <!--android:id="@+id/share"-->
+            <!--app:layout_constraintTop_toTopOf="@id/journeyName"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintStart_toEndOf="@id/journeyName"-->
+            <!--app:layout_constraintBottom_toBottomOf="@id/journeyName"-->
+            <!--android:src="@drawable/vd_share"-->
+            <!--android:scaleX=".75"-->
+            <!--android:scaleY=".75"-->
+            <!--android:padding="8dp"-->
+            <!--android:layout_marginEnd="8dp"-->
+            <!--android:background="@null"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
 
     </android.support.constraint.ConstraintLayout>
 

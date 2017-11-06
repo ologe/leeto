@@ -1,30 +1,52 @@
 package olog.dev.leeto.ui._activity_main.list;
 
 import android.arch.lifecycle.Lifecycle;
+import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 
 import javax.inject.Inject;
 
 import olog.dev.leeto.BR;
+import olog.dev.leeto.R;
 import olog.dev.leeto.base.BaseAdapter;
 import olog.dev.leeto.base.DataBoundViewHolder;
+import olog.dev.leeto.dagger.ActivityContext;
 import olog.dev.leeto.dagger.PerActivity;
 import olog.dev.leeto.model.DisplayableItem;
 import olog.dev.leeto.model.DisplayableJourney;
+import olog.dev.leeto.ui._activity_main.MainActivityViewModel;
 
 @PerActivity
 public class JourneyAdapter extends BaseAdapter<DisplayableItem<DisplayableJourney>> {
 
-    @Inject JourneyAdapter(Lifecycle lifecycle){
+    private final Context context;
+    private final MainActivityViewModel viewModel;
+
+    @Inject JourneyAdapter(
+            Lifecycle lifecycle,
+            @ActivityContext Context context,
+            MainActivityViewModel viewModel){
 
         super(lifecycle);
+        this.context = context;
+        this.viewModel = viewModel;
     }
 
     @Override
     protected void initViewHolderListeners(DataBoundViewHolder viewHolder, int viewType) {
 //        this.view.onItemClick(dataSet.get(position), position, holder.scrim, holder.journeyName);
         viewHolder.setOnClickListener(() -> {
+        });
+        viewHolder.itemView.findViewById(R.id.share).setOnClickListener(view -> {
+            int position = viewHolder.getAdapterPosition();
+            if (RecyclerView.NO_POSITION != position){
+                DisplayableJourney model = dataSet.get(position).getModel();
+                if(model != null){
+                    viewModel.share(context, model.getName());
+                }
+            }
         });
     }
 

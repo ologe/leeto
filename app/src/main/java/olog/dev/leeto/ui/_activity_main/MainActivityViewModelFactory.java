@@ -27,7 +27,8 @@ public class MainActivityViewModelFactory implements ViewModelProvider.Factory {
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         //noinspection unchecked
         return (T) new MainActivityViewModel(
-                getAllJourneysUseCase, journeyMapper
+                getAllJourneysUseCase,
+                journeyMapper
         );
     }
 }
