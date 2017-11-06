@@ -1,5 +1,6 @@
 package olog.dev.leeto.ui._activity_main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -14,6 +15,7 @@ import com.jakewharton.rxbinding2.support.v7.widget.RecyclerViewScrollEvent;
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -22,10 +24,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import dagger.Lazy;
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import olog.dev.leeto.R;
 import olog.dev.leeto.base.BaseActivity;
+import olog.dev.leeto.model.DisplayableItem;
 import olog.dev.leeto.model.DisplayableJourney;
 import olog.dev.leeto.ui._activity_main.list.JourneyAdapter;
 import olog.dev.leeto.ui.navigator.Navigator;
@@ -34,8 +38,9 @@ import olog.dev.leeto.utility.RxUtils;
 
 public class MainActivity extends BaseActivity {
 
+    public static final int ADD_JOURNEY_REQUEST_CODE = 123;
+
     private int scrimTopMargin;
-    private int headerTopMargin;
 
     private CoordinatorLayout.LayoutParams scrimLayoutParams;
 
@@ -55,6 +60,7 @@ public class MainActivity extends BaseActivity {
 
     private Disposable fabImageDisposable;
     private Disposable parallaxDisposable;
+    private Disposable onJourneyAddedDisposable;
 
     @OnClick(R.id.addJourneyFab)
     public void addJourney(FloatingActionButton view){
@@ -83,11 +89,13 @@ public class MainActivity extends BaseActivity {
         scrimLayoutParams = (CoordinatorLayout.LayoutParams) scrim.getLayoutParams();
 
         scrimTopMargin = DimensionUtils.dip(this, 125);
-        headerTopMargin = DimensionUtils.dip(this, 16);
     }
 
-    private void onDataChanged(@Nullable List<DisplayableJourney> displayableItems){
+    private void onDataChanged(@Nullable List<DisplayableItem<DisplayableJourney>> displayableItems){
         if (displayableItems != null){
+            if (displayableItems.isEmpty()){
+                displayableItems.add(new DisplayableItem<>(R.layout.item_empty_state, null));
+            }
             adapter.updateData(displayableItems);
         }
     }
@@ -105,8 +113,7 @@ public class MainActivity extends BaseActivity {
                 .distinctUntilChanged()
                 .subscribe(canScrollUp -> addJourneyFab.setImageResource(canScrollUp
                         ? R.drawable.vd_arrow_up : R.drawable.vd_add),
-                        Throwable::printStackTrace
-                );
+                        Throwable::printStackTrace);
 
         parallaxDisposable = listObservable
                 .map(RecyclerViewScrollEvent::dy)
@@ -131,12 +138,27 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        RxUtils.unsubscribe(onJourneyAddedDisposable);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
     }
 
-//    public void onItemClick(@NonNull Journey journey, int currentPosition, View scrim, View journeyName) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_JOURNEY_REQUEST_CODE && resultCode == RESULT_OK){
+            onJourneyAddedDisposable = Completable.timer(200, TimeUnit.MILLISECONDS)
+                    .subscribe(() -> list.smoothScrollToPosition(0), Throwable::printStackTrace);
+        }
+    }
+
+    //    public void onItemClick(@NonNull Journey journey, int currentPosition, View scrim, View journeyName) {
 //        Map<String, View> transitionViews = new WeakHashMap<>();
 //        transitionViews.put("scrim",scrim);
 //        transitionViews.put("journeyName", journeyName);

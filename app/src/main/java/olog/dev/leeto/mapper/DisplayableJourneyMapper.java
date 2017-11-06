@@ -1,42 +1,46 @@
 package olog.dev.leeto.mapper;
 
-import java.util.Date;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import dev.olog.domain.model.Journey;
 import dev.olog.domain.model.Stop;
 import dev.olog.shared.mapper.FlowableMapper;
+import olog.dev.leeto.R;
+import olog.dev.leeto.model.DisplayableItem;
 import olog.dev.leeto.model.DisplayableJourney;
 import olog.dev.leeto.utility.DateUtils;
 
 public class DisplayableJourneyMapper
-        extends FlowableMapper<Journey, DisplayableJourney> {
+        extends FlowableMapper<Journey, DisplayableItem<DisplayableJourney>> {
 
     @Inject DisplayableJourneyMapper() {
     }
 
     @Override
-    public DisplayableJourney map(Journey journey) {
-        List<Stop> stopList = journey.getStopList();
-        Date date;
-        String locationName;
-        if (stopList.isEmpty()){
-            date = new Date();
-            locationName = "";
-        } else {
-            Stop firstStop = journey.getStopList().get(0);
-            date = firstStop.getDate();
-            locationName = firstStop.getLocation().getName();
-        }
+    public DisplayableItem<DisplayableJourney> map(Journey journey) {
+        Stop firstStop = journey.getStopList().get(0);
+//        Date date;
+//        String locationName;
+//        if (stopList.isEmpty()){
+//            date = new Date();
+//            locationName = "";
+//        } else {
+//            Stop firstStop = journey.getStopList().get(0);
+//            date = firstStop.getDate();
+//            locationName = firstStop.getLocation().getName();
+//        }
 
-        return new DisplayableJourney(
+        DisplayableJourney displayableJourney = new DisplayableJourney(
                 journey.getId(),
                 journey.getName(),
-                DateUtils.toString(date),
-                locationName,
+                DateUtils.toString(firstStop.getDate()),
+                firstStop.getLocation().getName(),
                 journey.getDescription()
+        );
+
+        return new DisplayableItem<>(
+                R.layout.item_journey,
+                displayableJourney
         );
     }
 }

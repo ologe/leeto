@@ -8,11 +8,12 @@ import java.util.List;
 
 import dev.olog.domain.interactor.GetAllJourneysUseCase;
 import olog.dev.leeto.mapper.DisplayableJourneyMapper;
+import olog.dev.leeto.model.DisplayableItem;
 import olog.dev.leeto.model.DisplayableJourney;
 
 public class MainActivityViewModel extends ViewModel {
 
-    private LiveData<List<DisplayableJourney>> journeyListLiveData;
+    private LiveData<List<DisplayableItem<DisplayableJourney>>> journeyListLiveData;
 
     private final GetAllJourneysUseCase getAllJourneysUseCase;
     private final DisplayableJourneyMapper journeyMapper;
@@ -25,7 +26,7 @@ public class MainActivityViewModel extends ViewModel {
         this.journeyMapper = journeyMapper;
     }
 
-    public LiveData<List<DisplayableJourney>> observeJourneys(){
+    public LiveData<List<DisplayableItem<DisplayableJourney>>> observeJourneys(){
         if (journeyListLiveData == null){
             journeyListLiveData = LiveDataReactiveStreams.fromPublisher(
                     getAllJourneysUseCase.execute(null)

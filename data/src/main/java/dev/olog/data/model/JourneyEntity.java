@@ -26,10 +26,13 @@ public class JourneyEntity {
     @Nullable
     private final String description;
 
-    public JourneyEntity(int id, @NonNull String name, @Nullable String description) {
+    private final long creationDate;
+
+    public JourneyEntity(int id, @NonNull String name, @Nullable String description, long creationDate) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.creationDate = creationDate;
     }
 
     public int getId() {
@@ -46,6 +49,10 @@ public class JourneyEntity {
         return description;
     }
 
+    public long getCreationDate() {
+        return creationDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,6 +61,7 @@ public class JourneyEntity {
         JourneyEntity that = (JourneyEntity) o;
 
         if (id != that.id) return false;
+        if (creationDate != that.creationDate) return false;
         if (!name.equals(that.name)) return false;
         return description != null ? description.equals(that.description) : that.description == null;
     }
@@ -63,6 +71,7 @@ public class JourneyEntity {
         int result = id;
         result = 31 * result + name.hashCode();
         result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (int) (creationDate ^ (creationDate >>> 32));
         return result;
     }
 }

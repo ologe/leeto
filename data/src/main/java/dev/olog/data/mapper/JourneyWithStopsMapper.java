@@ -33,7 +33,8 @@ public class JourneyWithStopsMapper
                 new JourneyEntity(
                         journey.getId(),
                         journey.getName(),
-                        journey.getDescription()
+                        journey.getDescription(),
+                        System.currentTimeMillis()
                 ), stopMapper.mapToEntity(journey.getStopList())
         );
     }

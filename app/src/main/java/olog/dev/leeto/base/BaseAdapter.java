@@ -34,7 +34,6 @@ public abstract class BaseAdapter <T> extends RecyclerView.Adapter<DataBoundView
     private Disposable dataSetDisposable;
 
     public BaseAdapter(Lifecycle lifecycle) {
-
         lifecycle.addObserver(this);
     }
 

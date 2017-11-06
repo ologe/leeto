@@ -16,7 +16,7 @@ import io.reactivex.Flowable;
 @Dao
 public abstract class JourneyDao {
 
-    @Query("SELECT * FROM journeys")
+    @Query("SELECT * FROM journeys ORDER BY creationDate DESC")
     @Transaction
     public abstract Flowable<List<JourneyWithStopsEntity>> loadAll();
 

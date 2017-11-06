@@ -16,6 +16,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import olog.dev.leeto.dagger.PerActivity;
+import olog.dev.leeto.ui._activity_main.MainActivity;
 import olog.dev.leeto.ui.activity_add_journey.AddJourneyActivity;
 
 @PerActivity
@@ -74,7 +75,7 @@ public class Navigator {
         Intent intent = new Intent(activity, AddJourneyActivity.class);
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
                 activity, fab, fab.getTransitionName());
-        ActivityCompat.startActivity(activity, intent, options.toBundle());
+        ActivityCompat.startActivityForResult(activity, intent, MainActivity.ADD_JOURNEY_REQUEST_CODE, options.toBundle());
     }
 
     public void toAddStopActivity(@NonNull FloatingActionButton fab) {

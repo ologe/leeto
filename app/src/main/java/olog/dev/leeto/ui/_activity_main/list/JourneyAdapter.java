@@ -6,26 +6,19 @@ import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 
-import dagger.Lazy;
 import olog.dev.leeto.BR;
-import olog.dev.leeto.R;
 import olog.dev.leeto.base.BaseAdapter;
 import olog.dev.leeto.base.DataBoundViewHolder;
 import olog.dev.leeto.dagger.PerActivity;
+import olog.dev.leeto.model.DisplayableItem;
 import olog.dev.leeto.model.DisplayableJourney;
-import olog.dev.leeto.ui.navigator.Navigator;
 
 @PerActivity
-public class JourneyAdapter extends BaseAdapter<DisplayableJourney> {
+public class JourneyAdapter extends BaseAdapter<DisplayableItem<DisplayableJourney>> {
 
-    private final Lazy<Navigator> navigator;
-
-    @Inject JourneyAdapter(
-            Lifecycle lifecycle,
-            Lazy<Navigator> navigator){
+    @Inject JourneyAdapter(Lifecycle lifecycle){
 
         super(lifecycle);
-        this.navigator = navigator;
     }
 
     @Override
@@ -36,22 +29,39 @@ public class JourneyAdapter extends BaseAdapter<DisplayableJourney> {
     }
 
     @Override
-    protected void bind(@NonNull ViewDataBinding binding, @NonNull DisplayableJourney item, int position) {
-        binding.setVariable(BR.journey, item);
+    protected void bind(@NonNull ViewDataBinding binding, @NonNull DisplayableItem<DisplayableJourney> item, int position) {
+        DisplayableJourney model = item.getModel();
+        if (model != null){
+            binding.setVariable(BR.journey, model);
+        }
     }
 
     @Override
     public int getItemViewType(int position) {
-        return R.layout.item_journey;
+        return dataSet.get(position).getType();
     }
 
     @Override
-    protected boolean areItemTheSame(DisplayableJourney oldItem, DisplayableJourney newItem) {
-        return oldItem.getId() == newItem.getId();
+    protected boolean areItemTheSame(DisplayableItem<DisplayableJourney> oldItem, DisplayableItem<DisplayableJourney> newItem) {
+        int oldType = oldItem.getType();
+        int newType = newItem.getType();
+        DisplayableJourney oldModel = oldItem.getModel();
+        DisplayableJourney newModel = newItem.getModel();
+
+        return oldType == newType &&
+                oldModel != null && newModel != null &&
+                oldModel.getId() == newModel.getId();
     }
 
     @Override
-    protected boolean areContentTheSame(DisplayableJourney oldItem, DisplayableJourney newItem) {
-        return oldItem.equals(newItem);
+    protected boolean areContentTheSame(DisplayableItem<DisplayableJourney> oldItem, DisplayableItem<DisplayableJourney> newItem) {
+        int oldType = oldItem.getType();
+        int newType = newItem.getType();
+        DisplayableJourney oldModel = oldItem.getModel();
+        DisplayableJourney newModel = newItem.getModel();
+
+        return oldType == newType &&
+                oldModel != null && newModel != null &&
+                oldModel.equals(newModel);
     }
 }

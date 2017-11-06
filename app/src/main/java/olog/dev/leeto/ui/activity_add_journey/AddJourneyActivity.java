@@ -83,10 +83,8 @@ public class AddJourneyActivity extends AbsMorphActivity {
 
         LiveDataReactiveStreams.fromPublisher(
                 Flowable.combineLatest(
-                        isTextViewEmpty(journeyName),
-                        isTextViewEmpty(locationName),
-                        isTextViewEmpty(locationAddress),
-                        isTextViewEmpty(locationLatitude),
+                        isTextViewEmpty(journeyName), isTextViewEmpty(locationName),
+                        isTextViewEmpty(locationAddress), isTextViewEmpty(locationLatitude),
                         isTextViewEmpty(locationLongitude),
                         (aBoolean, aBoolean2, aBoolean3, aBoolean4, aBoolean5) -> aBoolean || aBoolean2 || aBoolean3 || aBoolean4 || aBoolean5
                 ).map(alLeastOneIsEmpty -> !alLeastOneIsEmpty)
@@ -99,6 +97,7 @@ public class AddJourneyActivity extends AbsMorphActivity {
 
         saveJourneyDisposable = RxView.clicks(saveButton)
                 .filter(o -> saveButton.isEnabled())
+                .firstOrError()
                 .flatMapCompletable(o -> viewModel.createJourney(
                         journeyName.getText().toString(),
                         journeyDescription.getText().toString(),
@@ -108,7 +107,9 @@ public class AddJourneyActivity extends AbsMorphActivity {
                         locationLongitude.getText().toString(),
                         locationAddress.getText().toString(),
                         locationDescription.getText().toString()
-                )).subscribe(this::dismiss, Throwable::printStackTrace);
+                ))
+                .doOnComplete(() -> setResult(RESULT_OK))
+                .subscribe(this::dismiss, Throwable::printStackTrace);
     }
 
     @Override
