@@ -26,6 +26,7 @@ public abstract class JourneyDao {
     @Insert
     abstract void insertStopList(List<StopEntity> stopEntityList);
 
+    @Transaction
     public int insert(JourneyWithStopsEntity journeyWithStopsEntity){
         JourneyEntity journey = journeyWithStopsEntity.journey;
         List<StopEntity> stopList = journeyWithStopsEntity.stopList;

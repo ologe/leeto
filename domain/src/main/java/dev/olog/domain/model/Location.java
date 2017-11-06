@@ -1,15 +1,23 @@
 package dev.olog.domain.model;
 
+import io.reactivex.annotations.NonNull;
+import io.reactivex.annotations.Nullable;
+
 public class Location {
 
     private final int id;
+    @NonNull
     private final String name;
     private final double latitude;
     private final double longitude;
+    @NonNull
     private final String address;
+    @Nullable
     private final String description;
 
-    public Location(int id, String name, double latitude, double longitude, String address, String description) {
+    public Location(int id, @NonNull String name,
+                    double latitude, double longitude,
+                    @NonNull String address, @Nullable String description) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
@@ -22,6 +30,7 @@ public class Location {
         return id;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
@@ -34,10 +43,12 @@ public class Location {
         return longitude;
     }
 
+    @NonNull
     public String getAddress() {
         return address;
     }
 
+    @Nullable
     public String getDescription() {
         return description;
     }
@@ -52,9 +63,8 @@ public class Location {
         if (id != location.id) return false;
         if (Double.compare(location.latitude, latitude) != 0) return false;
         if (Double.compare(location.longitude, longitude) != 0) return false;
-        if (name != null ? !name.equals(location.name) : location.name != null) return false;
-        if (address != null ? !address.equals(location.address) : location.address != null)
-            return false;
+        if (!name.equals(location.name)) return false;
+        if (!address.equals(location.address)) return false;
         return description != null ? description.equals(location.description) : location.description == null;
     }
 
@@ -63,12 +73,12 @@ public class Location {
         int result;
         long temp;
         result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + name.hashCode();
         temp = Double.doubleToLongBits(latitude);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         temp = Double.doubleToLongBits(longitude);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + address.hashCode();
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
