@@ -48,6 +48,12 @@ public class JourneyAdapter extends BaseAdapter<DisplayableItem<DisplayableJourn
                 }
             }
         });
+        viewHolder.itemView.findViewById(R.id.addMedia).setOnClickListener(view -> {
+            int position = viewHolder.getAdapterPosition();
+            if (RecyclerView.NO_POSITION != position){
+
+            }
+        });
     }
 
     @Override

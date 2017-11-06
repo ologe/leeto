@@ -70,6 +70,10 @@ dependencies {
     implementation "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$rootProject.rx_binding"
     implementation 'com.patloew.rxlocation:rxlocation:1.0.3'
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
+    compile "com.github.miguelbcr:RxPaparazzo:0.5.4-2.x"
+
+
+
 
     // di
     implementation "com.google.dagger:dagger:$rootProject.dagger"

@@ -1,6 +1,7 @@
 package olog.dev.leeto.app;
 
 import com.google.android.gms.maps.MapsInitializer;
+import com.miguelbcr.ui.rx_paparazzo2.RxPaparazzo;
 import com.squareup.leakcanary.LeakCanary;
 
 import dagger.android.AndroidInjector;
@@ -23,6 +24,7 @@ public class App extends DaggerApplication {
         initializeMaps();
 
         AppConstants.init(this);
+        RxPaparazzo.register(this);
     }
 
     private void initializeMaps(){
