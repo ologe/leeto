@@ -71,8 +71,6 @@ dependencies {
     implementation 'com.patloew.rxlocation:rxlocation:1.0.3'
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
 
-
-
     // di
     implementation "com.google.dagger:dagger:$rootProject.dagger"
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger"
@@ -86,6 +84,10 @@ dependencies {
 
     // other
     implementation "com.github.bumptech.glide:glide:$rootProject.glide"
+
+    // debug
+    debugImplementation 'com.akaita.java:rxjava2-debug:1.2.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
 
     // test
     testImplementation "junit:junit:$rootProject.junit"

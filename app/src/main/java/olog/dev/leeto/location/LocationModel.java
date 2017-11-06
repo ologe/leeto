@@ -1,4 +1,4 @@
-package olog.dev.leeto.ui;
+package olog.dev.leeto.location;
 
 import android.location.Address;
 import android.location.Location;

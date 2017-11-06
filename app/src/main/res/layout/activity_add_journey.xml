@@ -2,7 +2,7 @@
 <layout>
 
     <data>
-        <variable name="location" type="olog.dev.leeto.ui.LocationModel"/>
+        <variable name="location" type="olog.dev.leeto.location.LocationModel"/>
     </data>
 
 
@@ -119,6 +119,7 @@
                 app:layout_constraintStart_toEndOf="@id/locationHeader"
                 app:layout_constraintBottom_toBottomOf="@+id/locationHeader"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="2dp"
                 android:text="(click to request)"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

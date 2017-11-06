@@ -1,4 +1,4 @@
-package olog.dev.leeto.app;
+package olog.dev.leeto.location;
 
 import android.content.Context;
 

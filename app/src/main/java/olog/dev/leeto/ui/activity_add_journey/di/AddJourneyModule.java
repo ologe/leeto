@@ -11,7 +11,7 @@ import java.util.Random;
 import dagger.Module;
 import dagger.Provides;
 import olog.dev.leeto.dagger.ActivityContext;
-import olog.dev.leeto.ui.LocationModel;
+import olog.dev.leeto.location.LocationModel;
 import olog.dev.leeto.ui.activity_add_journey.AddJourneyActivity;
 import olog.dev.leeto.ui.activity_add_journey.AddJourneyActivityViewModel;
 import olog.dev.leeto.ui.activity_add_journey.AddJourneyActivityViewModelFactory;

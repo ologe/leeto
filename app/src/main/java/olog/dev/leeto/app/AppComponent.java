@@ -7,6 +7,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.support.AndroidSupportInjectionModule;
 import dev.olog.data.repository.RepositoryModule;
 import dev.olog.data.repository.RepositoryModuleHelper;
+import olog.dev.leeto.location.LocationModule;
 import olog.dev.leeto.ui._activity_main.di.MainActivityInjector;
 import olog.dev.leeto.ui.activity_add_journey.di.AddJourneyInjector;
 
