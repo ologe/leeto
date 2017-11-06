@@ -11,6 +11,7 @@ import java.util.Random;
 import dagger.Module;
 import dagger.Provides;
 import olog.dev.leeto.dagger.ActivityContext;
+import olog.dev.leeto.ui.LocationModel;
 import olog.dev.leeto.ui.activity_add_journey.AddJourneyActivity;
 import olog.dev.leeto.ui.activity_add_journey.AddJourneyActivityViewModel;
 import olog.dev.leeto.ui.activity_add_journey.AddJourneyActivityViewModelFactory;
@@ -44,8 +45,14 @@ public class AddJourneyModule {
     }
 
     @Provides
-    String provideMockData(){
-        return mockLocations.get(new Random().nextInt(mockLocations.size()));
+    LocationModel provideMockData(){
+        Random random = new Random();
+        String location = mockLocations.get(random.nextInt(mockLocations.size()));
+        return new LocationModel(
+                location,
+                location + " address",
+                "" + (random.nextInt(90)),
+                "" + (random.nextInt(180)));
     }
 
     @Provides

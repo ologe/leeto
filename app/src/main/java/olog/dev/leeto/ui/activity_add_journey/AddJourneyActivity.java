@@ -9,13 +9,13 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Random;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -26,9 +26,12 @@ import butterknife.OnTouch;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
+import olog.dev.leeto.BuildConfig;
 import olog.dev.leeto.R;
 import olog.dev.leeto.base.AbsMorphActivity;
+import olog.dev.leeto.databinding.ActivityAddJourneyBinding;
 import olog.dev.leeto.ui.LocationManager;
+import olog.dev.leeto.ui.LocationModel;
 import olog.dev.leeto.utility.DateUtils;
 import olog.dev.leeto.utility.RxUtils;
 
@@ -50,8 +53,10 @@ public class AddJourneyActivity extends AbsMorphActivity {
 
     @Inject AddJourneyActivityViewModel viewModel;
     @Inject Calendar calendar;
-    @Inject Provider<String> mockData;
+    @Inject Provider<LocationModel> mockData;
     @Inject LocationManager locationManager;
+
+    private ActivityAddJourneyBinding binding;
 
     @OnTouch(R.id.journeyDate)
     public boolean showDatePicker(){
@@ -60,26 +65,35 @@ public class AddJourneyActivity extends AbsMorphActivity {
     }
 
     private Disposable saveJourneyDisposable;
+    private Disposable locationRequestDisposable;
 
     @OnClick(R.id.journeyBigHeader)
     public void generateMockData(){
-        String location = mockData.get();
+        if (BuildConfig.DEBUG){
+            LocationModel location = mockData.get();
 
-        journeyName.setText("Trip to " + location);
-        locationName.setText(location);
-        locationAddress.setText(location + " address");
-        locationLatitude.setText("" + (new Random().nextInt(90)));
-        locationLongitude.setText("" + (new Random().nextInt(180)) );
+            journeyName.setText("Trip to " + location.getName());
+            binding.setLocation(location);
+        }
     }
 
-//    @OnClick(R.id.locationRequest)
-//    public void requestLocation(View view){
-//        presenter.onLocationRequestClick();
-//    }
+    @OnClick({R.id.locationHeader, R.id.locationHeaderHint})
+    public void requestLocation(){
+        RxUtils.unsubscribe(locationRequestDisposable);
+
+        locationRequestDisposable = locationManager.request()
+                .subscribe(binding::setLocation, throwable -> {
+                    throwable.printStackTrace();
+                    Toast.makeText(this, R.string.location_not_found, Toast.LENGTH_SHORT).show();
+                });
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        binding = (ActivityAddJourneyBinding) viewDataBinding;
+
         // butterKnife already bound in superclass
         setupCalendar();
 
@@ -120,14 +134,10 @@ public class AddJourneyActivity extends AbsMorphActivity {
         RxUtils.unsubscribe(saveJourneyDisposable);
     }
 
-    public void updateLocation() {
-//        if(location == null) return;
-
-//        locationName.setText(location.getName());
-//        locationAddress.setText(location.getAddress());
-//        locationLatitude.setText(String.valueOf(location.getLatitude()));
-//        locationLongitude.setText(String.valueOf(location.getLongitude()));
-//        locationDescription.setText(String.valueOf(location.getDescription()));
+    @Override
+    protected void onStop() {
+        super.onStop();
+        RxUtils.unsubscribe(locationRequestDisposable);
     }
 
     @Override
