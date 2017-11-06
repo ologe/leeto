@@ -3,10 +3,8 @@ package olog.dev.leeto.ui.navigator;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Pair;
@@ -17,10 +15,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import olog.dev.leeto.R;
 import olog.dev.leeto.dagger.PerActivity;
 import olog.dev.leeto.ui.activity_add_journey.AddJourneyActivity;
-import olog.dev.leeto.ui.fragment_no_journey.JourneyEmptyStateFragment;
 
 @PerActivity
 public class Navigator {
@@ -88,44 +84,6 @@ public class Navigator {
 //        activity.startActivity(intent, options.toBundle());
     }
 
-    public void showJourneyEmptyState(){
-        if (findFragmentByTag(JourneyEmptyStateFragment.TAG) != null){
-            return;
-        }
-
-        JourneyEmptyStateFragment fragment = new JourneyEmptyStateFragment();
-
-        activity.getSupportFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .add(R.id.root, fragment, JourneyEmptyStateFragment.TAG)
-                .commitAllowingStateLoss();
-    }
-
-    public void hideJourneyEmptyState(){
-        Fragment fragment = findFragmentByTag(JourneyEmptyStateFragment.TAG);
-        if (fragment == null){
-            return;
-        }
-
-        activity.getSupportFragmentManager().beginTransaction()
-                .remove(fragment)
-                .commitAllowingStateLoss();
-    }
-
-    public void closeActivity() {
-        activity.finishAfterTransition();
-    }
-
-    public void removeFragment(@NonNull String TAG) {
-        Fragment fragment = findFragmentByTag(JourneyEmptyStateFragment.TAG);
-        if(fragment != null){
-            activity.getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .remove(fragment)
-                    .commitAllowingStateLoss();
-        }
-    }
-
     private Pair[] createPairs(Map<String, View> views){
         Pair[] pairs = new Pair[views.size()];
 
@@ -139,12 +97,6 @@ public class Navigator {
         }
 
         return pairs;
-    }
-
-    @Nullable
-    private  <T extends Fragment> T findFragmentByTag(@NonNull String tag){
-        //noinspection unchecked
-        return (T) activity.getSupportFragmentManager().findFragmentByTag(tag);
     }
 
 }

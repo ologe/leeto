@@ -89,12 +89,6 @@ public class MainActivity extends BaseActivity {
     private void onDataChanged(@Nullable List<DisplayableJourney> displayableItems){
         if (displayableItems != null){
             adapter.updateData(displayableItems);
-
-            if (displayableItems.isEmpty()){
-                navigator.get().showJourneyEmptyState();
-            } else {
-                navigator.get().hideJourneyEmptyState();
-            }
         }
     }
 

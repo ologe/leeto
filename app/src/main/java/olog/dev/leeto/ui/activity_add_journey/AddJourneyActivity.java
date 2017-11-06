@@ -25,9 +25,11 @@ import butterknife.OnClick;
 import butterknife.OnTouch;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
+import io.reactivex.disposables.Disposable;
 import olog.dev.leeto.R;
 import olog.dev.leeto.base.AbsMorphActivity;
 import olog.dev.leeto.utility.DateUtils;
+import olog.dev.leeto.utility.RxUtils;
 
 public class AddJourneyActivity extends AbsMorphActivity {
 
@@ -47,7 +49,6 @@ public class AddJourneyActivity extends AbsMorphActivity {
 
     @Inject AddJourneyActivityViewModel viewModel;
     @Inject Calendar calendar;
-
     @Inject Provider<String> mockData;
 
     @OnTouch(R.id.journeyDate)
@@ -55,6 +56,8 @@ public class AddJourneyActivity extends AbsMorphActivity {
         datePickerDialog.show();
         return false;
     }
+
+    private Disposable saveJourneyDisposable;
 
     @OnClick(R.id.journeyBigHeader)
     public void generateMockData(){
@@ -88,20 +91,30 @@ public class AddJourneyActivity extends AbsMorphActivity {
                         (aBoolean, aBoolean2, aBoolean3, aBoolean4, aBoolean5) -> aBoolean || aBoolean2 || aBoolean3 || aBoolean4 || aBoolean5
                 ).map(alLeastOneIsEmpty -> !alLeastOneIsEmpty)
         ).observe(this, saveButton::setEnabled);
+    }
 
-        LiveDataReactiveStreams.fromPublisher(
-                RxView.clicks(saveButton).filter(o -> saveButton.isEnabled())
-                        .flatMapCompletable(o ->
-                        viewModel.createJourney(journeyName.getText().toString(),
-                                journeyDescription.getText().toString(),
-                                calendar.getTime(),
-                                locationName.getText().toString(),
-                                locationLatitude.getText().toString(),
-                                locationLongitude.getText().toString(),
-                                locationAddress.getText().toString(),
-                                locationDescription.getText().toString()
-                )).toFlowable()
-        ).observe(this, t -> dismiss());
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        saveJourneyDisposable = RxView.clicks(saveButton)
+                .filter(o -> saveButton.isEnabled())
+                .flatMapCompletable(o -> viewModel.createJourney(
+                        journeyName.getText().toString(),
+                        journeyDescription.getText().toString(),
+                        calendar.getTime(),
+                        locationName.getText().toString(),
+                        locationLatitude.getText().toString(),
+                        locationLongitude.getText().toString(),
+                        locationAddress.getText().toString(),
+                        locationDescription.getText().toString()
+                )).subscribe(this::dismiss, Throwable::printStackTrace);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        RxUtils.unsubscribe(saveJourneyDisposable);
     }
 
     public void updateLocation() {
