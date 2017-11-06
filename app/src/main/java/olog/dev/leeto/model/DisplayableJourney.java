@@ -1,7 +1,10 @@
 package olog.dev.leeto.model;
 
+import android.text.TextUtils;
+
 import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
+import olog.dev.leeto.utility.AppConstants;
 
 public class DisplayableJourney {
 
@@ -15,14 +18,21 @@ public class DisplayableJourney {
     @Nullable
     private final String description;
 
-    public DisplayableJourney(long id, @NonNull String name,
-                              @NonNull String date, @NonNull String location,
-                              @Nullable String description) {
+    private final boolean isRecent;
+
+    public DisplayableJourney(long id,
+                              @NonNull String name,
+                              @NonNull String date,
+                              @NonNull String location,
+                              @Nullable String description,
+                              boolean isRecent) {
+
         this.id = id;
         this.name = name;
         this.date = date;
         this.location = location;
         this.description = description;
+        this.isRecent = isRecent;
     }
 
     public long getId() {
@@ -46,7 +56,14 @@ public class DisplayableJourney {
 
     @Nullable
     public String getDescription() {
+        if (description == null || TextUtils.isEmpty(description)){
+            return AppConstants.NO_DESCRIPTION;
+        }
         return description;
+    }
+
+    public boolean isRecent() {
+        return isRecent;
     }
 
     @Override

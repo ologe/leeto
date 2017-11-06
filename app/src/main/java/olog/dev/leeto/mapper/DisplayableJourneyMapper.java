@@ -13,30 +13,24 @@ import olog.dev.leeto.utility.DateUtils;
 public class DisplayableJourneyMapper
         extends FlowableMapper<Journey, DisplayableItem<DisplayableJourney>> {
 
+    private static final long QUARTER_THRESHOLD = 1000 * 60 * 15;
+
     @Inject DisplayableJourneyMapper() {
     }
 
     @Override
     public DisplayableItem<DisplayableJourney> map(Journey journey) {
         Stop firstStop = journey.getStopList().get(0);
-//        Date date;
-//        String locationName;
-//        if (stopList.isEmpty()){
-//            date = new Date();
-//            locationName = "";
-//        } else {
-//            Stop firstStop = journey.getStopList().get(0);
-//            date = firstStop.getDate();
-//            locationName = firstStop.getLocation().getName();
-//        }
+
+        boolean isRecent = (System.currentTimeMillis() - firstStop.getDate().getTime()) < QUARTER_THRESHOLD;
 
         DisplayableJourney displayableJourney = new DisplayableJourney(
                 journey.getId(),
                 journey.getName(),
                 DateUtils.toString(firstStop.getDate()),
                 firstStop.getLocation().getName(),
-                journey.getDescription()
-        );
+                journey.getDescription(),
+                isRecent);
 
         return new DisplayableItem<>(
                 R.layout.item_journey,
