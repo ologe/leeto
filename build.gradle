@@ -36,8 +36,8 @@ ext {
     // App dependencies
     support_library = '27.0.0'
     constraint_layout = '1.1.0-beta3'
-    play_services = '11.4.2'
-    micro_architecture = '1.0.0-rc1'
+    play_services = '11.6.0'
+    micro_architecture = '1.0.0'
     gson = '2.8.0'
     butterknife = '8.8.1'
     glide = '4.3.0'

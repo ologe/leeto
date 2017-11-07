@@ -44,14 +44,16 @@ public class JourneyListAdapter extends BaseAdapter<DisplayableItem<DisplayableJ
 
     @Override
     protected void initViewHolderListeners(DataBoundViewHolder viewHolder, int viewType) {
-        viewHolder.itemView.setOnClickListener(view -> itemViewClick(viewHolder));
-        viewHolder.itemView.setOnLongClickListener(view -> itemViewLongClick(viewHolder));
+        if (viewType == R.layout.item_journey){
+            viewHolder.itemView.setOnClickListener(view -> itemViewClick(viewHolder));
+            viewHolder.itemView.setOnLongClickListener(view -> itemViewLongClick(viewHolder));
 
-        viewHolder.itemView.findViewById(R.id.share).setOnClickListener(view ->
-                shareClickListener(viewHolder));
+            viewHolder.itemView.findViewById(R.id.share).setOnClickListener(view ->
+                    shareClickListener(viewHolder));
 
-        viewHolder.itemView.findViewById(R.id.addMedia).setOnClickListener(view ->
-                addMediaClickListener(viewHolder));
+            viewHolder.itemView.findViewById(R.id.addMedia).setOnClickListener(view ->
+                    addMediaClickListener(viewHolder));
+        }
     }
 
     @Override

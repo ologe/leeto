@@ -12,6 +12,7 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        resConfigs "en", "xxhdpi"
     }
 
     buildTypes {
