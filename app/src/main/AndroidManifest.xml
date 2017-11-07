@@ -17,7 +17,8 @@
         android:name=".app.App">
 
         <activity android:name=".ui.activity_splash.SplashActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Splash">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,15 +31,15 @@
             android:screenOrientation="portrait"/>
 
         <activity android:name=".ui._activity_detail.DetailActivity"
-            android:theme="@style/Base.Detail"
+            android:theme="@style/Detail"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".ui.activity_add_journey.AddJourneyActivity"
-            android:theme="@style/Base.Dialog"
+            android:theme="@style/Dialog"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".ui.activity_add_stop.AddStopActivity"
-            android:theme="@style/Base.Dialog"
+            android:theme="@style/Dialog"
             android:screenOrientation="portrait"/>
 
 

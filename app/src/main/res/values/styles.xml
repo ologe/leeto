@@ -10,12 +10,16 @@
         <item name="android:windowContentTransitions">true</item>
     </style>
 
-    <style name="Base.Dialog">
+    <style name="Splash" parent="Base">
+        <item name="android:windowBackground">@drawable/splash_drawable</item>
+    </style>
+
+    <style name="Dialog" parent="Base">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@color/dialog_background_scrim</item>
     </style>
 
-    <style name="Base.Detail">
+    <style name="Detail" parent="Base">
         <item name="android:windowSharedElementEnterTransition">@transition/detail_shared</item>
     </style>
 
