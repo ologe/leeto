@@ -32,8 +32,6 @@ public class JourneyMapFragment extends DaggerFragment implements OnMapReadyCall
 
     @Inject DetailActivityViewModel activityViewModel;
 
-    private static final float GOOGLE_ZOOM = 10;
-
     private MapView map;
     private View backButton;
 
@@ -108,7 +106,7 @@ public class JourneyMapFragment extends DaggerFragment implements OnMapReadyCall
                 .map(stops -> stops.get(0))
                 .map(Stop::getLocation)
                 .map(location -> new LatLng(location.getLatitude(), location.getLongitude()))
-                .map(latLng -> CameraUpdateFactory.newLatLngZoom(latLng, GOOGLE_ZOOM))
+                .map(CameraUpdateFactory::newLatLng)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(googleMap::moveCamera, Throwable::printStackTrace);
