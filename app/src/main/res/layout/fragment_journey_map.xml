@@ -16,6 +16,7 @@
 
     <ImageView
         android:id="@+id/back"
+        android:layout_marginTop="12dp"
         style="@style/BackButton"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

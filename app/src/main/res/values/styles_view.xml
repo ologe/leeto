@@ -17,7 +17,6 @@
     </style>
 
     <style name="BackButton">
-        <item name="android:layout_marginTop">@dimen/statusBar</item>
         <item name="android:src">@drawable/vd_back</item>
         <item name="android:padding">6dp</item>
         <item name="android:layout_height">48dp</item>

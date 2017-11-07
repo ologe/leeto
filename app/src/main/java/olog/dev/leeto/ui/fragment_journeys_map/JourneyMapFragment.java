@@ -7,22 +7,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
+import dev.olog.domain.model.Journey;
+import dev.olog.domain.model.Location;
+import dev.olog.domain.model.Stop;
+import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import olog.dev.leeto.R;
 import olog.dev.leeto.ui._activity_detail.DetailActivityViewModel;
+import olog.dev.leeto.utility.RxUtils;
 
 public class JourneyMapFragment extends DaggerFragment implements OnMapReadyCallback {
 
     @Inject DetailActivityViewModel activityViewModel;
 
+    private static final float GOOGLE_ZOOM = 10;
+
     private MapView map;
     private View backButton;
+
+    private Disposable markerDisposable;
+    private Disposable moveCameraDisposable;
 
     @Nullable
     @Override
@@ -31,8 +47,13 @@ public class JourneyMapFragment extends DaggerFragment implements OnMapReadyCall
         map = view.findViewById(R.id.map);
         backButton = view.findViewById(R.id.back);
         map.onCreate(savedInstanceState);
-        map.getMapAsync(this);
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        loadMarkersOnMap();
     }
 
     @Override
@@ -50,13 +71,54 @@ public class JourneyMapFragment extends DaggerFragment implements OnMapReadyCall
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        RxUtils.unsubscribe(markerDisposable);
+        RxUtils.unsubscribe(moveCameraDisposable);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         map.onDestroy();
     }
 
+    private void loadMarkersOnMap(){
+        map.getMapAsync(this);
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        googleMap.clear(); // todo vedere bene la documentazione
 
+        RxUtils.unsubscribe(markerDisposable);
+        RxUtils.unsubscribe(moveCameraDisposable);
+
+        markerDisposable = activityViewModel.observeJourney()
+                .map(Journey::getStopList)
+                .flatMap(stops -> Flowable.fromIterable(stops)
+                        .map(Stop::getLocation)
+                        .map(JourneyMapFragment::newMarker)
+                ).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(googleMap::addMarker, Throwable::printStackTrace);
+
+        moveCameraDisposable = activityViewModel.observeJourney()
+                .map(Journey::getStopList)
+                .map(stops -> stops.get(0))
+                .map(Stop::getLocation)
+                .map(location -> new LatLng(location.getLatitude(), location.getLongitude()))
+                .map(latLng -> CameraUpdateFactory.newLatLngZoom(latLng, GOOGLE_ZOOM))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(googleMap::moveCamera, Throwable::printStackTrace);
+    }
+
+    public static MarkerOptions newMarker(Location location){
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+        return new MarkerOptions()
+                .position(latLng)
+                .title(location.getAddress());
     }
 }
