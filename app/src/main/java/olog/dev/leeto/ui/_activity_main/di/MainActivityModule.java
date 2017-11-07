@@ -11,7 +11,7 @@ import olog.dev.leeto.dagger.ActivityContext;
 import olog.dev.leeto.ui._activity_main.MainActivity;
 import olog.dev.leeto.ui._activity_main.MainActivityViewModel;
 import olog.dev.leeto.ui._activity_main.MainActivityViewModelFactory;
-import olog.dev.leeto.ui._activity_main.list.JourneyAdapter;
+import olog.dev.leeto.ui._activity_main.list.JourneyListAdapter;
 
 @Module
 public class MainActivityModule {
@@ -44,7 +44,7 @@ public class MainActivityModule {
     }
 
     @Provides
-    JourneyAdapter.OnJourneySelected OnJourneySelectedCallcack(){
+    JourneyListAdapter.OnJourneySelected OnJourneySelectedCallcack(){
         return activity;
     }
 

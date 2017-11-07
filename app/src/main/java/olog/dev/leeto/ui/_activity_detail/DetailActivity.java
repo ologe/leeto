@@ -78,7 +78,7 @@ public class DetailActivity extends BaseActivity {
                 .toFlowable(LATEST))
                 .observe(this, journey -> {
                     if (journey != null){
-                        viewPager.setAdapter(new StopPagerAdapter(getSupportFragmentManager()));
+                        viewPager.setAdapter(new JourneyPagerAdapter(getSupportFragmentManager()));
                         viewPager.setCurrentItem(1);
                         inkIndicator.setViewPager(viewPager);
                         startPostponedEnterTransition();

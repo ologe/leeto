@@ -32,12 +32,12 @@ import olog.dev.leeto.R;
 import olog.dev.leeto.base.BaseActivity;
 import olog.dev.leeto.model.DisplayableItem;
 import olog.dev.leeto.model.DisplayableJourney;
-import olog.dev.leeto.ui._activity_main.list.JourneyAdapter;
+import olog.dev.leeto.ui._activity_main.list.JourneyListAdapter;
 import olog.dev.leeto.ui.navigator.Navigator;
 import olog.dev.leeto.utility.DimensionUtils;
 import olog.dev.leeto.utility.RxUtils;
 
-public class MainActivity extends BaseActivity implements JourneyAdapter.OnJourneySelected {
+public class MainActivity extends BaseActivity implements JourneyListAdapter.OnJourneySelected {
 
     public static final int ADD_JOURNEY_REQUEST_CODE = 123;
 
@@ -46,7 +46,7 @@ public class MainActivity extends BaseActivity implements JourneyAdapter.OnJourn
     private CoordinatorLayout.LayoutParams scrimLayoutParams;
 
     @Inject MainActivityViewModel viewModel;
-    @Inject JourneyAdapter adapter;
+    @Inject JourneyListAdapter adapter;
     @Inject Lazy<Navigator> navigator;
     private LinearLayoutManager layoutManager;
 

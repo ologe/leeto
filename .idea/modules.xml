@@ -3,10 +3,15 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Leeto.iml" filepath="$PROJECT_DIR$/Leeto.iml" />
+      <module fileurl="file://C:\Users\Eugi\StudioProjects\Leeto\Leeto.iml" filepath="C:\Users\Eugi\StudioProjects\Leeto\Leeto.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Eugi\StudioProjects\Leeto\app\app.iml" filepath="C:\Users\Eugi\StudioProjects\Leeto\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/data/data.iml" filepath="$PROJECT_DIR$/data/data.iml" />
+      <module fileurl="file://C:\Users\Eugi\StudioProjects\Leeto\data\data.iml" filepath="C:\Users\Eugi\StudioProjects\Leeto\data\data.iml" />
       <module fileurl="file://$PROJECT_DIR$/domain/domain.iml" filepath="$PROJECT_DIR$/domain/domain.iml" />
+      <module fileurl="file://C:\Users\Eugi\StudioProjects\Leeto\domain\domain.iml" filepath="C:\Users\Eugi\StudioProjects\Leeto\domain\domain.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/shared.iml" filepath="$PROJECT_DIR$/shared/shared.iml" />
+      <module fileurl="file://C:\Users\Eugi\StudioProjects\Leeto\shared\shared.iml" filepath="C:\Users\Eugi\StudioProjects\Leeto\shared\shared.iml" />
     </modules>
   </component>
 </project>
