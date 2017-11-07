@@ -19,10 +19,10 @@ import olog.dev.leeto.ui._activity_detail.DetailActivityViewModel;
 
 public class JourneyMapFragment extends DaggerFragment implements OnMapReadyCallback {
 
+    @Inject DetailActivityViewModel activityViewModel;
+
     private MapView map;
     private View backButton;
-
-    @Inject DetailActivityViewModel activityViewModel;
 
     @Nullable
     @Override

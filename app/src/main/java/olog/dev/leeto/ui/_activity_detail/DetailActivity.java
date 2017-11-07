@@ -17,7 +17,6 @@ import olog.dev.leeto.R;
 import olog.dev.leeto.base.BaseActivity;
 import olog.dev.leeto.ui.custom_view.InkPageIndicator;
 import olog.dev.leeto.utility.RxUtils;
-import olog.dev.leeto.utility.animation.StackTransformer;
 
 
 public class DetailActivity extends BaseActivity {
@@ -47,9 +46,10 @@ public class DetailActivity extends BaseActivity {
         postponeEnterTransition();
 
         viewPager.setAdapter(new JourneyPagerAdapter(getSupportFragmentManager()));
+        viewPager.setOffscreenPageLimit(JourneyPagerAdapter.PAGE_COUNT - 1);
         viewModel.setCurrentViewPagerPage(1);
+
         inkIndicator.setViewPager(viewPager);
-        viewPager.setPageTransformer(false, new StackTransformer());
 
         View decorView = getWindow().getDecorView();
 

@@ -2,16 +2,16 @@ package olog.dev.leeto.ui._activity_detail;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 
 import olog.dev.leeto.ui.fragment_journeys_map.JourneyMapFragment;
 import olog.dev.leeto.ui.fragment_journeys_media.JourneyMediaFragment;
 import olog.dev.leeto.ui.fragment_journeys_stops.JourneyStopsFragment;
 
 
-public class JourneyPagerAdapter extends FragmentStatePagerAdapter {
+public class JourneyPagerAdapter extends FragmentPagerAdapter {
 
-    private static final int PAGE_COUNT = 3;
+    public static final int PAGE_COUNT = 3;
 
     public JourneyPagerAdapter(FragmentManager fragmentManager){
         super(fragmentManager);

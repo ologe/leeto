@@ -27,6 +27,6 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addJourneyFab"
-        style="@style/AddFab"/>
+        style="@style/AddFab" />
 
 </android.support.design.widget.CoordinatorLayout>
