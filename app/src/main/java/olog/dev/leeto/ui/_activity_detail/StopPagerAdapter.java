@@ -4,33 +4,32 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import java.util.List;
-
-import dev.olog.domain.model.Stop;
-import olog.dev.leeto.ui.fragment_map.MapFragment;
+import olog.dev.leeto.ui.fragment_journeys_map.JourneyMapFragment;
+import olog.dev.leeto.ui.fragment_journeys_media.JourneyMediaFragment;
+import olog.dev.leeto.ui.fragment_journeys_stops.JourneyStopsFragment;
 
 
 public class StopPagerAdapter extends FragmentStatePagerAdapter {
 
-    private final List<Stop> dataSet;
+    private static final int PAGE_COUNT = 3;
 
-    public StopPagerAdapter(List<Stop> dataSet, FragmentManager fragmentManager){
+    public StopPagerAdapter(FragmentManager fragmentManager){
         super(fragmentManager);
-        this.dataSet = dataSet;
     }
 
     @Override
     public Fragment getItem(int position) {
         if (position == 0){
-            return new MapFragment();
+            return new JourneyMapFragment();
+        } else if (position == 1){
+            return new JourneyStopsFragment();
+        } else {
+            return new JourneyMediaFragment();
         }
-        return new FakeFragment();
-//        return StopFragment.newInstance(position);
     }
 
     @Override
     public int getCount() {
-//        return dataSet.size();
-        return 5;
+        return PAGE_COUNT;
     }
 }

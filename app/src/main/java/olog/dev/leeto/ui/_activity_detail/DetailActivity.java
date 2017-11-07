@@ -78,7 +78,7 @@ public class DetailActivity extends BaseActivity {
                 .toFlowable(LATEST))
                 .observe(this, journey -> {
                     if (journey != null){
-                        viewPager.setAdapter(new StopPagerAdapter(journey.getStopList(), getSupportFragmentManager()));
+                        viewPager.setAdapter(new StopPagerAdapter(getSupportFragmentManager()));
                         viewPager.setCurrentItem(1);
                         inkIndicator.setViewPager(viewPager);
                         startPostponedEnterTransition();
@@ -90,13 +90,13 @@ public class DetailActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-//        viewPager.addOnPageChangeListener(onPageChangeListener);
+        viewPager.addOnPageChangeListener(onPageChangeListener);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-//        viewPager.removeOnPageChangeListener(onPageChangeListener);
+        viewPager.removeOnPageChangeListener(onPageChangeListener);
     }
 
     @Override
@@ -107,7 +107,10 @@ public class DetailActivity extends BaseActivity {
     }
 
     private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
-        @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+
+        @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
         @Override public void onPageScrollStateChanged(int state) {}
 
         @Override

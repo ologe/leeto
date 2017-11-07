@@ -1,15 +1,16 @@
-package olog.dev.leeto.ui._activity_detail;
+package olog.dev.leeto.ui.fragment_journeys_media;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-public class FakeFragment extends Fragment {
+import dagger.android.support.DaggerFragment;
+
+public class JourneyMediaFragment extends DaggerFragment {
 
     @Nullable
     @Override

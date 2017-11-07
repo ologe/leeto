@@ -20,7 +20,7 @@ public class DetailActivityViewModel extends ViewModel {
     }
 
     public Flowable<Journey> observeJourney(){
-        return getJourneyByParamUseCase.execute(journeyId);
+        return getJourneyByParamUseCase.execute(journeyId).share();
     }
 
 }

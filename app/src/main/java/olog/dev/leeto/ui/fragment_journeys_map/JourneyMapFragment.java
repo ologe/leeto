@@ -1,9 +1,8 @@
-package olog.dev.leeto.ui.fragment_map;
+package olog.dev.leeto.ui.fragment_journeys_map;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +11,17 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
-import olog.dev.leeto.R;
+import javax.inject.Inject;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+import dagger.android.support.DaggerFragment;
+import olog.dev.leeto.R;
+import olog.dev.leeto.ui._activity_detail.DetailActivityViewModel;
+
+public class JourneyMapFragment extends DaggerFragment implements OnMapReadyCallback {
 
     private MapView map;
+
+    @Inject DetailActivityViewModel activityViewModel;
 
     @Nullable
     @Override

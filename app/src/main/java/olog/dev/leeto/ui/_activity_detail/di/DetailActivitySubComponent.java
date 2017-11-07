@@ -4,9 +4,11 @@ import dagger.Subcomponent;
 import dagger.android.AndroidInjector;
 import olog.dev.leeto.dagger.PerActivity;
 import olog.dev.leeto.ui._activity_detail.DetailActivity;
+import olog.dev.leeto.ui._activity_detail.DetailFragmentsModule;
 
 @Subcomponent(modules = {
-        DetailModule.class
+        DetailModule.class,
+        DetailFragmentsModule.class
 })
 @PerActivity
 public interface DetailActivitySubComponent extends AndroidInjector<DetailActivity> {
