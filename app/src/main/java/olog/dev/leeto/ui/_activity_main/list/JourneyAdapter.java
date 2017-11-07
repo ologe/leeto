@@ -7,6 +7,7 @@ import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
+import com.jakewharton.rxbinding2.view.RxView;
 import com.miguelbcr.ui.rx_paparazzo2.RxPaparazzo;
 
 import javax.inject.Inject;
@@ -58,6 +59,7 @@ public class JourneyAdapter extends BaseAdapter<DisplayableItem<DisplayableJourn
             if (RecyclerView.NO_POSITION != position){
                 RxPaparazzo.multiple((Activity) context)
                         .usingGallery()
+                        .takeUntil(RxView.detaches(viewHolder.itemView))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(activityListResponse -> {
