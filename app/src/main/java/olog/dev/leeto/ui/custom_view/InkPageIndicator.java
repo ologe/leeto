@@ -240,7 +240,8 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
         } else {
             currentPage = 0;
         }
-        if (dotCenterX != null) {
+        if (dotCenterX != null && dotCenterX.length != 0) {
+
             selectedDotX = dotCenterX[currentPage];
         }
     }
@@ -285,6 +286,7 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
                 width = desiredWidth;
                 break;
         }
+
         setMeasuredDimension(width, height);
         calculateDotPositions(width, height);
     }

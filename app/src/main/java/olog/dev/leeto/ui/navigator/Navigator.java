@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Pair;
 import android.view.View;
 import android.view.Window;
@@ -31,29 +30,7 @@ public class Navigator {
     }
 
     public void toDetailActivity(@NonNull Map<String, View> views,
-                                 long journeyId,
-                                 int currentPosition,
-                                 @NonNull LinearLayoutManager layoutManager) {
-        int above = 1;
-        int bottom = 1;
-
-        int firstVisible = layoutManager.findFirstVisibleItemPosition();
-        int lastVisible = layoutManager.findLastVisibleItemPosition();
-
-        for(int i=firstVisible; i<=lastVisible; i++){
-
-            View viewHolder = layoutManager.findViewByPosition(i);
-
-            if(i < currentPosition){
-                viewHolder.setTransitionName("above" + above);
-                views.put("above" + above, viewHolder);
-                above++;
-            } else if(i > currentPosition){
-                viewHolder.setTransitionName("bottom" + bottom);
-                views.put("bottom" + bottom, viewHolder);
-                bottom++;
-            }
-        }
+                                 long journeyId) {
 
         // try to add navigation bar to hero transition
         View decorView = activity.getWindow().getDecorView();
@@ -61,13 +38,12 @@ public class Navigator {
             View navigationBar = decorView.findViewById(android.R.id.navigationBarBackground);
             if(navigationBar != null){
                 navigationBar.setTransitionName(Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME);
-                views.put("navigationBar", navigationBar);
+                views.put(Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME, navigationBar);
             }
         }
 
         Intent intent = new Intent(activity, DetailActivity.class);
         intent.putExtra(DetailActivity.BUNDLE_JOURNEY_ID, journeyId);
-        intent.putExtra(DetailActivity.BUNDLE_POSITION, currentPosition);
 
         @SuppressWarnings("unchecked")
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, createPairs(views));

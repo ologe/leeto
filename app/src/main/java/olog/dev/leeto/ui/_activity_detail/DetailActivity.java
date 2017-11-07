@@ -19,6 +19,7 @@ import butterknife.Unbinder;
 import io.reactivex.Observable;
 import olog.dev.leeto.R;
 import olog.dev.leeto.base.BaseActivity;
+import olog.dev.leeto.ui.custom_view.InkPageIndicator;
 
 import static io.reactivex.BackpressureStrategy.LATEST;
 
@@ -28,16 +29,15 @@ public class DetailActivity extends BaseActivity {
     private static final String TAG = "DetailActivity";
 
     public static final String BUNDLE_JOURNEY_ID = TAG + "bundle.journey_id";
-    public static final String BUNDLE_POSITION = TAG + "bundle.position";
 
     public static final String SHARED_ROOT = TAG + "shared.root";
     public static final String SHARED_JOURNEY_NAME = TAG + "shared.journey_name";
 
     @BindView(R.id.journeyName) TextView journeyName;
     @BindView(R.id.rootBackground) View rootBackground;
-//    @BindView(R.id.viewPager) ViewPager viewPager;
-//    @BindView(R.id.inkIndicator) InkPageIndicator inkIndicator;
-    @BindView(R.id.map) DetailMap map;
+    @BindView(R.id.viewPager) ViewPager viewPager;
+    @BindView(R.id.inkIndicator) InkPageIndicator inkIndicator;
+//    @BindView(R.id.map) DetailMap map;
 
     @Inject DetailActivityViewModel viewModel;
 
@@ -65,28 +65,27 @@ public class DetailActivity extends BaseActivity {
                         }
                         navigationBar.setTransitionName(Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME);
                     }
-                    int position = getIntent().getIntExtra(BUNDLE_POSITION, 0);
-                    journeyName.setTransitionName(SHARED_JOURNEY_NAME + position);
-                    rootBackground.setTransitionName(SHARED_ROOT + position);
+                    long journeyId = getIntent().getLongExtra(BUNDLE_JOURNEY_ID, 0);
+                    journeyName.setTransitionName(SHARED_JOURNEY_NAME + journeyId);
+                    rootBackground.setTransitionName(SHARED_ROOT + journeyId);
 
                     return true;
                 }).take(1),
                 (journey, t2) -> {
                     journeyName.setText(journey.getName());
-                    return true;
+                    return journey;
                 })
                 .toFlowable(LATEST))
-                .observe(this, aBoolean -> {
-                    startPostponedEnterTransition();
+                .observe(this, journey -> {
+                    if (journey != null){
+                        viewPager.setAdapter(new StopPagerAdapter(journey.getStopList(), getSupportFragmentManager()));
+                        viewPager.setCurrentItem(1);
+                        inkIndicator.setViewPager(viewPager);
+                        startPostponedEnterTransition();
+                    }
+
                 });
 
-    }
-
-    public void setupUI() {
-//        map.init(journey);
-
-//        viewPager.setAdapter(new StopPagerAdapter(journey.getStopList(), getSupportFragmentManager()));
-//        inkIndicator.setViewPager(viewPager);
     }
 
     @Override

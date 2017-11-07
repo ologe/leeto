@@ -9,7 +9,6 @@ import android.support.v4.math.MathUtils;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.jakewharton.rxbinding2.support.v7.widget.RecyclerViewScrollEvent;
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView;
@@ -58,7 +57,6 @@ public class MainActivity extends BaseActivity implements JourneyAdapter.OnJourn
     @BindView(R.id.scrim) View scrim;
     @BindView(R.id.header) View header;
     @BindView(R.id.addJourneyFab) FloatingActionButton addJourneyFab;
-    @BindView(R.id.back) ImageView back;
 
     private Disposable fabImageDisposable;
     private Disposable parallaxDisposable;
@@ -166,10 +164,7 @@ public class MainActivity extends BaseActivity implements JourneyAdapter.OnJourn
         transitionViews.put("scrim", scrim);
         transitionViews.put("journeyName", journeyName);
         transitionViews.put("addJourneyFab", addJourneyFab);
-        transitionViews.put("root", root);
-        transitionViews.put("header", header);
-        transitionViews.put("back", back);
-        navigator.get().toDetailActivity(transitionViews, journeyId, currentPosition, layoutManager);
+        navigator.get().toDetailActivity(transitionViews, journeyId);
     }
 
     @Override

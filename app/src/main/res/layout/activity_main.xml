@@ -5,11 +5,6 @@
     android:id="@+id/root"
     style="@style/ScrimDark">
 
-    <ImageView
-        android:id="@+id/back"
-        style="@style/BackButton"
-        android:translationX="-48dp"/>
-
     <TextView
         android:id="@+id/header"
         style="@style/MainHeader"

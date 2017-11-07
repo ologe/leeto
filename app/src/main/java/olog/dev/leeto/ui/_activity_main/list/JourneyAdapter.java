@@ -20,6 +20,7 @@ import olog.dev.leeto.dagger.ActivityContext;
 import olog.dev.leeto.dagger.PerActivity;
 import olog.dev.leeto.model.DisplayableItem;
 import olog.dev.leeto.model.DisplayableJourney;
+import olog.dev.leeto.ui._activity_detail.DetailActivity;
 import olog.dev.leeto.ui._activity_main.MainActivityViewModel;
 
 @PerActivity
@@ -58,7 +59,6 @@ public class JourneyAdapter extends BaseAdapter<DisplayableItem<DisplayableJourn
         DisplayableJourney model = item.getModel();
         if (model != null){
             binding.setVariable(BR.journey, model);
-            binding.setVariable(BR.position, position);
         }
     }
 
@@ -69,11 +69,17 @@ public class JourneyAdapter extends BaseAdapter<DisplayableItem<DisplayableJourn
         }
         DisplayableItem<DisplayableJourney> item = dataSet.get(position);
         if (item.getModel() != null){
+            long journeyId = item.getModel().getId();
+            View scrim = viewHolder.itemView.findViewById(R.id.scrim);
+            View journeyName = viewHolder.itemView.findViewById(R.id.journeyName);
+            scrim.setTransitionName(DetailActivity.SHARED_ROOT + journeyId);
+            journeyName.setTransitionName(DetailActivity.SHARED_JOURNEY_NAME + journeyId);
+
             callback.onClick(
                     item.getModel().getId(),
                     position,
-                    viewHolder.itemView.findViewById(R.id.scrim),
-                    viewHolder.itemView.findViewById(R.id.journeyName)
+                    scrim,
+                    journeyName
             );
         }
     }

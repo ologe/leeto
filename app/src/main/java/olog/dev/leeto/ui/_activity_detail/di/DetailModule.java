@@ -43,11 +43,6 @@ public class DetailModule {
     }
 
     @Provides
-    int providePosition(){
-        return activity.getIntent().getIntExtra(DetailActivity.BUNDLE_POSITION, -1);
-    }
-
-    @Provides
     DetailActivityViewModel provideViewModel(DetailActivityViewModelFactory factory){
         return ViewModelProviders.of(activity, factory).get(DetailActivityViewModel.class);
     }
