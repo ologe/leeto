@@ -16,22 +16,4 @@ public class DataBoundViewHolder <T extends ViewDataBinding> extends RecyclerVie
         return binding;
     }
 
-    public void setOnClickListener(Runnable runnable){
-        itemView.setOnClickListener(v -> {
-            if (getAdapterPosition() != RecyclerView.NO_POSITION){
-                runnable.run();
-            }
-        });
-    }
-
-    public void setOnLongClickListener(Runnable runnable){
-        itemView.setOnLongClickListener(v -> {
-            if (getAdapterPosition() != RecyclerView.NO_POSITION){
-                runnable.run();
-                return true;
-            }
-            return false;
-        });
-    }
-
 }

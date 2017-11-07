@@ -2,7 +2,9 @@
 <layout>
 
     <data>
+        <import type="olog.dev.leeto.ui._activity_detail.DetailActivity"/>
         <variable name="journey" type="olog.dev.leeto.model.DisplayableJourney"/>
+        <variable name="position" type="int"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -28,7 +30,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@android:color/white"
-            />
+            android:transitionName='@{DetailActivity.SHARED_ROOT + "" + position}'/>
 
         <TextView
             android:id="@+id/journeyName"
@@ -44,7 +46,8 @@
             android:ellipsize="end"
             android:layout_margin="16dp"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:transitionName='@{DetailActivity.SHARED_JOURNEY_NAME + "" + position}'/>
 
         <TextView
             android:id="@+id/journeyDate"

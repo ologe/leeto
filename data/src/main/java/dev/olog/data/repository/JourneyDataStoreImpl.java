@@ -34,8 +34,14 @@ public class JourneyDataStoreImpl implements JourneyDataStore {
     }
 
     @Override
-    public Single<Journey> getByParam(Void aVoid) {
-        return null;
+    public Single<Journey> getByParam(Long journeyId) {
+        return observeByParam(journeyId).firstOrError();
+    }
+
+    @Override
+    public Flowable<Journey> observeByParam(Long journeyId) {
+        return dao.getById(journeyId)
+                .map(mapper::map);
     }
 
     @Override

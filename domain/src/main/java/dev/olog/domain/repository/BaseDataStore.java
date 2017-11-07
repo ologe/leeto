@@ -8,10 +8,10 @@ import io.reactivex.Single;
 
 public interface BaseDataStore <Model, Param> {
 
+    Single<Model> getByParam(Param param);
     Single<List<Model>> getAll();
 
-    Single<Model> getByParam(Param param);
-
+    Flowable<Model> observeByParam(Param param);
     Flowable<List<Model>> observeAll();
 
     Completable insert(Model model);

@@ -8,6 +8,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
 import dev.olog.data.repository.RepositoryModule;
 import dev.olog.data.repository.RepositoryModuleHelper;
 import olog.dev.leeto.location.LocationModule;
+import olog.dev.leeto.ui._activity_detail.di.DetailActivityInjector;
 import olog.dev.leeto.ui._activity_main.di.MainActivityInjector;
 import olog.dev.leeto.ui.activity_add_journey.di.AddJourneyInjector;
 
@@ -22,7 +23,7 @@ import olog.dev.leeto.ui.activity_add_journey.di.AddJourneyInjector;
         AndroidSupportInjectionModule.class,
         MainActivityInjector.class,
         AddJourneyInjector.class,
-//        DetailActivityInjector.class
+        DetailActivityInjector.class
 })
 @Singleton
 public interface AppComponent extends AndroidInjector<App> {

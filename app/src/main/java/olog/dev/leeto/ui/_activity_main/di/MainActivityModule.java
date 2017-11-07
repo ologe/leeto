@@ -11,6 +11,7 @@ import olog.dev.leeto.dagger.ActivityContext;
 import olog.dev.leeto.ui._activity_main.MainActivity;
 import olog.dev.leeto.ui._activity_main.MainActivityViewModel;
 import olog.dev.leeto.ui._activity_main.MainActivityViewModelFactory;
+import olog.dev.leeto.ui._activity_main.list.JourneyAdapter;
 
 @Module
 public class MainActivityModule {
@@ -40,6 +41,11 @@ public class MainActivityModule {
     @Provides
     MainActivityViewModel provideViewModel(MainActivityViewModelFactory factory){
         return ViewModelProviders.of(activity, factory).get(MainActivityViewModel.class);
+    }
+
+    @Provides
+    JourneyAdapter.OnJourneySelected OnJourneySelectedCallcack(){
+        return activity;
     }
 
 }

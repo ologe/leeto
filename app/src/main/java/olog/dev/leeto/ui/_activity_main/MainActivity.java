@@ -15,6 +15,8 @@ import com.jakewharton.rxbinding2.support.v7.widget.RecyclerViewScrollEvent;
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView;
 
 import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -36,7 +38,7 @@ import olog.dev.leeto.ui.navigator.Navigator;
 import olog.dev.leeto.utility.DimensionUtils;
 import olog.dev.leeto.utility.RxUtils;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements JourneyAdapter.OnJourneySelected {
 
     public static final int ADD_JOURNEY_REQUEST_CODE = 123;
 
@@ -158,15 +160,20 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    //    public void onItemClick(@NonNull Journey journey, int currentPosition, View scrim, View journeyName) {
-//        Map<String, View> transitionViews = new WeakHashMap<>();
-//        transitionViews.put("scrim",scrim);
-//        transitionViews.put("journeyName", journeyName);
-//        transitionViews.put("addJourneyFab", addJourneyFab);
-//        transitionViews.put("root", root);
-//        transitionViews.put("header", header);
-//        transitionViews.put("back", back);
-////        presenter.toDetailActivity(transitionViews, journey.getId(), currentPosition, layoutManager);
-//    }
+    @Override
+    public void onClick(long journeyId, int currentPosition, View scrim, View journeyName) {
+        Map<String, View> transitionViews = new WeakHashMap<>();
+        transitionViews.put("scrim", scrim);
+        transitionViews.put("journeyName", journeyName);
+        transitionViews.put("addJourneyFab", addJourneyFab);
+        transitionViews.put("root", root);
+        transitionViews.put("header", header);
+        transitionViews.put("back", back);
+        navigator.get().toDetailActivity(transitionViews, journeyId, currentPosition, layoutManager);
+    }
 
+    @Override
+    public void onLongClick() {
+
+    }
 }

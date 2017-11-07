@@ -16,6 +16,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import olog.dev.leeto.dagger.PerActivity;
+import olog.dev.leeto.ui._activity_detail.DetailActivity;
 import olog.dev.leeto.ui._activity_main.MainActivity;
 import olog.dev.leeto.ui.activity_add_journey.AddJourneyActivity;
 
@@ -29,7 +30,10 @@ public class Navigator {
         this.activity = activity;
     }
 
-    public void toDetailActivity(@NonNull Map<String, View> views, long journeyId, int currentPosition, @NonNull LinearLayoutManager layoutManager) {
+    public void toDetailActivity(@NonNull Map<String, View> views,
+                                 long journeyId,
+                                 int currentPosition,
+                                 @NonNull LinearLayoutManager layoutManager) {
         int above = 1;
         int bottom = 1;
 
@@ -61,14 +65,14 @@ public class Navigator {
             }
         }
 
-//        Intent intent = new Intent(activity, DetailActivity.class);
-//        intent.putExtra(DetailActivity.BUNDLE_JOURNEY_ID, journeyId);
-//        intent.putExtra(DetailActivity.BUNDLE_POSITION, currentPosition);
+        Intent intent = new Intent(activity, DetailActivity.class);
+        intent.putExtra(DetailActivity.BUNDLE_JOURNEY_ID, journeyId);
+        intent.putExtra(DetailActivity.BUNDLE_POSITION, currentPosition);
 
         @SuppressWarnings("unchecked")
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, createPairs(views));
 
-//        ActivityCompat.startActivity(activity, intent, options.toBundle());
+        ActivityCompat.startActivity(activity, intent, options.toBundle());
     }
 
     public void toAddJourneyActivity(@NonNull FloatingActionButton fab) {

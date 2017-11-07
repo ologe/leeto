@@ -20,6 +20,9 @@ public abstract class JourneyDao {
     @Transaction
     public abstract Flowable<List<JourneyWithStopsEntity>> loadAll();
 
+    @Query("SELECT * FROM journeys WHERE journey_id = :journeyId")
+    public abstract Flowable<JourneyWithStopsEntity> getById(long journeyId);
+
     @Insert
     abstract long insertJourney(JourneyEntity journeyEntity);
 

@@ -44,8 +44,8 @@ public class JourneyHolder extends RecyclerView.ViewHolder {
     }
 
     void bind(Journey journey, int position){
-//        if(position == RecyclerView.NO_POSITION) return; // is animating
-//
+        if(position == RecyclerView.NO_POSITION) return; // is animating
+
 //        Stop firstStop = journey.getFirstStop();
 //        String date = firstStop.getFormattedDate();
 //
@@ -53,15 +53,15 @@ public class JourneyHolder extends RecyclerView.ViewHolder {
 //        journeyDate.setText(date);
 //        location.setText(firstStop.getLocation().getName());
 //        journeyDescription.setText(journey.getDescription());
-
+//
 //        scrim.setTransitionName(DetailActivity.SHARED_ROOT + position);
 //        journeyName.setTransitionName(DetailActivity.SHARED_JOURNEY_NAME + position);
-
+//
 //        String ratio = AppConstants.getRatio(position);
-
+//
 //        constraintSet.setDimensionRatio(image.getId(), ratio);
 //        constraintSet.applyTo(constraintLayout);
-
+//
 //        glide.load(getCityImage(firstStop.getLocation()))
 //                .centerCrop()
 //                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
