@@ -16,7 +16,7 @@
         android:theme="@style/Base"
         android:name=".app.App">
 
-        <activity android:name=".ui._activity_main.MainActivity"
+        <activity android:name=".ui.activity_splash.SplashActivity"
             android:screenOrientation="portrait">
 
             <intent-filter>
@@ -25,6 +25,9 @@
             </intent-filter>
 
         </activity>
+
+        <activity android:name=".ui._activity_main.MainActivity"
+            android:screenOrientation="portrait"/>
 
         <activity android:name=".ui._activity_detail.DetailActivity"
             android:theme="@style/Base.Detail"

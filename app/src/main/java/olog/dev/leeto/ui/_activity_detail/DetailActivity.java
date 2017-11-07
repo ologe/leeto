@@ -83,7 +83,6 @@ public class DetailActivity extends BaseActivity {
                         inkIndicator.setViewPager(viewPager);
                         startPostponedEnterTransition();
                     }
-
                 });
 
     }

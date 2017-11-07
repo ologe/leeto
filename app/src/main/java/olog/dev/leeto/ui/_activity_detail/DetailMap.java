@@ -1,24 +1,18 @@
 package olog.dev.leeto.ui._activity_detail;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
 import android.util.AttributeSet;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
-import io.reactivex.disposables.CompositeDisposable;
-import olog.dev.leeto.ui.custom_view.RoundedMapView;
-
-public class DetailMap extends RoundedMapView implements OnMapReadyCallback, LifecycleObserver {
+public class DetailMap extends MapView implements OnMapReadyCallback {
 
     private static final int ZOOM = 13;
 
 //    private Journey journey;
 
-    private CompositeDisposable subscriptions;
 
     public DetailMap(Context context) {
         this(context, null);
@@ -38,32 +32,6 @@ public class DetailMap extends RoundedMapView implements OnMapReadyCallback, Lif
 //        getMapAsync(this);
 //        subscriptions = new CompositeDisposable();
 //    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public void start(){
-        super.onStart();
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    public void resume(){
-        super.onResume();
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    public void pause(){
-        super.onPause();
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    public void stop(){
-        super.onStop();
-        subscriptions.clear();
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    public void destroy(){
-        super.onDestroy();
-    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

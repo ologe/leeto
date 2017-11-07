@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ImageView
+        android:id="@+id/back"
+        style="@style/BackButton"
+        android:src="@drawable/vd_clear"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/map"
@@ -13,14 +22,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"/>
 
-    <ImageView
-        android:id="@+id/back"
-        style="@style/BackButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/vd_clear"/>
-
-    <!-- allow view pager to scroll -->
+    <!-- allow pager to scroll -->
     <View
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
