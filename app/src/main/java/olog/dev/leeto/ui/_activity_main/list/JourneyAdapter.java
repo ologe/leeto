@@ -1,13 +1,18 @@
 package olog.dev.leeto.ui._activity_main.list;
 
+import android.app.Activity;
 import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
+import com.miguelbcr.ui.rx_paparazzo2.RxPaparazzo;
+
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import olog.dev.leeto.BR;
 import olog.dev.leeto.R;
 import olog.dev.leeto.base.BaseAdapter;
@@ -51,7 +56,13 @@ public class JourneyAdapter extends BaseAdapter<DisplayableItem<DisplayableJourn
         viewHolder.itemView.findViewById(R.id.addMedia).setOnClickListener(view -> {
             int position = viewHolder.getAdapterPosition();
             if (RecyclerView.NO_POSITION != position){
+                RxPaparazzo.multiple((Activity) context)
+                        .usingGallery()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(activityListResponse -> {
 
+                        });
             }
         });
     }
