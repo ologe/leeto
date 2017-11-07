@@ -24,13 +24,13 @@ import olog.dev.leeto.ui._activity_detail.DetailActivity;
 import olog.dev.leeto.ui._activity_main.MainActivityViewModel;
 
 @PerActivity
-public class JourneyAdapter extends BaseAdapter<DisplayableItem<DisplayableJourney>> {
+public class JourneyListAdapter extends BaseAdapter<DisplayableItem<DisplayableJourney>> {
 
     private final Context context;
     private final OnJourneySelected callback;
     private final MainActivityViewModel viewModel;
 
-    @Inject JourneyAdapter(
+    @Inject JourneyListAdapter(
             Lifecycle lifecycle,
             @ActivityContext Context context,
             OnJourneySelected callback,

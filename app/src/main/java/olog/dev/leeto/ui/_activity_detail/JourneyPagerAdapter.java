@@ -9,11 +9,11 @@ import olog.dev.leeto.ui.fragment_journeys_media.JourneyMediaFragment;
 import olog.dev.leeto.ui.fragment_journeys_stops.JourneyStopsFragment;
 
 
-public class StopPagerAdapter extends FragmentStatePagerAdapter {
+public class JourneyPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int PAGE_COUNT = 3;
 
-    public StopPagerAdapter(FragmentManager fragmentManager){
+    public JourneyPagerAdapter(FragmentManager fragmentManager){
         super(fragmentManager);
     }
 
