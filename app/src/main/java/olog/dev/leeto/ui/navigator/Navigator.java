@@ -10,7 +10,8 @@ import android.util.Pair;
 import android.view.View;
 import android.view.Window;
 
-import java.util.Map;
+import java.lang.ref.WeakReference;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -29,7 +30,7 @@ public class Navigator {
         this.activity = activity;
     }
 
-    public void toDetailActivity(@NonNull Map<String, View> views,
+    public void toDetailActivity(@NonNull List<WeakReference<View>> views,
                                  long journeyId) {
 
         // try to add navigation bar to hero transition
@@ -38,7 +39,7 @@ public class Navigator {
             View navigationBar = decorView.findViewById(android.R.id.navigationBarBackground);
             if(navigationBar != null){
                 navigationBar.setTransitionName(Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME);
-                views.put(Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME, navigationBar);
+                views.add(new WeakReference<>(navigationBar));
             }
         }
 
@@ -65,15 +66,17 @@ public class Navigator {
 //        activity.startActivity(intent, options.toBundle());
     }
 
-    private Pair[] createPairs(Map<String, View> views){
+    private Pair[] createPairs(List<WeakReference<View>> views){
         Pair[] pairs = new Pair[views.size()];
 
         int i = 0;
 
-        for (Map.Entry<String, View> pair : views.entrySet()) {
-            View view = pair.getValue();
-            pairs[i] = Pair.create(view, view.getTransitionName());
-            pairs[i] = new Pair<>(view, view.getTransitionName());
+        for (WeakReference<View> view : views) {
+            View v = view.get();
+            if (v != null){
+                pairs[i] = Pair.create(v, v.getTransitionName());
+            }
+
             i++;
         }
 

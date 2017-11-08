@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:elevation="6dp">
@@ -17,44 +15,106 @@
         android:layout_height="0dp"
         android:background="@android:color/white"/>
 
+    <ImageView
+        android:id="@+id/image"
+        android:src="@drawable/parigi"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <View
+        android:id="@+id/scrim"
+        android:background="@color/dark_grey"
+        android:alpha=".4"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <ImageButton
+        android:layout_marginTop="12dp"
+        android:id="@+id/back"
+        style="@style/BackButton"
+        android:background="@null"
+        android:tint="@android:color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/journeyName"
+        android:text="Viaggio a New York"
+        android:maxLines="1"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:ellipsize="end"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/separator"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        app:layout_constraintVertical_chainStyle="packed"/>
+
+    <View
+        android:id="@+id/separator"
+        app:layout_constraintTop_toBottomOf="@+id/journeyName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/journeyDate"
+        android:layout_width="20dp"
+        android:layout_height="1dp"
+        android:background="@android:color/white"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_marginTop="24dp" />
+
+    <TextView
+        android:id="@+id/journeyDate"
+        app:layout_constraintTop_toBottomOf="@+id/separator"
+        app:layout_constraintBottom_toBottomOf="@+id/image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="24-06-2017"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintVertical_chainStyle="packed"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingTop="420dp" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addStop"
         style="@style/AddFab"
         app:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="0dp" />
-
-    <olog.dev.leeto.ui.custom_view.InkPageIndicator
-        android:id="@+id/inkIndicator"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_height="5dp"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        app:dotDiameter="5dp"
-        app:dotGap="9dp" />
-
-    <ImageView
-        android:id="@+id/mapIndicator"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/vd_map"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginEnd="39dp"
-        android:layout_marginBottom="9dp" />
+        android:layout_width="wrap_content"/>
 
 </android.support.constraint.ConstraintLayout>
 

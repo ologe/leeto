@@ -68,13 +68,16 @@ public class JourneyListAdapter extends BaseAdapter<DisplayableJourney> {
             long journeyId = item.getModel().getId();
             View scrim = viewHolder.itemView.findViewById(R.id.scrim);
             View journeyName = viewHolder.itemView.findViewById(R.id.journeyName);
+            View image = viewHolder.itemView.findViewById(R.id.img);
             scrim.setTransitionName(DetailActivity.SHARED_ROOT + journeyId);
             journeyName.setTransitionName(DetailActivity.SHARED_JOURNEY_NAME + journeyId);
+            image.setTransitionName(DetailActivity.SHARED_JOURNEY_IMAGE + journeyId);
 
             callback.onClick(
                     item.getModel().getId(),
                     position,
                     scrim,
+                    image,
                     journeyName
             );
         }
@@ -127,7 +130,7 @@ public class JourneyListAdapter extends BaseAdapter<DisplayableJourney> {
     }
 
     public interface OnJourneySelected {
-        void onClick(long journeyId, int currentPosition, View scrim, View journeyName);
+        void onClick(long journeyId, int currentPosition, View scrim, View image, View journeyName);
         void onLongClick();
     }
 

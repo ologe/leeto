@@ -1,129 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable name="journey" type="olog.dev.leeto.model.DisplayableJourney"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:layout_marginEnd="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:elevation="10dp"
-        android:background="@android:color/white">
+        app:cardElevation="10dp"
+        app:cardCornerRadius="0dp">
 
-        <!--scrim-->
-        <View
-            android:id="@+id/scrim"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@android:color/white" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/journeyName"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/share"
-            android:text="@{journey.name}"
-            tools:text="Viaggio a New York"
-            android:textSize="30sp"
-            android:textColor="@color/dark_grey"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:layout_margin="16dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            <!--scrim-->
+            <View
+                android:id="@+id/scrim"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@android:color/white" />
 
-        <ImageButton
-            android:id="@+id/share"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:layout_constraintTop_toTopOf="@id/journeyName"
-            app:layout_constraintBottom_toBottomOf="@id/journeyName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/journeyName"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/vd_share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleX=".8"
-            android:scaleY=".8"
-            android:padding="8dp"
-            android:layout_marginEnd="8dp"/>
+            <TextView
+                android:id="@+id/journeyName"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/share"
+                android:text="@{journey.name}"
+                tools:text="Viaggio a New York"
+                android:textSize="30sp"
+                android:textColor="@color/dark_grey"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_margin="16dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/journeyDate"
-            app:layout_constraintTop_toBottomOf="@+id/journeyName"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{journey.date}"
-            tools:text="24-06-2017"
-            android:textColor="@{journey.isRecent ? @color/item_selected : @color/dark_grey}"
-            tools:textColor="@color/item_selected"
-            android:textSize="12sp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:drawableStart="@drawable/vd_calendar"
-            android:gravity="center"
-            android:drawablePadding="6dp"/>
+            <ImageButton
+                android:id="@+id/share"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/journeyName"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/vd_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleX=".8"
+                android:scaleY=".8"
+                android:padding="12dp"/>
 
-        <TextView
-            android:id="@+id/location"
-            app:layout_constraintTop_toBottomOf="@+id/journeyName"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="@{journey.location}"
-            tools:text="Parma"
-            android:textColor="@color/maps_red"
-            android:textSize="12sp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:drawableEnd="@drawable/vd_location"
-            android:drawablePadding="2dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:maxLength="20"
-            android:ellipsize="end"/>
+            <TextView
+                android:id="@+id/journeyDate"
+                app:layout_constraintTop_toBottomOf="@+id/journeyName"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{journey.date}"
+                tools:text="24-06-2017"
+                android:textColor="@{journey.isRecent ? @color/item_selected : @color/dark_grey}"
+                tools:textColor="@color/item_selected"
+                android:textSize="12sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:drawableStart="@drawable/vd_calendar"
+                android:gravity="center"
+                android:drawablePadding="6dp"/>
 
-        <TextView
-            android:id="@+id/journeyDescription"
-            app:layout_constraintTop_toBottomOf="@id/journeyDate"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="@{journey.getDescription}"
-            tools:text="@tools:sample/lorem/random"
-            android:maxLines="3"
-            android:ellipsize="end"
+            <TextView
+                android:id="@+id/location"
+                app:layout_constraintTop_toBottomOf="@+id/journeyName"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@{journey.location}"
+                tools:text="Parma"
+                android:textColor="@color/maps_red"
+                android:textSize="12sp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:drawableEnd="@drawable/vd_location"
+                android:drawablePadding="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:maxLength="20"
+                android:ellipsize="end"/>
 
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp" />
+            <TextView
+                android:id="@+id/journeyDescription"
+                app:layout_constraintTop_toBottomOf="@id/journeyDate"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@{journey.getDescription}"
+                tools:text="@tools:sample/lorem/random"
+                android:maxLines="3"
+                android:ellipsize="end"
 
-        <ImageView
-            android:id="@+id/img"
-            android:src="@drawable/parigi"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/journeyDescription"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintDimensionRatio="2"/>
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp" />
 
-    </android.support.constraint.ConstraintLayout>
+            <ImageView
+                android:id="@+id/img"
+                android:src="@drawable/parigi"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/journeyDescription"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintDimensionRatio="2"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+
 
 </layout>

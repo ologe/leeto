@@ -13,9 +13,9 @@ import android.view.View;
 import com.jakewharton.rxbinding2.support.v7.widget.RecyclerViewScrollEvent;
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -159,11 +159,12 @@ public class MainActivity extends BaseActivity implements JourneyListAdapter.OnJ
     }
 
     @Override
-    public void onClick(long journeyId, int currentPosition, View scrim, View journeyName) {
-        Map<String, View> transitionViews = new WeakHashMap<>();
-        transitionViews.put("scrim", scrim);
-        transitionViews.put("journeyName", journeyName);
-        transitionViews.put("addJourneyFab", addJourneyFab);
+    public void onClick(long journeyId, int currentPosition, View scrim, View image, View journeyName) {
+        List<WeakReference<View>> transitionViews = new ArrayList<>();
+        transitionViews.add(new WeakReference<>(scrim));
+        transitionViews.add(new WeakReference<>(journeyName));
+        transitionViews.add(new WeakReference<>(image));
+        transitionViews.add(new WeakReference<>(addJourneyFab));
         navigator.get().toDetailActivity(transitionViews, journeyId);
     }
 

@@ -1,14 +1,16 @@
 package olog.dev.leeto.ui._activity_detail;
 
+import android.arch.lifecycle.LiveDataReactiveStreams;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -17,8 +19,6 @@ import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import olog.dev.leeto.R;
 import olog.dev.leeto.base.BaseActivity;
-import olog.dev.leeto.ui.custom_view.InkPageIndicator;
-import olog.dev.leeto.utility.ResUtils;
 import olog.dev.leeto.utility.RxUtils;
 
 
@@ -30,13 +30,13 @@ public class DetailActivity extends BaseActivity {
 
     public static final String SHARED_ROOT = TAG + "shared.root";
     public static final String SHARED_JOURNEY_NAME = TAG + "shared.journey_name";
+    public static final String SHARED_JOURNEY_IMAGE = TAG + "shared.journey_image";
 
     private Disposable preDrawDisposable;
 
     @BindView(R.id.rootBackground) View rootBackground;
-    @BindView(R.id.viewPager) ViewPager viewPager;
-    @BindView(R.id.inkIndicator) InkPageIndicator inkIndicator;
-    @BindView(R.id.mapIndicator) ImageView mapIndicator;
+    @BindView(R.id.image) ImageView image;
+    @BindView(R.id.journeyName) TextView journeyName;
     @BindView(R.id.addStop) ImageView addStop;
 
     @Inject DetailActivityViewModel viewModel;
@@ -50,16 +50,12 @@ public class DetailActivity extends BaseActivity {
 
         postponeEnterTransition();
 
-        viewPager.setAdapter(new JourneyPagerAdapter(getSupportFragmentManager()));
-        viewPager.setOffscreenPageLimit(JourneyPagerAdapter.PAGE_COUNT - 1);
-        viewModel.setCurrentViewPagerPage(1);
-
-        inkIndicator.setViewPager(viewPager);
-
         View decorView = getWindow().getDecorView();
 
         long journeyId = getIntent().getLongExtra(BUNDLE_JOURNEY_ID, 0);
         rootBackground.setTransitionName(SHARED_ROOT + journeyId);
+        image.setTransitionName(SHARED_JOURNEY_IMAGE + journeyId);
+        journeyName.setTransitionName(DetailActivity.SHARED_JOURNEY_NAME + journeyId);
 
         preDrawDisposable = RxView.preDraws(decorView, () -> {
             if (decorView != null) {
@@ -73,19 +69,15 @@ public class DetailActivity extends BaseActivity {
             return true;
         }).take(1).subscribe();
 
-        viewModel.observeCurrentPage()
-                .observe(this, viewPager::setCurrentItem);
-    }
+        LiveDataReactiveStreams.fromPublisher(viewModel.observeJourney()
+                .delay(20, TimeUnit.MILLISECONDS))
+                .observe(this, journey -> {
+                    if (journey != null){
+                        journeyName.setText(journey.getName());
+                    }
+                    startPostponedEnterTransition();
+                });
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        viewPager.addOnPageChangeListener(onPageChangeListener);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 
     @Override
@@ -93,34 +85,6 @@ public class DetailActivity extends BaseActivity {
         super.onDestroy();
         RxUtils.unsubscribe(preDrawDisposable);
     }
-
-    @Override
-    public void onBackPressed() {
-        if (viewPager.getCurrentItem() != 1){
-            viewModel.setCurrentViewPagerPage(1);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    private final ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            mapIndicator.setColorFilter(ContextCompat.getColor(DetailActivity.this, position == 0 ? R.color.dark_grey : R.color.grey400));
-            addStop.setElevation(position == 0 ? 0f : ResUtils.dip(DetailActivity.this, 6));
-            addStop.setImageResource(position == 2 ? R.drawable.vd_add_media : R.drawable.vd_add);
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-
-        }
-    };
 
 
 }
