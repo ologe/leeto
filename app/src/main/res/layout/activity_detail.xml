@@ -20,7 +20,7 @@
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addStop"
         style="@style/AddFab"
-        app:elevation="0dp"
+        app:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

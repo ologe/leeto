@@ -33,7 +33,6 @@ public class JourneyMapFragment extends DaggerFragment implements OnMapReadyCall
     @Inject DetailActivityViewModel activityViewModel;
 
     private MapView map;
-    private View backButton;
 
     private Disposable markerDisposable;
     private Disposable moveCameraDisposable;
@@ -43,7 +42,6 @@ public class JourneyMapFragment extends DaggerFragment implements OnMapReadyCall
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_journey_map, container, false);
         map = view.findViewById(R.id.map);
-        backButton = view.findViewById(R.id.back);
         map.onCreate(savedInstanceState);
         return view;
     }
@@ -58,14 +56,12 @@ public class JourneyMapFragment extends DaggerFragment implements OnMapReadyCall
     public void onResume() {
         super.onResume();
         map.onResume();
-        backButton.setOnClickListener(view -> activityViewModel.setCurrentViewPagerPage(1));
     }
 
     @Override
     public void onPause() {
         super.onPause();
         map.onPause();
-        backButton.setOnClickListener(null);
     }
 
     @Override

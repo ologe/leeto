@@ -3,9 +3,9 @@ package olog.dev.leeto.utility;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-public class DimensionUtils {
+public class ResUtils {
 
-    private DimensionUtils() {
+    private ResUtils() {
         //no instance
     }
 

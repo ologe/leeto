@@ -18,6 +18,7 @@ import io.reactivex.disposables.Disposable;
 import olog.dev.leeto.R;
 import olog.dev.leeto.base.BaseActivity;
 import olog.dev.leeto.ui.custom_view.InkPageIndicator;
+import olog.dev.leeto.utility.ResUtils;
 import olog.dev.leeto.utility.RxUtils;
 
 
@@ -36,6 +37,7 @@ public class DetailActivity extends BaseActivity {
     @BindView(R.id.viewPager) ViewPager viewPager;
     @BindView(R.id.inkIndicator) InkPageIndicator inkIndicator;
     @BindView(R.id.mapIndicator) ImageView mapIndicator;
+    @BindView(R.id.addStop) ImageView addStop;
 
     @Inject DetailActivityViewModel viewModel;
 
@@ -110,6 +112,8 @@ public class DetailActivity extends BaseActivity {
         @Override
         public void onPageSelected(int position) {
             mapIndicator.setColorFilter(ContextCompat.getColor(DetailActivity.this, position == 0 ? R.color.dark_grey : R.color.grey400));
+            addStop.setElevation(position == 0 ? 0f : ResUtils.dip(DetailActivity.this, 6));
+            addStop.setImageResource(position == 2 ? R.drawable.vd_add_media : R.drawable.vd_add);
         }
 
         @Override

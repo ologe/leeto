@@ -34,7 +34,7 @@ import olog.dev.leeto.model.DisplayableItem;
 import olog.dev.leeto.model.DisplayableJourney;
 import olog.dev.leeto.ui._activity_main.list.JourneyListAdapter;
 import olog.dev.leeto.ui.navigator.Navigator;
-import olog.dev.leeto.utility.DimensionUtils;
+import olog.dev.leeto.utility.ResUtils;
 import olog.dev.leeto.utility.RxUtils;
 
 public class MainActivity extends BaseActivity implements JourneyListAdapter.OnJourneySelected {
@@ -88,7 +88,7 @@ public class MainActivity extends BaseActivity implements JourneyListAdapter.OnJ
 
         scrimLayoutParams = (CoordinatorLayout.LayoutParams) scrim.getLayoutParams();
 
-        scrimTopMargin = DimensionUtils.dip(this, 125);
+        scrimTopMargin = ResUtils.dip(this, 125);
     }
 
     private void onDataChanged(@Nullable List<DisplayableItem<DisplayableJourney>> displayableItems){

@@ -24,7 +24,7 @@ import olog.dev.leeto.ui._activity_detail.DetailActivity;
 import olog.dev.leeto.ui._activity_main.MainActivityViewModel;
 
 @PerActivity
-public class JourneyListAdapter extends BaseAdapter<DisplayableItem<DisplayableJourney>> {
+public class JourneyListAdapter extends BaseAdapter<DisplayableJourney> {
 
     private final Context context;
     private final OnJourneySelected callback;
@@ -119,11 +119,6 @@ public class JourneyListAdapter extends BaseAdapter<DisplayableItem<DisplayableJ
         if(model != null){
             viewModel.share(context, model.getName());
         }
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return dataSet.get(position).getType();
     }
 
     @Override
