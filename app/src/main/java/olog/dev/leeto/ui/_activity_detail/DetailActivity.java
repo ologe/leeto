@@ -2,9 +2,11 @@ package olog.dev.leeto.ui._activity_detail;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 
 import com.jakewharton.rxbinding2.view.RxView;
 
@@ -33,6 +35,7 @@ public class DetailActivity extends BaseActivity {
     @BindView(R.id.rootBackground) View rootBackground;
     @BindView(R.id.viewPager) ViewPager viewPager;
     @BindView(R.id.inkIndicator) InkPageIndicator inkIndicator;
+    @BindView(R.id.mapIndicator) ImageView mapIndicator;
 
     @Inject DetailActivityViewModel viewModel;
 
@@ -73,6 +76,17 @@ public class DetailActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        viewPager.addOnPageChangeListener(onPageChangeListener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         RxUtils.unsubscribe(preDrawDisposable);
@@ -86,5 +100,23 @@ public class DetailActivity extends BaseActivity {
             super.onBackPressed();
         }
     }
+
+    private final ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            mapIndicator.setColorFilter(ContextCompat.getColor(DetailActivity.this, position == 0 ? R.color.dark_grey : R.color.grey400));
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
+
 
 }
