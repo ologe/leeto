@@ -544,7 +544,9 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
     }
 
     private void drawSelected(Canvas canvas) {
-        canvas.drawCircle(selectedDotX, dotCenterY, dotRadius, selectedPaint);
+        if (currentPage != 0) {
+            canvas.drawCircle(selectedDotX, dotCenterY, dotRadius, selectedPaint);
+        }
     }
 
     private void setSelectedPage(int now) {

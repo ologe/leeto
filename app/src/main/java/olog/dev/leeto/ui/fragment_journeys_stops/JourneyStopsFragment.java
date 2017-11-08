@@ -25,13 +25,27 @@ public class JourneyStopsFragment extends DaggerFragment {
     DetailActivityViewModel activityViewModel;
 
     private TextView journeyName;
+    private View back;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_journey_stops, container, false);
         journeyName = view.findViewById(R.id.journeyName);
+        back = view.findViewById(R.id.back);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        back.setOnClickListener(view -> getActivity().finishAfterTransition());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        back.setOnClickListener(null);
     }
 
     @Override

@@ -16,7 +16,7 @@
         tools:background="#EEE">
 
         <ImageView
-            android:src="@drawable/vd_map"
+            android:src="@drawable/vd_map_colorful"
             android:layout_gravity="center"
             android:layout_margin="40dp"
             android:layout_width="70dp"
