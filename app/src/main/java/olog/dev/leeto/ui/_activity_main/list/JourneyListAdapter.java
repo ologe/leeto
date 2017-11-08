@@ -7,12 +7,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.jakewharton.rxbinding2.view.RxView;
-
 import javax.inject.Inject;
 
 import olog.dev.leeto.BR;
-import olog.dev.leeto.ImagePicker;
 import olog.dev.leeto.R;
 import olog.dev.leeto.base.BaseAdapter;
 import olog.dev.leeto.base.DataBoundViewHolder;
@@ -50,9 +47,6 @@ public class JourneyListAdapter extends BaseAdapter<DisplayableJourney> {
 
             viewHolder.itemView.findViewById(R.id.share).setOnClickListener(view ->
                     shareClickListener(viewHolder));
-
-            viewHolder.itemView.findViewById(R.id.addMedia).setOnClickListener(view ->
-                    addMediaClickListener(viewHolder));
         }
     }
 
@@ -94,19 +88,6 @@ public class JourneyListAdapter extends BaseAdapter<DisplayableJourney> {
 
         callback.onLongClick();
         return true;
-    }
-
-    private void addMediaClickListener(RecyclerView.ViewHolder viewHolder){
-        int position = viewHolder.getAdapterPosition();
-        if (position == RecyclerView.NO_POSITION){
-            return;
-        }
-
-        ImagePicker.multiple(context)
-                .takeUntil(RxView.detaches(viewHolder.itemView))
-                .subscribe(result -> {
-
-                });
     }
 
     private void shareClickListener(RecyclerView.ViewHolder viewHolder){

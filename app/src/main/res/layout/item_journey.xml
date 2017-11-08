@@ -33,7 +33,7 @@
             android:id="@+id/journeyName"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/share"
             android:text="@{journey.name}"
             tools:text="Viaggio a New York"
             android:textSize="30sp"
@@ -44,6 +44,23 @@
             android:layout_margin="16dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/share"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:layout_constraintTop_toTopOf="@id/journeyName"
+            app:layout_constraintBottom_toBottomOf="@id/journeyName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/journeyName"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/vd_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX=".8"
+            android:scaleY=".8"
+            android:padding="8dp"
+            android:layout_marginEnd="8dp"/>
 
         <TextView
             android:id="@+id/journeyDate"
@@ -106,47 +123,6 @@
             android:layout_width="0dp"
             android:layout_marginTop="16dp"
             app:layout_constraintDimensionRatio="2"/>
-
-        <Button
-            android:id="@+id/addMedia"
-            android:drawableStart="@drawable/vd_add_media"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img"
-            app:layout_constraintEnd_toStartOf="@id/share"
-            android:textAlignment="center"
-            android:text="Add media"
-            android:textAllCaps="false"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:textSize="14sp"
-            android:textColor="@color/grey600"
-            android:gravity="center"
-            android:drawablePadding="16dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            app:layout_constraintHorizontal_chainStyle="spread"/>
-
-        <Button
-            android:id="@+id/share"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:layout_constraintTop_toBottomOf="@+id/img"
-            app:layout_constraintStart_toEndOf="@id/addMedia"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="Share"
-            android:clickable="true"
-            android:focusable="true"
-            android:textAllCaps="false"
-            android:drawablePadding="16dp"
-            android:gravity="center"
-            android:textSize="14sp"
-            android:textColor="@color/grey600"
-            android:drawableStart="@drawable/vd_share"
-            android:textAlignment="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16dp"/>
 
     </android.support.constraint.ConstraintLayout>
 
