@@ -16,6 +16,8 @@
         android:theme="@style/Base"
         android:name=".app.App">
 
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+
         <activity android:name=".ui.activity_splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Splash">
